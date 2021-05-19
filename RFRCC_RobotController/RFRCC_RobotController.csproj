@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <Authors>Samuel McNeilly</Authors>
+    <PackageId>RF_RCC_RobotController</PackageId>
+    <Version>0.0.5</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIcon>Library Icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ABB.Robotics.Controllers.PC">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\PCSDK 2019\ABB.Robotics.Controllers.PC.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.Math">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Controllers">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.Controllers.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Documents">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.Documents.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Environment">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.Environment.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations.Forms">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.Stations.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.UI">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\ABB.Robotics.RobotStudio.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Resources">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\RobotStudio 2019 SDK\RobotStudio.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\PCSDK 2019\RobotStudio.Services.RobApi.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi.Desktop">
+      <HintPath>..\..\..\..\..\Program Files (x86)\ABB\SDK\PCSDK 2019\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Downloads\1x\Library Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
