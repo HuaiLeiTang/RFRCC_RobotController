@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using ABB.Robotics.Controllers.RapidDomain;
 using System.Linq;
 using System.Diagnostics;
+using RFRCC_RobotController.ABB_Data;
 using ReplaceRSConnection.Robotics.ToolInfo;
 
-namespace RFARCC_RobotController.RCC_RobotController.RAPID_Data
+namespace RFRCC_RobotController.RAPID_Data
 {
     public class RAPID_CutChart
     {
         private RapidData _RobotData;
-        private Controller _Controller;
+        private ABB.Robotics.Controllers.Controller _Controller;
         public bool _AutoUpdate = false;
 
 
@@ -260,7 +261,7 @@ namespace RFARCC_RobotController.RCC_RobotController.RAPID_Data
             _KerfWidth = float.Parse(inputArray[15].ToLower());
             _MinimumClearance = float.Parse(inputArray[16].ToLower());
         }
-        public void ConnectToRAPID(Controller controller, Task RobotTask, string Module, string RAPID_Name)
+        public void ConnectToRAPID(ABB.Robotics.Controllers.Controller controller, Task RobotTask, string Module, string RAPID_Name)
         {
             this._Controller = controller;
             this._RobotData = RobotTask.GetRapidData(Module, RAPID_Name);

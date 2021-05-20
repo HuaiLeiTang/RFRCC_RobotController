@@ -11,15 +11,20 @@ using ABB.Robotics.Controllers.RapidDomain;
 using ABB.Robotics.Controllers.Discovery;
 using System.Threading;
 using System.Diagnostics;
+using RFRCC_RobotController.RAPID_Data;
+using ReplaceRSConnection;
+using RFRCC_RobotController.Controller;
+using RFRCC_RobotController.ABB_Data;
 
 namespace RFRCC_RobotController
 {
+    // THIS is the robot class of the Robofab Robot Coping Cell
     public class RobotController
     {
         /*// ------------------------------------------------------------------------------------------------
                                                 VARIABLES AND PROPERTIES
         */// ------------------------------------------------------------------------------------------------
-        private Controller controller = null;
+        private ABB.Robotics.Controllers.Controller controller = null;
         private ABB.Robotics.Controllers.RapidDomain.Task tRob1;
         private bool _ControllerConnected = false;
 
@@ -36,12 +41,18 @@ namespace RFRCC_RobotController
         private List<JobFeature> jobFeatureData = new List<JobFeature>();
 
         // Job Data Buffers
+        public RAPIDJob_Header jobHeader;
         private JobHeader jobHeaderData = new JobHeader();
         private RAPIDJobHeader Header_JobData_RapidBuffer = new RAPIDJobHeader();
         private RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
         public List<JobHeader> jobHeaders = new List<JobHeader>();
         public List<JobFeature> jobFeatures = new List<JobFeature>();
         public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
+        public RAPID_OperationBuffer OperationBuffer;
+        public RAPID_CutChart TopCutChart = new RAPID_CutChart();
+        public RAPID_CutChart BottomCutChart = new RAPID_CutChart();
+        public RAPID_CutChart FrontCutChart = new RAPID_CutChart();
+        public RAPID_CutChart BackCutChart = new RAPID_CutChart();
 
         // RAPID Data to be sorted
         private RapidData SQLMessageRecieve;
@@ -51,6 +62,10 @@ namespace RFRCC_RobotController
         private RapidData RapidFeatureData;
         private RapidData PCSDK_Complete;
         private RapidData Robot_Status;
+        public RapidData NextDX;
+
+        // Other Data for conventience
+        public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
 
         /*// ------------------------------------------------------------------------------------------------
                                      CONTROLLER HANDELING, CREATION AND DISPOSAL  
@@ -78,7 +93,7 @@ namespace RFRCC_RobotController
             _AvailableControllers = scanner.Controllers;
             OnAvailableControllersChange(this, new AvailableControllersEventArgs(_AvailableControllers));
         }
-        public void ConnectToController(Controller controller)
+        public void ConnectToController(ABB.Robotics.Controllers.Controller controller)
         {
             if (_ControllerConnected)
                 Dispose();
@@ -94,7 +109,7 @@ namespace RFRCC_RobotController
         {
             if (_ControllerConnected)
                 Dispose();
-            this.controller = Controller.Connect(controllerInfo, ConnectionType.Standalone);
+            this.controller = ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone);
             this.controller.Logon(UserInfo.DefaultUser);
             tRob1 = controller.Rapid.GetTask("T_ROB1");
             InitDataStream();
@@ -120,6 +135,14 @@ namespace RFRCC_RobotController
         }
 
 
+
+        public event EventHandler<EventArgs> OnNextDXChange;
+        protected virtual void NextDXChange(object sender, EventArgs e)
+        {
+            OnNextDXChange?.Invoke(sender, e);
+        }
+
+
         // Initialise Controller with all Variables & Check correct controller
         public void InitDataStream()
         {
@@ -135,14 +158,23 @@ namespace RFRCC_RobotController
                 PCConnected = tRob1.GetRapidData("SQL_Comm", "PCConnected");
                 Robot_Status = tRob1.GetRapidData("Module1", "Rob_Status");
 
+                TopCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Top_CutChart");
+                BottomCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Bottom_CutChart");
+                FrontCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Front_CutChart");
+                BackCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Back_CutChart");
+
                 Robot_Control.ConnectToRAPID(controller, tRob1, "Module1", "Rob_Control");
                 OperationManeouvres = new RAPID_OM_List(99, controller, tRob1, "Module1", "OperationManoeuvres");
                 OperationHeaders = new RAPID_OH_List(20, controller, tRob1, "Module1", "OperationHeaders");
-                RobotInstuctionsRegister = new PC_RobotMove_Register(OperationManeouvres, OperationHeaders);
-
+                OperationBuffer = new RAPID_OperationBuffer(controller, tRob1, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+                OperationBuffer.DescendingOrder = true;
+                jobHeader = new RAPIDJob_Header(controller, tRob1, "Module1", "Sys_JobData");
 
                 Robot_Control.ValueUpdate += OnControlValueUpdate; // Maybe update to enable Interrupts
                 Robot_Control.PC_MessageUpdate += RobotPC_MessageChanged;
+
+                NextDX = tRob1.GetRapidData("Module1", "NextDX");
+                NextDX.ValueChanged += NextDXChange;
 
                 complete = false;
                 while (!complete)
@@ -164,11 +196,10 @@ namespace RFRCC_RobotController
                     }
                 }
 
-
             }
             else
             {
-                StatusMesssageChange(this,new StatusMesssageEventArgs("'targets' data does not exist!"));
+                StatusMesssageChange(this, new StatusMesssageEventArgs("'targets' data does not exist!"));
             }
 
 
@@ -216,7 +247,7 @@ namespace RFRCC_RobotController
             networkwatcher.Lost += new EventHandler<NetworkWatcherEventArgs>(HandleNWCChangeEvent);
             networkwatcher.EnableRaisingEvents = true;
         }
-        public Controller Controller
+        ABB.Robotics.Controllers.Controller Controller
         {
             get
             {
@@ -239,6 +270,7 @@ namespace RFRCC_RobotController
         }
 
 
+
         /*// ------------------------------------------------------------------------------------------------
                                             ROBOT FUNCTIONALITY AND CONTROL
         */// ------------------------------------------------------------------------------------------------
@@ -255,23 +287,19 @@ namespace RFRCC_RobotController
         }
 
         // This will fire when the controller changes the PC_Message value in the control structure - TODO: setup message reading from this.
-        void RobotPC_MessageChanged(object sender, ControlStrucEventArgs e)
+        public void RobotPC_MessageChanged(object sender, ControlStrucEventArgs e)
         {
             Debug.WriteLine("RobotPC_MessageChanged Recieved instruction");
 
             if (e.ValueName != "<CLEAR>" && e.ValueName != "")
             {
                 MessageRecieved();
-                Debug.WriteLine("About to parse PC_Message: " + e.ValueName);
                 StatusMesssageChange(this, new StatusMesssageEventArgs("RAPID Data Change: PC Message"));
-                var parsemessagetime = new Stopwatch();
-                parsemessagetime.Start();
                 StatusMesssageChange(this, new StatusMesssageEventArgs(ParseMessage(e.ValueName)));
-                parsemessagetime.Stop();
-                Debug.WriteLine("Parse complete | dT = " + parsemessagetime.ElapsedMilliseconds.ToString() + "ms");
             }
         }
 
+        /*
         // This will fire when the controller changes a value in the control structure - TODO: setup message reading from this.
         void Robot_Control_ValueChanged(object sender, ControlStrucEventArgs e)
         {
@@ -295,7 +323,7 @@ namespace RFRCC_RobotController
                     StatusMesssageChange(this, new StatusMesssageEventArgs("RAPID Data Change: " + e.ValueName));
                     break;
             }
-        }
+        }*/
         // For Communication to Robot that message is being parsed and actioned
         public void MessageRecieved()
         {
@@ -327,13 +355,22 @@ namespace RFRCC_RobotController
             if (MessageString.Length < 8)
             {
                 PCSDK_Work_Complete();
-                return MessageString + "ERROR : Message Not Recognised : \""+ MessageString + "\"";
+                return MessageString + "ERROR : Message Not Recognised : \"" + MessageString + "\"";
             }
             MessageString = MessageString.Split("\"")[0];
             string MessageHeader = MessageString.Substring(0, 8); // breaks if less thab 8....
             switch (MessageHeader)
             {
+                case "FEATBUFF":
+                    string FeatBuff = MessageString.Split("<Feature>")[1].Split("</>")[0];
+                    string Carriage = MessageString.Split("<Carriage>")[1].Split("</>")[0];
+                    StatusMesssageChange(this, new StatusMesssageEventArgs("About to upload feature: " + FeatBuff));
+                    UpdateRobot("manoeuvre", int.Parse(FeatBuff), int.Parse(Carriage));
+                    PCSDK_Work_Complete();
+                    return "Updated Robot Manoruvre Buffer with Feature " + FeatBuff;
+
                 case "FEATURE0":
+                    throw new NotSupportedException();
                     string Feat = MessageString.Split("<Feature>")[1];
                     Feat = Feat.Split("</>")[0];
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to upload feature: " + Feat));
@@ -351,11 +388,15 @@ namespace RFRCC_RobotController
                     FeatAndXOpt[0] = FeatAndXOpt[0].Split("UPD_FEAT <Feature>")[1];
                     FeatAndXOpt[1] = FeatAndXOpt[1].Split(" <X_Optimal>")[1];
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to update opt_x for feature: " + FeatAndXOpt[0]));
-                    OnUpdateFeatureOptimalX(this, new UpdateFeatureOptimalXEventArgs(Robot_Control.JobID, int.Parse(FeatAndXOpt[0]), decimal.Parse(FeatAndXOpt[1])));
+
+                    //OnUpdateFeatureOptimalX(this, new UpdateFeatureOptimalXEventArgs(Robot_Control.JobID, int.Parse(FeatAndXOpt[0]), decimal.Parse(FeatAndXOpt[1])));
+                    OperationBuffer.Operation[int.Parse(FeatAndXOpt[0]) - 1].FeatureHeader.IdealXDisplacement = double.Parse(FeatAndXOpt[1]);
+
                     PCSDK_Work_Complete();
                     return "Updated Feature " + FeatAndXOpt[0] + " X_Optimal to " + FeatAndXOpt[1];
 
                 case "HEADER00":
+                    throw new NotSupportedException();
                     string jobIDFromString = MessageString.Split("<JobID>")[1];
                     jobIDFromString = jobIDFromString.Split("</>")[0];
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to upload header for JobID: " + jobIDFromString));
@@ -373,7 +414,15 @@ namespace RFRCC_RobotController
                         PCSDK_Work_Complete();
                         return "Updated Robot Header Register with JobID: " + jobIDFromString;
                     }
+                case "JOBHEADR":
+                    StatusMesssageChange(this, new StatusMesssageEventArgs("About to upload Job Header"));
+
+                    jobHeader.FeatureQuant = OperationBuffer.Operation.Count;
+                    jobHeader.Upload();
+                    PCSDK_Work_Complete();
+                    return "Updated Robot Job Header Register";
                 case "FRC_UPDT":
+                    throw new NotSupportedException();
                     string jobIDUpdate = MessageString.Split("</>")[0];
                     jobIDUpdate = jobIDUpdate.Split("FRC_UPDT <JobID>")[0];
                     FetchedData = true;
@@ -386,7 +435,7 @@ namespace RFRCC_RobotController
                     return "Message Not Recognised";
             }
 
-            
+
         }
         private void PCSDK_Work_Complete()
         {
@@ -464,27 +513,48 @@ namespace RFRCC_RobotController
             else
             {
                 throw new ArgumentException("No listeners logged to handle UpdateJobData event");
-            }  
+            }
+        }
+
+
+        // Event to request update of Manoeuvre from PC
+        public delegate bool OnManoeuvreUpdateEventHandler(RobotController sender, ManoeuvreUpdateEventArgs e);
+        public event OnManoeuvreUpdateEventHandler OnManoeuvreUpdate;
+        public class ManoeuvreUpdateEventArgs : EventArgs
+        {
+            public int ManoeuvreNum { get; set; }
+            public RAPID_OperationBuffer OperationBuffer { get; set; }
+            public bool Complete { get; set; } = false;
+            public int Carriage { get; set; }
+
+            public ManoeuvreUpdateEventArgs(int manoeuvreNum, int carriage, RAPID_OperationBuffer operationBuffer)
+            {
+                ManoeuvreNum = manoeuvreNum;
+                Carriage = carriage;
+                OperationBuffer = operationBuffer;
+            }
+        }
+        protected virtual bool ManoeuvreUpdate(RobotController sender, ManoeuvreUpdateEventArgs e)
+        {
+            jobHeader.FeatureQuant = OperationBuffer.Operation.Count;
+            bool ReturnVal = OperationBuffer.UploadData(e.ManoeuvreNum, e.Carriage);
+
+            if (OnManoeuvreUpdate != null)
+            {
+                return OnManoeuvreUpdate(sender, e);
+            }
+            return true;
         }
 
 
 
-
-
-
-
-
-
-
-
-
-        public void UpdateRobot(string Table, int FeatureNum = 0)
+        public void UpdateRobot(string Table, int FeatureNum = 0, int Carriage = 0)
         {
             bool complete = false;
             switch (Table.ToLower())
             {
                 case "header":
-                    
+
 
                     Header_JobData_RapidBuffer.UpdatedFromSQL(this.HeaderData);
 
@@ -518,6 +588,7 @@ namespace RFRCC_RobotController
                     {
                         if (feature.FeatureNum == FeatureNum)
                         {
+                            // TODO: change to internal memory?
                             Header_FeatureData_RapidBuffer.UpdatedFromSQL(feature);
                             break;
                         }
@@ -546,6 +617,22 @@ namespace RFRCC_RobotController
 
                     break;
 
+                case "manoeuvre":
+
+                    StatusMesssageChange(this, new StatusMesssageEventArgs("Robot requested Manoeuvre " + FeatureNum.ToString() + ". Sending to Robot"));
+
+                    //raise event to write manoeuvre 
+                    if (ManoeuvreUpdate(this, new ManoeuvreUpdateEventArgs(FeatureNum, Carriage, this.OperationBuffer)))
+                    {
+                        StatusMesssageChange(this, new StatusMesssageEventArgs("Successfully transferred Manoeuvre to Robot"));
+                    }
+                    else
+                    {
+                        StatusMesssageChange(this, new StatusMesssageEventArgs("ERROR in transfer Manoeuvre to Robot"));
+                    }
+
+                    break;
+
                 default:
                     break;
             }
@@ -556,7 +643,7 @@ namespace RFRCC_RobotController
         {
             return OnRequestUpdatedJobData(this, new RequestUpdatedJobDataEventArgs(JobID, false));
         }
-        
+
 
         public List<JobFeature> FeatureDataList
         {
@@ -572,6 +659,8 @@ namespace RFRCC_RobotController
             get { return jobHeaderData; }
             set { jobHeaderData = value; }
         }
+
+
 
     }
 }

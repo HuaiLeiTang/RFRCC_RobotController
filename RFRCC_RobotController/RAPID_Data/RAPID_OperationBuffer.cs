@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using ABB.Robotics.Controllers.RapidDomain;
 using System.Linq;
-using static RFARCC_RobotController.RCC_RobotController.PC_RobotMove_Register;
+using static RFRCC_RobotController.ABB_Data.PC_RobotMove_Register;
+using RFRCC_RobotController.Controller;
+using RFRCC_RobotController.ABB_Data;
 
-namespace RFARCC_RobotController.RCC_RobotController
+namespace RFRCC_RobotController.RAPID_Data
 {
     // RAPID Data connection to Operation Buffer for PC generation of paths for manoeuvres
     public class RAPID_OperationBuffer
@@ -12,7 +14,7 @@ namespace RFARCC_RobotController.RCC_RobotController
         private int _SizeOfManBuffer;
         private RapidData _ManBufferRD;
         private RapidData _HeadBufferRD;
-        private Controller _Controller;
+        private ABB.Robotics.Controllers.Controller _Controller;
         private PC_RobotMove_Register _Operations = new PC_RobotMove_Register();
         private bool _sortAscending = true;
 
@@ -46,15 +48,13 @@ namespace RFARCC_RobotController.RCC_RobotController
                 _sortAscending = !value;
             }
         }
-
-        public RAPID_OperationBuffer(Controller controller, Task task, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
+        public RAPID_OperationBuffer(ABB.Robotics.Controllers.Controller controller, Task task, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
         {
             _Controller = controller;
             _ManBufferRD = task.GetRapidData(OpManModule, OpManVARName);
             _HeadBufferRD = task.GetRapidData(OpHeadModule, OpHeadVARName);
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / (new OperationManoeuvre().ToString().Split(',').Count());
         }
-
         public void Clear()
         {
             _Operations.Clear();
@@ -154,7 +154,6 @@ namespace RFARCC_RobotController.RCC_RobotController
             }
             return output + "]]";
         }
-
         public string OperationManoeuvresToString(int feature)
         {
             string output = "[" + _Operations[feature-1].FeatureManoeuvres[0].ToString();
@@ -171,7 +170,6 @@ namespace RFARCC_RobotController.RCC_RobotController
             }
             return output + "]";
         }
-
         public string OperationManoeuvresChunkToString(int feature, int Carriage)
         {
             string output = "[" + _Operations[feature - 1].FeatureManoeuvres[(Carriage - 1) * _SizeOfManBuffer].ToString();
@@ -195,7 +193,6 @@ namespace RFARCC_RobotController.RCC_RobotController
 
             return output + "]";
         }
-
         public bool UploadData(int feature)
         {
             bool complete = false;
@@ -245,7 +242,6 @@ namespace RFARCC_RobotController.RCC_RobotController
             }
             return true;
         }
-
         public bool UploadData(int feature, int carriage)
         {
 

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using RFRCC_RobotController.RAPID_Data;
+using RFRCC_RobotController.ABB_Data;
+using System.Collections.Generic;
 
-namespace RFARCC_RobotController.RCC_RobotController
+namespace RFRCC_RobotController.Controller
 {
 
     public class RobotComputedFeatures
@@ -17,7 +19,7 @@ namespace RFARCC_RobotController.RCC_RobotController
         }
         public RobotComputedFeatures(OperationHeader NewHeader, List<OperationManoeuvre> NewManoeuvres)
         {
-            Name = NewHeader.Name;
+            Name = "";
             _FeatureHeader = NewHeader;
             _FeatureManoeuvres.AddRange(NewManoeuvres);
         }

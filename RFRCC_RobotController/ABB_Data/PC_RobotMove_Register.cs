@@ -1,14 +1,14 @@
-﻿using System;
+﻿using RFRCC_RobotController.Controller;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RFARCC_RobotController.RCC_RobotController
+namespace RFRCC_RobotController.ABB_Data
 {
     public partial class PC_RobotMove_Register : IEnumerable
     {
         private List<RobotComputedFeatures> _ComputedFeatures = new List<RobotComputedFeatures>();
         public List<RobotComputedFeatures> ComputedFeatures => _ComputedFeatures;
-
         // TODO: make this function work
         public int NumberOfFeaturesComplete
         {
@@ -56,13 +56,11 @@ namespace RFARCC_RobotController.RCC_RobotController
         {
             _ComputedFeatures.Clear();
         }
-
         public RobotComputedFeatures this[int index]
         {
             get => _ComputedFeatures[index];
             set => _ComputedFeatures[index] = value;
         }
-        
         private int FeatureIndex(int FeatureNum)
         {
             if (FeatureNumberInComputedFeatures(FeatureNum))
@@ -77,11 +75,9 @@ namespace RFARCC_RobotController.RCC_RobotController
             else
                 return -1;
         }
-
-
         private void UpdateComputedFeatureHeader(OperationHeader Input)
         {
-            
+
         }
         // checks if FeatureNum already contained within ComputedFeatures
         private bool FeatureNumberInComputedFeatures(int FeatureNum)
