@@ -21,30 +21,30 @@ namespace RFRCC_RobotController
     // THIS is the robot class of the Robofab Robot Coping Cell
     public class RobotController
     {
+        public Stream stream;
+
+
         /*// ------------------------------------------------------------------------------------------------
                                                 VARIABLES AND PROPERTIES
         */// ------------------------------------------------------------------------------------------------
-        private ABB.Robotics.Controllers.Controller controller = null;
-        private ABB.Robotics.Controllers.RapidDomain.Task tRob1;
-        private bool _ControllerConnected = false;
+        internal ABB.Robotics.Controllers.Controller controller = null;
+        internal ABB.Robotics.Controllers.RapidDomain.Task tRob1;
+        internal bool _ControllerConnected = false;
 
         // Housekeeping and networking  
-        private NetworkScanner scanner = null;
-        private NetworkWatcher networkwatcher = null;
-        private ControllerInfoCollection _AvailableControllers = null;
         private bool FetchedData;
 
         // Generated Path structures
         public PC_RobotMove_Register RobotInstuctionsRegister;
         public RAPID_OM_List OperationManeouvres;
         public RAPID_OH_List OperationHeaders;
-        private List<JobFeature> jobFeatureData = new List<JobFeature>();
+        internal List<JobFeature> jobFeatureData = new List<JobFeature>();
 
         // Job Data Buffers
         public RAPIDJob_Header jobHeader;
-        private JobHeader jobHeaderData = new JobHeader();
-        private RAPIDJobHeader Header_JobData_RapidBuffer = new RAPIDJobHeader();
-        private RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
+        internal JobHeader jobHeaderData = new JobHeader();
+        internal RAPIDJobHeader Header_JobData_RapidBuffer = new RAPIDJobHeader();
+        internal RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
         public List<JobHeader> jobHeaders = new List<JobHeader>();
         public List<JobFeature> jobFeatures = new List<JobFeature>();
         public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
@@ -55,165 +55,24 @@ namespace RFRCC_RobotController
         public RAPID_CutChart BackCutChart = new RAPID_CutChart();
 
         // RAPID Data to be sorted
-        private RapidData SQLMessageRecieve;
-        private RapidData SQLMessageError;
-        private RapidData PCConnected;
-        private RapidData RapidJobData;
-        private RapidData RapidFeatureData;
-        private RapidData PCSDK_Complete;
-        private RapidData Robot_Status;
+        internal RapidData SQLMessageRecieve;
+        internal RapidData SQLMessageError;
+        internal RapidData PCConnected;
+        internal RapidData RapidJobData;
+        internal RapidData RapidFeatureData;
+        internal RapidData PCSDK_Complete;
+        internal RapidData Robot_Status;
         public RapidData NextDX;
 
         // Other Data for conventience
         public RFRCC_RobotController.ABB_Data.RS_Connection.Robotics.ToolInfo.ToolData ToolData;
 
-        /*// ------------------------------------------------------------------------------------------------
-                                     CONTROLLER HANDELING, CREATION AND DISPOSAL  
-        */// ------------------------------------------------------------------------------------------------
-
-        public event EventHandler<AvailableControllersEventArgs> OnAvailableControllersChange;
-        public class AvailableControllersEventArgs : EventArgs
-        {
-            public AvailableControllersEventArgs(ControllerInfoCollection AvalableList)
-            {
-                AvailableControllers = AvalableList;
-            }
-
-            public ControllerInfoCollection AvailableControllers { get; set; }
-        }
-        protected virtual void AvailableControllersChange(object sender, AvailableControllersEventArgs e)
-        {
-            EventHandler<AvailableControllersEventArgs> handler = OnAvailableControllersChange;
-            if (handler != null)
-                handler(sender, e);
-        }
-        void HandleNWCChangeEvent(object sender, NetworkWatcherEventArgs e)
-        {
-            scanner.Scan();
-            _AvailableControllers = scanner.Controllers;
-            OnAvailableControllersChange(this, new AvailableControllersEventArgs(_AvailableControllers));
-        }
-        public void ConnectToController(ABB.Robotics.Controllers.Controller controller)
-        {
-            if (_ControllerConnected)
-                Dispose();
-            this.controller = controller;
-            this.controller.Logon(UserInfo.DefaultUser);
-            tRob1 = controller.Rapid.GetTask("T_ROB1");
-            InitDataStream();
-            _ControllerConnected = true;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_ControllerConnected));
-            StatusMesssageChange(this, new StatusMesssageEventArgs("Connected to controller"));
-        }
-        public void ConnectToController(ControllerInfo controllerInfo)
-        {
-            if (_ControllerConnected)
-                Dispose();
-            this.controller = ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone);
-            this.controller.Logon(UserInfo.DefaultUser);
-            tRob1 = controller.Rapid.GetTask("T_ROB1");
-            InitDataStream();
-            _ControllerConnected = true;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_ControllerConnected));
-            StatusMesssageChange(this, new StatusMesssageEventArgs("Connected to controller"));
-        }
-        public event EventHandler<ControllerConnectedEventArgs> OnControllerConnectedChange;
-        public class ControllerConnectedEventArgs : EventArgs
-        {
-            public ControllerConnectedEventArgs(bool Connected)
-            {
-                ControllerConnected = Connected;
-            }
-
-            public bool ControllerConnected { get; set; }
-        }
-        protected virtual void ControllerConnectedChange(object sender, ControllerConnectedEventArgs e)
-        {
-            EventHandler<ControllerConnectedEventArgs> handler = OnControllerConnectedChange;
-            if (handler != null)
-                handler(sender, e);
-        }
-
-
-
         public event EventHandler<EventArgs> OnNextDXChange;
-        protected virtual void NextDXChange(object sender, EventArgs e)
+        internal protected virtual void NextDXChange(object sender, EventArgs e)
         {
             OnNextDXChange?.Invoke(sender, e);
         }
 
-
-        // Initialise Controller with all Variables & Check correct controller
-        public void InitDataStream()
-        {
-            bool complete;
-            if (tRob1 != null)
-            {
-                StatusMesssageChange(this, new StatusMesssageEventArgs("Connecting to controller"));
-                SQLMessageRecieve = tRob1.GetRapidData("SQL_Comm", "SQLMessageRecieve");
-                RapidJobData = tRob1.GetRapidData("Module1", "Sys_JobData");
-                RapidFeatureData = tRob1.GetRapidData("Module1", "Sys_FeatureData");
-                PCSDK_Complete = tRob1.GetRapidData("SQL_Comm", "PCSDK_Complete");
-                SQLMessageError = tRob1.GetRapidData("SQL_Comm", "SQLMessageError");
-                PCConnected = tRob1.GetRapidData("SQL_Comm", "PCConnected");
-                Robot_Status = tRob1.GetRapidData("Module1", "Rob_Status");
-
-                TopCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Top_CutChart");
-                BottomCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Bottom_CutChart");
-                FrontCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Front_CutChart");
-                BackCutChart.ConnectToRAPID(controller, tRob1, "Module1", "Back_CutChart");
-
-                Robot_Control.ConnectToRAPID(controller, tRob1, "Module1", "Rob_Control");
-                OperationManeouvres = new RAPID_OM_List(99, controller, tRob1, "Module1", "OperationManoeuvres");
-                OperationHeaders = new RAPID_OH_List(20, controller, tRob1, "Module1", "OperationHeaders");
-                OperationBuffer = new RAPID_OperationBuffer(controller, tRob1, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
-                OperationBuffer.DescendingOrder = true;
-                jobHeader = new RAPIDJob_Header(controller, tRob1, "Module1", "Sys_JobData");
-
-                Robot_Control.ValueUpdate += OnControlValueUpdate; // Maybe update to enable Interrupts
-                Robot_Control.PC_MessageUpdate += RobotPC_MessageChanged;
-
-                NextDX = tRob1.GetRapidData("Module1", "NextDX");
-                NextDX.ValueChanged += NextDXChange;
-
-                complete = false;
-                while (!complete)
-                {
-                    try
-                    {
-                        using (Mastership m = Mastership.Request(controller.Rapid))
-                        {
-                            PCConnected.Value = Bool.Parse("TRUE");
-                        }
-                    }
-                    catch
-                    {
-                        complete = false;
-                    }
-                    finally
-                    {
-                        complete = true;
-                    }
-                }
-
-            }
-            else
-            {
-                StatusMesssageChange(this, new StatusMesssageEventArgs("'targets' data does not exist!"));
-            }
-
-
-        }
-        public void Dispose()
-        {
-            // TODO Stop current task on disconnect?
-            this.controller.Logoff();
-            this.controller.Dispose();
-            this.controller = null;
-            _ControllerConnected = false;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_ControllerConnected));
-            StatusMesssageChange(this, new StatusMesssageEventArgs("Disconnected from controller"));
-        }
 
         // messaging function from controller to outside
         // i.e. error / status messaging / etc
@@ -227,7 +86,7 @@ namespace RFRCC_RobotController
 
             public string StatusMesssage { get; set; }
         }
-        protected virtual void StatusMesssageChange(object sender, StatusMesssageEventArgs e)
+        protected internal virtual void StatusMesssageChange(object sender, StatusMesssageEventArgs e)
         {
             EventHandler<StatusMesssageEventArgs> handler = OnStatusMesssageChange;
             if (handler != null)
@@ -236,16 +95,7 @@ namespace RFRCC_RobotController
 
         public RobotController()
         {
-            scanner = new NetworkScanner();
-            scanner.Scan();
-            _AvailableControllers = scanner.Controllers;
-            _ControllerConnected = false;
-
-            // NetworkWatcher setup
-            networkwatcher = new NetworkWatcher(scanner.Controllers);
-            networkwatcher.Found += new EventHandler<NetworkWatcherEventArgs>(HandleNWCChangeEvent);
-            networkwatcher.Lost += new EventHandler<NetworkWatcherEventArgs>(HandleNWCChangeEvent);
-            networkwatcher.EnableRaisingEvents = true;
+            stream = new Stream(this);
         }
         ABB.Robotics.Controllers.Controller Controller
         {
@@ -254,13 +104,7 @@ namespace RFRCC_RobotController
                 return controller;
             }
         }
-        public ControllerInfoCollection AvailableControllers
-        {
-            get
-            {
-                return _AvailableControllers;
-            }
-        }
+        
         public bool ControllerConnected
         {
             get
@@ -275,12 +119,10 @@ namespace RFRCC_RobotController
                                             ROBOT FUNCTIONALITY AND CONTROL
         */// ------------------------------------------------------------------------------------------------
 
-        // Control secondry
-
         // Control Message from robot
         public delegate void ControlValueUpdateEventHandler(RobotController sender, ControlStrucEventArgs e);
         public event ControlValueUpdateEventHandler ControlValueUpdate;
-        protected virtual void OnControlValueUpdate(object sender, ControlStrucEventArgs e)
+        internal protected virtual void OnControlValueUpdate(object sender, ControlStrucEventArgs e)
         {
             Debug.WriteLine("OnControlValueUpdate Recieved instruction");
             ControlValueUpdate?.Invoke(this, e);
