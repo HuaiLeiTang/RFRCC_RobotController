@@ -6,7 +6,7 @@ using static RFRCC_RobotController.ABB_Data.PC_RobotMove_Register;
 using RFRCC_RobotController.Controller;
 using RFRCC_RobotController.ABB_Data;
 
-namespace RFRCC_RobotController.RAPID_Data
+namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
     // RAPID Data connection to Operation Buffer for PC generation of paths for manoeuvres
     public class RAPID_OperationBuffer
@@ -19,7 +19,7 @@ namespace RFRCC_RobotController.RAPID_Data
         private bool _sortAscending = true;
 
         public PC_RobotMove_Register Operation => _Operations;
-        public int SizeOfManBuffer 
+        public int SizeOfManBuffer
         {
             get
             {
@@ -53,7 +53,7 @@ namespace RFRCC_RobotController.RAPID_Data
             _Controller = controller;
             _ManBufferRD = task.GetRapidData(OpManModule, OpManVARName);
             _HeadBufferRD = task.GetRapidData(OpHeadModule, OpHeadVARName);
-            _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / (new OperationManoeuvre().ToString().Split(',').Count());
+            _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
         }
         public void Clear()
         {
@@ -128,7 +128,7 @@ namespace RFRCC_RobotController.RAPID_Data
                     index++;
                 }
             }
-            
+
         }
         public void sort(bool sortAscending)
         {
@@ -156,15 +156,15 @@ namespace RFRCC_RobotController.RAPID_Data
         }
         public string OperationManoeuvresToString(int feature)
         {
-            string output = "[" + _Operations[feature-1].FeatureManoeuvres[0].ToString();
-            for (int i = 1; i < _Operations[feature-1].FeatureManoeuvres.Count; i++)
+            string output = "[" + _Operations[feature - 1].FeatureManoeuvres[0].ToString();
+            for (int i = 1; i < _Operations[feature - 1].FeatureManoeuvres.Count; i++)
             {
-                output += "," + _Operations[feature-1].FeatureManoeuvres[i].ToString();
+                output += "," + _Operations[feature - 1].FeatureManoeuvres[i].ToString();
             }
 
             // fill in empty manoeuvres for RAPID data buffer
             string newOpManString = new OperationManoeuvre().ToString();
-            for (int i = 0; i < _SizeOfManBuffer - _Operations[feature-1].FeatureManoeuvres.Count; i++)
+            for (int i = 0; i < _SizeOfManBuffer - _Operations[feature - 1].FeatureManoeuvres.Count; i++)
             {
                 output += "," + newOpManString;
             }
@@ -174,9 +174,9 @@ namespace RFRCC_RobotController.RAPID_Data
         {
             string output = "[" + _Operations[feature - 1].FeatureManoeuvres[(Carriage - 1) * _SizeOfManBuffer].ToString();
 
-            int NumOfFeatures = _Operations[feature - 1].FeatureManoeuvres.Count - ((Carriage - 1) * _SizeOfManBuffer);
+            int NumOfFeatures = _Operations[feature - 1].FeatureManoeuvres.Count - (Carriage - 1) * _SizeOfManBuffer;
             if (NumOfFeatures > _SizeOfManBuffer) NumOfFeatures = _SizeOfManBuffer;
-            for (int i = (Carriage-1) * _SizeOfManBuffer + 1; i < (((Carriage - 1) * _SizeOfManBuffer) + NumOfFeatures) ; i++)
+            for (int i = (Carriage - 1) * _SizeOfManBuffer + 1; i < (Carriage - 1) * _SizeOfManBuffer + NumOfFeatures; i++)
             {
                 output += "," + _Operations[feature - 1].FeatureManoeuvres[i].ToString();
             }
@@ -185,7 +185,7 @@ namespace RFRCC_RobotController.RAPID_Data
             {
                 // fill in empty manoeuvres for RAPID data buffer
                 string newOpManString = new OperationManoeuvre().ToString();
-                for (int i = 0; i < (_SizeOfManBuffer - NumOfFeatures); i++)
+                for (int i = 0; i < _SizeOfManBuffer - NumOfFeatures; i++)
                 {
                     output += "," + newOpManString;
                 }
@@ -200,7 +200,7 @@ namespace RFRCC_RobotController.RAPID_Data
             // check if feature exists
             if (_Operations.Count < feature) return false;
 
-            string OpHeaderStringToUpload = _Operations[feature-1].FeatureHeader.ToString();
+            string OpHeaderStringToUpload = _Operations[feature - 1].FeatureHeader.ToString();
             string OpManStringToUpload = OperationManoeuvresToString(feature);
 
             OpManStringToUpload = OpManStringToUpload.Replace("0.00000000", "0")
@@ -249,7 +249,7 @@ namespace RFRCC_RobotController.RAPID_Data
             if (_Operations.Count < feature) return false;
 
             string OpHeaderStringToUpload = _Operations[feature - 1].FeatureHeader.ToString();
-            string OpManStringToUpload = OperationManoeuvresChunkToString(feature,carriage);
+            string OpManStringToUpload = OperationManoeuvresChunkToString(feature, carriage);
 
             OpManStringToUpload = OpManStringToUpload.Replace("0.00000000", "0")
                 .Replace(".0000000", "")
@@ -275,9 +275,9 @@ namespace RFRCC_RobotController.RAPID_Data
                     {
                         _HeadBufferRD.StringValue = OpHeaderStringToUpload;
                         _ManBufferRD.StringValue = OpManStringToUpload;
-                        
+
                         //m.Release(); // this may not work...
-                    }                    
+                    }
                 }
                 catch
                 {
@@ -286,7 +286,7 @@ namespace RFRCC_RobotController.RAPID_Data
                 finally
                 {
                     complete = true;
-                    
+
                 }
             }
 

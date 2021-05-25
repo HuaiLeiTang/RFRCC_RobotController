@@ -4,7 +4,7 @@ using ABB.Robotics.Controllers.RapidDomain;
 using System.Diagnostics;
 using RFRCC_RobotController.ABB_Data;
 
-namespace RFRCC_RobotController.RAPID_Data
+namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
     public class RAPID_OH_List
     {

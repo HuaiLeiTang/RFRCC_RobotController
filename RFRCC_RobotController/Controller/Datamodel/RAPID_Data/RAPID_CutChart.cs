@@ -6,7 +6,7 @@ using System.Diagnostics;
 using RFRCC_RobotController.ABB_Data;
 using RFRCC_RobotController.ABB_Data.RS_Connection.Robotics.ToolInfo;
 
-namespace RFRCC_RobotController.RAPID_Data
+namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
     public class RAPID_CutChart
     {
@@ -54,7 +54,7 @@ namespace RFRCC_RobotController.RAPID_Data
             {
                 _ArcVoltage = value;
                 if (_AutoUpdate) Update_Robot();
-}
+            }
         }
         public string CutGas
         {
@@ -257,19 +257,19 @@ namespace RFRCC_RobotController.RAPID_Data
             _PlasmaGasPreFlow = float.Parse(inputArray[8].ToLower());
             _ShieldGasCutFlow = float.Parse(inputArray[9].ToLower());
             _ShieldGasPreFlow = float.Parse(inputArray[10].ToLower());
-            _RAPIDSpeed = new CS_speeddata("["+string.Join(',', inputArray.Skip(10).Take(4).ToArray())+"]");
+            _RAPIDSpeed = new CS_speeddata("[" + string.Join(',', inputArray.Skip(10).Take(4).ToArray()) + "]");
             _KerfWidth = float.Parse(inputArray[15].ToLower());
             _MinimumClearance = float.Parse(inputArray[16].ToLower());
         }
         public void ConnectToRAPID(ABB.Robotics.Controllers.Controller controller, Task RobotTask, string Module, string RAPID_Name)
         {
-            this._Controller = controller;
-            this._RobotData = RobotTask.GetRapidData(Module, RAPID_Name);
+            _Controller = controller;
+            _RobotData = RobotTask.GetRapidData(Module, RAPID_Name);
 
         }
         public override string ToString()
         {
-            string[] OutArray = 
+            string[] OutArray =
             {
                 _Thickness.ToString("0.00"),
                 _ArcVoltage.ToString("0.00"),
@@ -293,15 +293,15 @@ namespace RFRCC_RobotController.RAPID_Data
         public void Update_Robot()
         {
             bool complete = false;
-            Debug.Print(this.ToString());
+            Debug.Print(ToString());
 
             while (!complete)
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(this._Controller.Rapid))
+                    using (Mastership m = Mastership.Request(_Controller.Rapid))
                     {
-                        this._RobotData.StringValue = this.ToString();
+                        _RobotData.StringValue = ToString();
                     }
                 }
                 catch
@@ -318,24 +318,24 @@ namespace RFRCC_RobotController.RAPID_Data
         }
         public void Update_Local()
         {
-            DataNode[] RapidStruct = this._RobotData.Value.ToStructure().Children.ToArray();
+            DataNode[] RapidStruct = _RobotData.Value.ToStructure().Children.ToArray();
 
-            if (this._Thickness != float.Parse(RapidStruct[0].Value)) this._Thickness = float.Parse(RapidStruct[0].Value);
-            if (this._ArcVoltage != float.Parse(RapidStruct[1].Value)) this._ArcVoltage = float.Parse(RapidStruct[1].Value);
-            if (this._CutGas != "\"" + RapidStruct[2].Value + "\"") this._CutGas = RapidStruct[2].Value[1..^1];
-            if (this._ShieldGas != "\"" + RapidStruct[3].Value + "\"") this._ShieldGas = RapidStruct[3].Value[1..^1];
-            if (this._CutHeight != float.Parse(RapidStruct[4].Value)) this._CutHeight = float.Parse(RapidStruct[4].Value);
-            if (this._PierceHeight != float.Parse(RapidStruct[5].Value)) this._PierceHeight = float.Parse(RapidStruct[5].Value);
-            if (this._PierceDelay != float.Parse(RapidStruct[6].Value)) this._PierceDelay = float.Parse(RapidStruct[6].Value);
-            if (this._PlasmaGasCutFlow != float.Parse(RapidStruct[7].Value)) this._PlasmaGasCutFlow = float.Parse(RapidStruct[7].Value);
-            if (this._PlasmaGasPreFlow != float.Parse(RapidStruct[8].Value)) this._PlasmaGasPreFlow = float.Parse(RapidStruct[8].Value);
-            if (this._ShieldGasCutFlow != float.Parse(RapidStruct[9].Value)) this._ShieldGasCutFlow = float.Parse(RapidStruct[9].Value);
-            if (this._ShieldGasPreFlow != float.Parse(RapidStruct[10].Value)) this._ShieldGasPreFlow = float.Parse(RapidStruct[10].Value);
-            _RAPIDSpeed.FromString(RapidStruct[11].Value); 
-            if (this._KerfWidth != float.Parse(RapidStruct[12].Value)) this._KerfWidth = float.Parse(RapidStruct[12].Value);
-            if (this._MinimumClearance != float.Parse(RapidStruct[13].Value)) this._MinimumClearance = float.Parse(RapidStruct[13].Value);
+            if (_Thickness != float.Parse(RapidStruct[0].Value)) _Thickness = float.Parse(RapidStruct[0].Value);
+            if (_ArcVoltage != float.Parse(RapidStruct[1].Value)) _ArcVoltage = float.Parse(RapidStruct[1].Value);
+            if (_CutGas != "\"" + RapidStruct[2].Value + "\"") _CutGas = RapidStruct[2].Value[1..^1];
+            if (_ShieldGas != "\"" + RapidStruct[3].Value + "\"") _ShieldGas = RapidStruct[3].Value[1..^1];
+            if (_CutHeight != float.Parse(RapidStruct[4].Value)) _CutHeight = float.Parse(RapidStruct[4].Value);
+            if (_PierceHeight != float.Parse(RapidStruct[5].Value)) _PierceHeight = float.Parse(RapidStruct[5].Value);
+            if (_PierceDelay != float.Parse(RapidStruct[6].Value)) _PierceDelay = float.Parse(RapidStruct[6].Value);
+            if (_PlasmaGasCutFlow != float.Parse(RapidStruct[7].Value)) _PlasmaGasCutFlow = float.Parse(RapidStruct[7].Value);
+            if (_PlasmaGasPreFlow != float.Parse(RapidStruct[8].Value)) _PlasmaGasPreFlow = float.Parse(RapidStruct[8].Value);
+            if (_ShieldGasCutFlow != float.Parse(RapidStruct[9].Value)) _ShieldGasCutFlow = float.Parse(RapidStruct[9].Value);
+            if (_ShieldGasPreFlow != float.Parse(RapidStruct[10].Value)) _ShieldGasPreFlow = float.Parse(RapidStruct[10].Value);
+            _RAPIDSpeed.FromString(RapidStruct[11].Value);
+            if (_KerfWidth != float.Parse(RapidStruct[12].Value)) _KerfWidth = float.Parse(RapidStruct[12].Value);
+            if (_MinimumClearance != float.Parse(RapidStruct[13].Value)) _MinimumClearance = float.Parse(RapidStruct[13].Value);
 
-    }
+        }
         public void FromCutEntry(CutEntry FromCutEntry)
         {
             if (FromCutEntry == null) return;

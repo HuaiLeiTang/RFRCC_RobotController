@@ -2,7 +2,7 @@
 using RFRCC_RobotController.Controller;
 using RapidString = ABB.Robotics.Controllers.RapidDomain.String;
 
-namespace RFRCC_RobotController.RAPID_Data
+namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
     class RAPIDJobFeature
     {

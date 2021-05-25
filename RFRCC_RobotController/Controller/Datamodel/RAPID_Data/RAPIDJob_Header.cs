@@ -6,7 +6,7 @@ using System.Text;
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.RapidDomain;
 
-namespace RFRCC_RobotController.RAPID_Data
+namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
 
     public class RAPIDJob_Header
