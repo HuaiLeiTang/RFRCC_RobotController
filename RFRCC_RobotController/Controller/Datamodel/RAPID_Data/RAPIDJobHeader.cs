@@ -1,5 +1,5 @@
 ﻿using ABB.Robotics.Controllers.RapidDomain;
-using RFRCC_RobotController.Controller;
+using RFRCC_RobotController.Controller.DataModel.OperationData;
 using RapidString = ABB.Robotics.Controllers.RapidDomain.String;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data

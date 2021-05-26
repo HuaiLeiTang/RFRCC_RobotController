@@ -1,4 +1,4 @@
-﻿namespace RFRCC_RobotController.Controller
+﻿namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
     public class JobHeader
     {

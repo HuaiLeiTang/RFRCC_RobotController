@@ -1,7 +1,8 @@
 ﻿using System;
 using ABB.Robotics.Controllers.RapidDomain;
+using RFRCC_RobotController.ABB_Data;
 
-namespace RFRCC_RobotController.ABB_Data
+namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
     public class OperationManoeuvre
     {
@@ -173,7 +174,7 @@ namespace RFRCC_RobotController.ABB_Data
         }
         public OperationManoeuvre Clone()
         {
-            return (OperationManoeuvre)this.MemberwiseClone();
+            return (OperationManoeuvre)MemberwiseClone();
         }
     }
 }

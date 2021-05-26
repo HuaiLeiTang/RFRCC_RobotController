@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using ABB.Robotics.Controllers.RapidDomain;
 using System.Linq;
-using static RFRCC_RobotController.ABB_Data.PC_RobotMove_Register;
+using static RFRCC_RobotController.Controller.DataModel.OperationData.PC_RobotMove_Register;
 using RFRCC_RobotController.Controller;
-using RFRCC_RobotController.ABB_Data;
+using RFRCC_RobotController.Controller.DataModel.OperationData;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {

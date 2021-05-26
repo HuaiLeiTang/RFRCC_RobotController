@@ -3,13 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RFRCC_RobotController.ABB_Data
+namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
     public partial class PC_RobotMove_Register : IEnumerable
     {
         private List<RobotComputedFeatures> _ComputedFeatures = new List<RobotComputedFeatures>();
-        public List<RobotComputedFeatures> ComputedFeatures => _ComputedFeatures;
-        // TODO: make this function work
         public int NumberOfFeaturesComplete
         {
             get
@@ -17,6 +15,9 @@ namespace RFRCC_RobotController.ABB_Data
                 return _ComputedFeatures.Count;
             }
         }
+
+        public List<RobotComputedFeatures> ComputedFeatures => _ComputedFeatures;
+        // TODO: make this function work
         public int Count => _ComputedFeatures.Count;
         public PC_RobotMove_Register(List<RobotComputedFeatures> computedFeatures)
         {

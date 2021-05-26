@@ -1,6 +1,6 @@
-﻿using RFRCC_RobotController.RAPID_Data;
-using RFRCC_RobotController.ABB_Data;
+﻿using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using System.Collections.Generic;
+using RFRCC_RobotController.Controller.DataModel.OperationData;
 
 namespace RFRCC_RobotController.Controller
 {

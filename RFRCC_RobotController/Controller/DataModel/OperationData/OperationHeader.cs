@@ -3,8 +3,9 @@ using System;
 using System.Text;
 using ABB.Robotics.Controllers.RapidDomain;
 using System.Net;
+using RFRCC_RobotController.ABB_Data;
 
-namespace RFRCC_RobotController.ABB_Data
+namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
     public class OperationHeader
     {
@@ -191,15 +192,15 @@ namespace RFRCC_RobotController.ABB_Data
         public void FromString(string String)
         {
             string[] inputArray = String.Trim('[', ']').Split(',');
-            _FeatureNum = Int32.Parse(inputArray[0].ToLower());
-            _IdealXDisplacement = Double.Parse(inputArray[1].ToLower());
+            _FeatureNum = int.Parse(inputArray[0].ToLower());
+            _IdealXDisplacement = double.Parse(inputArray[1].ToLower());
             _TaskCode = inputArray[2].ToLower().Trim('\"');
             _Face = inputArray[3].ToLower().Trim('\"');
             _LocationMin.FromString(string.Join(",", inputArray[4..7]).ToLower());
             _LocationMax = new CS_pos(string.Join(",", inputArray[7..10]).ToLower());
-            _NumInstructions = Int32.Parse(inputArray[10].ToLower());
-            _NumManoeuvres = Int32.Parse(inputArray[11].ToLower());
-            _ManoeuvreIndex = Int32.Parse(inputArray[12].ToLower());
+            _NumInstructions = int.Parse(inputArray[10].ToLower());
+            _NumManoeuvres = int.Parse(inputArray[11].ToLower());
+            _ManoeuvreIndex = int.Parse(inputArray[12].ToLower());
             _PathComplete = Bool.Parse(inputArray[13].ToLower());
             _Ready = Bool.Parse(inputArray[14].ToLower());
             _LeadInstruction = Bool.Parse(inputArray[15].ToLower());
@@ -225,7 +226,7 @@ namespace RFRCC_RobotController.ABB_Data
 
         public OperationHeader Clone()
         {
-            return (OperationHeader)this.MemberwiseClone();
+            return (OperationHeader)MemberwiseClone();
         }
 
     }

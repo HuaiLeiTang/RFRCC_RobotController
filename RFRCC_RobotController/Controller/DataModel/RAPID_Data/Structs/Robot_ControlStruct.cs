@@ -4,7 +4,7 @@ using ABB.Robotics.Controllers.RapidDomain;
 using System.Linq;
 using System.Diagnostics;
 
-namespace RFRCC_RobotController.ABB_Data
+namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
     public class ControlStrucEventArgs : EventArgs
     {
@@ -15,6 +15,7 @@ namespace RFRCC_RobotController.ABB_Data
 
         public string ValueName { get; set; }
     }
+
     public class Robot_ControlStruct
     {
         public RapidData Robot_Control_RAPID { get; set; }
@@ -164,29 +165,29 @@ namespace RFRCC_RobotController.ABB_Data
 
         public void ConnectToRAPID(ABB.Robotics.Controllers.Controller controller, Task RobotTask, string Module, string RAPID_Name)
         {
-            this.ControllerConnection = controller;
-            this.Robot_Control_RAPID = RobotTask.GetRapidData(Module, RAPID_Name);
-            this.ToString();
+            ControllerConnection = controller;
+            Robot_Control_RAPID = RobotTask.GetRapidData(Module, RAPID_Name);
+            ToString();
             InitialUpdateStruct();
-            this.Robot_Control_RAPID.ValueChanged += Update_Struct;
+            Robot_Control_RAPID.ValueChanged += Update_Struct;
         }
         private void InitialUpdateStruct()
         {
-            DataNode[] RapidStruct = this.Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
-            if (this.JobInProgress != bool.Parse(RapidStruct[0].Value)) this._JobInProgress = bool.Parse(RapidStruct[0].Value);
-            if (this.JobID != "\"" + RapidStruct[1].Value + "\"") this._JobID = RapidStruct[1].Value[1..^1];
-            if (this.TorchEnable != bool.Parse(RapidStruct[2].Value)) this._TorchEnable = bool.Parse(RapidStruct[2].Value);
-            if (this.ManualControl_Req != bool.Parse(RapidStruct[3].Value)) this._ManualControl_Req = bool.Parse(RapidStruct[3].Value);
-            if (this.StockXDisplacement != float.Parse(RapidStruct[4].Value)) this._StockXDisplacement = float.Parse(RapidStruct[4].Value);
-            if (this.RobotEnabled != bool.Parse(RapidStruct[5].Value)) this._RobotEnabled = bool.Parse(RapidStruct[5].Value);
-            if (this.Park_Req != bool.Parse(RapidStruct[6].Value)) this._Park_Req = bool.Parse(RapidStruct[6].Value);
-            if (this.PC_Message != "\"" + RapidStruct[7].Value + "\"") this._PC_Message = RapidStruct[7].Value[1..^1];
+            DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
+            if (JobInProgress != bool.Parse(RapidStruct[0].Value)) _JobInProgress = bool.Parse(RapidStruct[0].Value);
+            if (JobID != "\"" + RapidStruct[1].Value + "\"") _JobID = RapidStruct[1].Value[1..^1];
+            if (TorchEnable != bool.Parse(RapidStruct[2].Value)) _TorchEnable = bool.Parse(RapidStruct[2].Value);
+            if (ManualControl_Req != bool.Parse(RapidStruct[3].Value)) _ManualControl_Req = bool.Parse(RapidStruct[3].Value);
+            if (StockXDisplacement != float.Parse(RapidStruct[4].Value)) _StockXDisplacement = float.Parse(RapidStruct[4].Value);
+            if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) _RobotEnabled = bool.Parse(RapidStruct[5].Value);
+            if (Park_Req != bool.Parse(RapidStruct[6].Value)) _Park_Req = bool.Parse(RapidStruct[6].Value);
+            if (PC_Message != "\"" + RapidStruct[7].Value + "\"") _PC_Message = RapidStruct[7].Value[1..^1];
         }
 
         private void Update_Struct(object sender, DataValueChangedEventArgs e)
         {
 
-            this.GetFromRapidData();
+            GetFromRapidData();
         }
 
         private void Update_Rapid()
@@ -197,9 +198,9 @@ namespace RFRCC_RobotController.ABB_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(this.ControllerConnection.Rapid))
+                    using (Mastership m = Mastership.Request(ControllerConnection.Rapid))
                     {
-                        this.Robot_Control_RAPID.StringValue = this.ToString();
+                        Robot_Control_RAPID.StringValue = ToString();
                     }
                 }
                 catch
@@ -223,29 +224,29 @@ namespace RFRCC_RobotController.ABB_Data
         }
         public void GetFromRapidData()
         {
-            DataNode[] RapidStruct = this.Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
+            DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
 
-            if (this.JobInProgress != bool.Parse(RapidStruct[0].Value)) this.JobInProgress = bool.Parse(RapidStruct[0].Value);
-            if (this.JobID != "\"" + RapidStruct[1].Value + "\"") this.JobID = RapidStruct[1].Value[1..^1];
-            if (this.TorchEnable != bool.Parse(RapidStruct[2].Value)) this.TorchEnable = bool.Parse(RapidStruct[2].Value);
-            if (this.ManualControl_Req != bool.Parse(RapidStruct[3].Value)) this.ManualControl_Req = bool.Parse(RapidStruct[3].Value);
-            if (this.StockXDisplacement != float.Parse(RapidStruct[4].Value)) this.StockXDisplacement = float.Parse(RapidStruct[4].Value);
-            if (this.RobotEnabled != bool.Parse(RapidStruct[5].Value)) this.RobotEnabled = bool.Parse(RapidStruct[5].Value);
-            if (this.Park_Req != bool.Parse(RapidStruct[6].Value)) this.Park_Req = bool.Parse(RapidStruct[6].Value);
-            if (this.PC_Message != "\"" + RapidStruct[7].Value + "\"") this.PC_Message = RapidStruct[7].Value[1..^1];
+            if (JobInProgress != bool.Parse(RapidStruct[0].Value)) JobInProgress = bool.Parse(RapidStruct[0].Value);
+            if (JobID != "\"" + RapidStruct[1].Value + "\"") JobID = RapidStruct[1].Value[1..^1];
+            if (TorchEnable != bool.Parse(RapidStruct[2].Value)) TorchEnable = bool.Parse(RapidStruct[2].Value);
+            if (ManualControl_Req != bool.Parse(RapidStruct[3].Value)) ManualControl_Req = bool.Parse(RapidStruct[3].Value);
+            if (StockXDisplacement != float.Parse(RapidStruct[4].Value)) StockXDisplacement = float.Parse(RapidStruct[4].Value);
+            if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) RobotEnabled = bool.Parse(RapidStruct[5].Value);
+            if (Park_Req != bool.Parse(RapidStruct[6].Value)) Park_Req = bool.Parse(RapidStruct[6].Value);
+            if (PC_Message != "\"" + RapidStruct[7].Value + "\"") PC_Message = RapidStruct[7].Value[1..^1];
         }
 
         override public string ToString()
         {
             string output = "[" +
-                this._JobInProgress.ToString() + ",\"" +
-                this._JobID + "\"," +
-                this._TorchEnable.ToString() + "," +
-                this._ManualControl_Req.ToString() + "," +
-                this._StockXDisplacement.ToString() + "," +
-                this._RobotEnabled.ToString() + "," +
-                this._Park_Req.ToString() + ",\"" +
-                this._PC_Message +
+                _JobInProgress.ToString() + ",\"" +
+                _JobID + "\"," +
+                _TorchEnable.ToString() + "," +
+                _ManualControl_Req.ToString() + "," +
+                _StockXDisplacement.ToString() + "," +
+                _RobotEnabled.ToString() + "," +
+                _Park_Req.ToString() + ",\"" +
+                _PC_Message +
                 "\"]";
             return output;
         }
