@@ -15,7 +15,6 @@ namespace RFRCC_RobotController.ABB_Data.RS_Connection
         public string DisplayName { get; set; }
         public string Name { get; set; }
         public DataDeclarationCollection DataDeclarations { get => _DataDeclarations; }
-        private List<Tuple<int, string>> times = new List<Tuple<int, string>>();
 
 
         public string GetValidRapidName(string name, string seperator, int increment)

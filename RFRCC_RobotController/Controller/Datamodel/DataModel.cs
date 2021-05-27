@@ -24,6 +24,14 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal RapidData Robot_Status;
         public RapidData NextDX;
 
+        public List<OperationModel> Operations = new List<OperationModel>();
+
+        
+
+
+
+        // TODO: update and move the below
+
         // Generated Path structures
         public PC_RobotMove_Register RobotInstuctionsRegister;
         public RAPID_OM_List OperationManeouvres;

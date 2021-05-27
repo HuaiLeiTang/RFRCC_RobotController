@@ -1,8 +1,7 @@
 ﻿using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using System.Collections.Generic;
-using RFRCC_RobotController.Controller.DataModel.OperationData;
 
-namespace RFRCC_RobotController.Controller
+namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
 
     public class RobotComputedFeatures

@@ -5,25 +5,60 @@ using System.Text;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
+    /* TODO:
+     *      - add 'job header' to encapsulate job information
+     *      - add method to input data obtained from import process
+     *      - add template of job execution (including PLC requirements and such)
+     *      - 
+     */
     public class OperationModel
     {
         private RobotController _parentController;
+        private bool _controllerPresent = false;
         private string filename;
         private string filepath;
-        private OperationActionList _operationActions;
+        private OperationActionList _operationActions = new OperationActionList();
         private int _NumFeatures;
         private bool _StartedProcessing;
         private bool _FinishedProcessing;
         private bool _ReadyforProcessing;
 
 
+
+
         public string ProjectStatus { get; set; }
 
-
-        public OperationModel(RobotController ParentController)
+        public OperationModel()
         {
-            _operationActions = new OperationActionList();
 
+        }
+        public OperationModel(RobotController ParentController, int index = -1)
+        {
+            _parentController = ParentController;
+            _controllerPresent = true;
+            // TODO: check connection active and associate this file with controller
+
+            if (index == -1) _parentController.dataModel.Operations.Add(this);
+            else _parentController.dataModel.Operations.Insert(index, this);
+        }
+        public bool ConnectParentController(RobotController ParentController, int index = -1)
+        {
+            if (_controllerPresent)
+            {
+                // TODO: check if need to do extra steps to change pointer
+                _parentController = ParentController;
+                // TODO: check connection active and associate this file with controller
+            }
+            else
+            {
+                _parentController = ParentController;
+                _controllerPresent = true;
+                // TODO: check connection active and associate this file with controller
+            }
+
+            if (index == -1) _parentController.dataModel.Operations.Add(this);
+            else _parentController.dataModel.Operations.Insert(index, this);
+            return true; // return false if failed to connect
         }
     }
 
@@ -157,10 +192,17 @@ namespace RFRCC_RobotController.Controller.DataModel
 
     public class OperationRobotManoeuvre : OperationAction
     {
+        
     }
 
     public class OperationPLCProcess : OperationAction
     {
         
+    }
+
+    // This class will be used as a placehold in a job execution templating method. This will house attributes and expected values in order to structure the population of a 'job'
+    public class OperationTemplateAction : OperationAction
+    {
+        public object ExpectedOperationType { get; set; } //maybe enum? instead
     }
 }
