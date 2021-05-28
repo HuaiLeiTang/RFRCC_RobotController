@@ -4,7 +4,7 @@ using ABB.Robotics.Controllers.RapidDomain;
 using System.Linq;
 using System.Diagnostics;
 using RFRCC_RobotController.ABB_Data;
-using RFRCC_RobotController.ABB_Data.RS_Connection.Robotics.ToolInfo;
+using ReplaceRSConnection.Robotics.ToolInfo;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {

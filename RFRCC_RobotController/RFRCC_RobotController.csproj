@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Configuration.ConfigurationBuilders.Base" Version="2.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ABB.Robotics.Controllers.PC">
@@ -32,8 +37,29 @@
     <Reference Include="ABB.Robotics.RobotStudio.UI">
       <HintPath>Dependencies\ABB.Robotics.RobotStudio.UI.dll</HintPath>
     </Reference>
+    <Reference Include="CopingLineGenerators">
+      <HintPath>Dependencies\CopingLineGenerators.dll</HintPath>
+    </Reference>
+    <Reference Include="CopingLineImporters">
+      <HintPath>Dependencies\CopingLineImporters.dll</HintPath>
+    </Reference>
+    <Reference Include="CopingLineModels">
+      <HintPath>Dependencies\CopingLineModels.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectCloner">
+      <HintPath>Dependencies\ObjectCloner.dll</HintPath>
+    </Reference>
+    <Reference Include="ReplaceRSConnection">
+      <HintPath>Dependencies\ReplaceRSConnection.dll</HintPath>
+    </Reference>
     <Reference Include="RobotStudio.Resources">
       <HintPath>Dependencies\RobotStudio.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi">
+      <HintPath>Dependencies\RobotStudio.Services.RobApi.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi.Desktop">
+      <HintPath>Dependencies\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
     </Reference>
   </ItemGroup>
 

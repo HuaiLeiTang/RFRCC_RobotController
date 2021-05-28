@@ -53,7 +53,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RAPID_CutChart BackCutChart = new RAPID_CutChart();
 
 
-        public RFRCC_RobotController.ABB_Data.RS_Connection.Robotics.ToolInfo.ToolData ToolData;
+        public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
 
         public DataModel(RobotController ParentController)
         {

@@ -11,7 +11,6 @@ using ABB.Robotics.Controllers.RapidDomain;
 using ABB.Robotics.Controllers.Discovery;
 using System.Threading;
 using System.Diagnostics;
-using RFRCC_RobotController.ABB_Data.RS_Connection;
 using RFRCC_RobotController.Controller;
 using RFRCC_RobotController.ABB_Data;
 using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
