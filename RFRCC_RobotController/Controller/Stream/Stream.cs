@@ -12,6 +12,9 @@ namespace RFRCC_RobotController.Controller
     /* This class is to hanble network access, connection, and related events for the controller
      * 
      */
+    /// <summary>
+    /// handles network access, connection, and related events for the ABB Controllers, specifically intended for use with the 
+    /// </summary>
     public class Stream
     {
         private RobotController _parentController;
@@ -21,6 +24,10 @@ namespace RFRCC_RobotController.Controller
         private ControllerInfoCollection _AvailableControllers = null;
         private bool FetchedData;
 
+        /// <summary>
+        /// Initialise stream functionality with a parent controller class
+        /// </summary>
+        /// <param name="parentController">Controller class to house any connection made and access events</param>
         public Stream(RobotController parentController)
         {
             _parentController = parentController;
@@ -35,15 +42,26 @@ namespace RFRCC_RobotController.Controller
             networkwatcher.Lost += new EventHandler<NetworkWatcherEventArgs>(HandleNWCChangeEvent);
             networkwatcher.EnableRaisingEvents = true;
         }
-
+        /// <summary>
+        /// Update if any controllers are discovered or lost on the network
+        /// </summary>
         public event EventHandler<AvailableControllersEventArgs> OnAvailableControllersChange;
+        /// <summary>
+        /// Contains updated list of controllers available on the network
+        /// </summary>
         public class AvailableControllersEventArgs : EventArgs
         {
+            /// <summary>
+            /// generate new AvailableControllersEventArgs with list of controlers
+            /// </summary>
+            /// <param name="AvalableList">Collection of controllers available on the network</param>
             public AvailableControllersEventArgs(ControllerInfoCollection AvalableList)
             {
                 AvailableControllers = AvalableList;
             }
-
+            /// <summary>
+            /// Collection of controllers available on the network
+            /// </summary>
             public ControllerInfoCollection AvailableControllers { get; set; }
         }
         protected virtual void AvailableControllersChange(object sender, AvailableControllersEventArgs e)

@@ -1,22 +1,26 @@
-﻿using System;
+﻿using RFRCC_RobotController.Controller.DataModel.OperationData;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
-    /* TODO:
-     *      - add 'job header' to encapsulate job information
-     *      - add method to input data obtained from import process
-     *      - add template of job execution (including PLC requirements and such)
-     *      - 
+    /* TODO: list for operation models
+     *      X add 'job header' to encapsulate job information
+     *      o add method to input data obtained from import process
+     *      o add template of job execution (including PLC requirements and such)
+     *      o 
      */
+    /// <summary>
+    /// Model of job operation file containing all processes and information on current job processing
+    /// </summary>
     public class OperationModel
     {
         private RobotController _parentController;
         private bool _controllerPresent = false;
-        private string filename;
-        private string filepath;
+        private string _filename;
+        private string _filepath;
         private OperationActionList _operationActions = new OperationActionList();
         private int _NumFeatures;
         private bool _StartedProcessing;
@@ -25,8 +29,8 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
 
-
         public string ProjectStatus { get; set; }
+        public JobHeader HeaderInfo { get; set; }
 
         public OperationModel()
         {
@@ -59,6 +63,13 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (index == -1) _parentController.dataModel.Operations.Add(this);
             else _parentController.dataModel.Operations.Insert(index, this);
             return true; // return false if failed to connect
+        }
+        // TODO: setup Load Job information from file import
+
+        public bool LoadJobFromFile()
+        {
+
+            throw new NotImplementedException();
         }
     }
 

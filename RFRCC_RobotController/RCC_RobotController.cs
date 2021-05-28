@@ -19,7 +19,9 @@ using RFRCC_RobotController.Controller.DataModel;
 
 namespace RFRCC_RobotController
 {
-    // THIS is the robot class of the Robofab Robot Coping Cell
+    /// <summary>
+    /// Robot controller Class for control of Robofab Australia Coping Cell
+    /// </summary>
     public class RobotController
     {
         public Stream stream;
@@ -32,8 +34,8 @@ namespace RFRCC_RobotController
         // Housekeeping and networking  
         //private bool FetchedData;
 
+        //TODO make into an event? or understand exactly what it does
         public bool FetchedData { get; set; }
-
 
         public event EventHandler<EventArgs> OnNextDXChange;
         internal protected virtual void NextDXChange(object sender, EventArgs e)
@@ -60,7 +62,6 @@ namespace RFRCC_RobotController
             if (handler != null)
                 handler(sender, e);
         }
-
 
         public RobotController()
         {
