@@ -10,6 +10,9 @@ using RFRCC_RobotController.Controller.DataModel.OperationData;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
+    /// <summary>
+    /// Houses all project data and data connections to robot memory
+    /// </summary>
     public class DataModel
     {
         private RobotController _parentController;
@@ -22,10 +25,17 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal RapidData RapidFeatureData;
         internal RapidData PCSDK_Complete;
         internal RapidData Robot_Status;
+        /// <summary>
+        /// Next job x from datum required for PLC to get job to
+        /// </summary>
         public RapidData NextDX;
 
+        /// <summary>
+        /// list of job(s) to be completed
+        /// </summary>
         public List<OperationModel> Operations = new List<OperationModel>();
-
+        internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
+        internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
         
 
 
@@ -231,5 +241,29 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             return _parentController.OnRequestUpdatedJobData(_parentController, new RobotController.RequestUpdatedJobDataEventArgs(JobID, false));
         }
+
+
+
+
+
+        // TODO: finish load data onto robot controller
+        public bool LoadJobData(string JobData)
+        {
+            throw new NotImplementedException();
+        }
+
+        // TODO: Implement load additional Jobs onto 
+        public bool LoadAdditionalJobData(string JobData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearJobData()
+        {
+            Operations.Clear();
+        }
+
+
+
     }
 }

@@ -18,6 +18,13 @@ using RFRCC_RobotController.Controller.DataModel;
 
 namespace RFRCC_RobotController
 {
+    // TODO: Robot Controller class requirements:
+    /*      - 
+     * 
+     * 
+     */
+
+
     /// <summary>
     /// Robot controller Class for control of Robofab Australia Coping Cell
     /// </summary>
