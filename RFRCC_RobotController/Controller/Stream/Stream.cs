@@ -6,6 +6,7 @@ using ABB.Robotics.Controllers;
 using RapidString = ABB.Robotics.Controllers.RapidDomain.String;
 using RapidBool = ABB.Robotics.Controllers.RapidDomain.Bool;
 using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
+using RFRCC_RobotController.ABB_Data;
 
 namespace RFRCC_RobotController.Controller
 {
@@ -21,7 +22,7 @@ namespace RFRCC_RobotController.Controller
         // Housekeeping and networking  
         private NetworkScanner scanner = null;
         private NetworkWatcher networkwatcher = null;
-        private ControllerInfoCollection _AvailableControllers = null;
+        private ControllerCollection _AvailableControllers = null;
         private bool FetchedData;
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace RFRCC_RobotController.Controller
             _parentController = parentController;
             scanner = new NetworkScanner();
             scanner.Scan();
-            _AvailableControllers = scanner.Controllers;
+            _AvailableControllers = new ControllerCollection(scanner.Controllers);
 
             //Network Watcher Setup // TODO: verify this is functioning properly
             // NetworkWatcher setup
@@ -55,14 +56,14 @@ namespace RFRCC_RobotController.Controller
             /// generate new AvailableControllersEventArgs with list of controlers
             /// </summary>
             /// <param name="AvalableList">Collection of controllers available on the network</param>
-            public AvailableControllersEventArgs(ControllerInfoCollection AvalableList)
+            public AvailableControllersEventArgs(ControllerCollection AvalableList)
             {
                 AvailableControllers = AvalableList;
             }
             /// <summary>
             /// Collection of controllers available on the network
             /// </summary>
-            public ControllerInfoCollection AvailableControllers { get; set; }
+            public ControllerCollection AvailableControllers { get; set; }
         }
         protected virtual void AvailableControllersChange(object sender, AvailableControllersEventArgs e)
         {
@@ -70,17 +71,49 @@ namespace RFRCC_RobotController.Controller
             if (handler != null)
                 handler(sender, e);
         }
-        public ControllerInfoCollection AvailableControllers
+        /// <summary>
+        /// Provide list of Controllers available on the network
+        /// </summary>
+        public ControllerCollection AvailableControllers
         {
             get
             {
                 return _AvailableControllers;
             }
         }
+        /// <summary>
+        /// Updates list of Network Controllers Available systematically, and raises OnAvailableControllersChange for any listeners
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void HandleNWCChangeEvent(object sender, NetworkWatcherEventArgs e)
         {
             scanner.Scan();
-            _AvailableControllers = scanner.Controllers;
+            ControllerInfoCollection AvailableControllers = scanner.Controllers;
+            List<NetworkControllerInfo> removeList = new List<NetworkControllerInfo>();
+
+            foreach (NetworkControllerInfo existing in _AvailableControllers)
+            {
+                if (!AvailableControllers.Contains(existing._ABBControllerInfo))
+                {
+                    removeList.Add(existing);
+                }
+            }
+
+            foreach (NetworkControllerInfo remove in removeList)
+            {
+                _AvailableControllers.Remove(remove);
+            }
+
+            foreach (ControllerInfo newController in AvailableControllers)
+            {
+                NetworkControllerInfo check = new NetworkControllerInfo(newController);
+                if (!_AvailableControllers.Contains(check))
+                {
+                    _AvailableControllers.Add(check);
+                }
+            }
+            
             OnAvailableControllersChange(this, new AvailableControllersEventArgs(_AvailableControllers));
         }
         public void ConnectToController(ABB.Robotics.Controllers.Controller controller)
