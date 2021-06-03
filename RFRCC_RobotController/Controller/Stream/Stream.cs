@@ -116,6 +116,10 @@ namespace RFRCC_RobotController.Controller
             
             OnAvailableControllersChange(this, new AvailableControllersEventArgs(_AvailableControllers));
         }
+        /// <summary>
+        /// Connect controller object to desired controller
+        /// </summary>
+        /// <param name="controller">Controller to be connected to</param>
         public void ConnectToController(ABB.Robotics.Controllers.Controller controller)
         {
             if (_parentController._ControllerConnected)
@@ -128,6 +132,10 @@ namespace RFRCC_RobotController.Controller
             ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
+        /// <summary>
+        /// Connect controller object to desired controller
+        /// </summary>
+        /// <param name="controllerInfo">Controller Info collected by ABB net scanner</param>
         public void ConnectToController(ControllerInfo controllerInfo)
         {
             if (_parentController._ControllerConnected)
@@ -140,7 +148,31 @@ namespace RFRCC_RobotController.Controller
             ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
+        /// <summary>
+        /// Connect controller object to desired controller
+        /// </summary>
+        /// <param name="controllerInfo">Controller info collected by stream.AvailableControllers</param>
+        public void ConnectToController(NetworkControllerInfo controllerInfo)
+        {
+            if (_parentController._ControllerConnected)
+                Dispose();
+            _parentController.controller = ABB.Robotics.Controllers.Controller.Connect(controllerInfo._ABBControllerInfo, ConnectionType.Standalone);
+            _parentController.controller.Logon(UserInfo.DefaultUser);
+            _parentController.tRob1 = _parentController.controller.Rapid.GetTask("T_ROB1");
+            _parentController.dataModel.InitDataStream();
+            _parentController._ControllerConnected = true;
+            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
+        }
+       
+        /// <summary>
+        /// controller connection connected or disconnected
+        /// </summary>
         public event EventHandler<ControllerConnectedEventArgs> OnControllerConnectedChange;
+        
+        /// <summary>
+        /// Custom Event Args with controller connection status
+        /// </summary>
         public class ControllerConnectedEventArgs : EventArgs
         {
             public ControllerConnectedEventArgs(bool Connected)
@@ -148,6 +180,9 @@ namespace RFRCC_RobotController.Controller
                 ControllerConnected = Connected;
             }
 
+            /// <summary>
+            /// Controller successfully connected to controller class via network
+            /// </summary>
             public bool ControllerConnected { get; set; }
         }
         protected virtual void ControllerConnectedChange(object sender, ControllerConnectedEventArgs e)
