@@ -33,7 +33,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <summary>
         /// list of job(s) to be completed
         /// </summary>
-        public List<OperationModel> Operations = new List<OperationModel>();
+        public List<JobModel> Operations = new List<JobModel>();
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
         internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
         

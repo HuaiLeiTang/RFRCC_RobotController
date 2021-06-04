@@ -15,7 +15,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Model of job operation file containing all processes and information on current job processing
     /// </summary>
-    public class OperationModel
+    public class JobModel
     {
         private RobotController _parentController;
         private bool _controllerPresent = false;
@@ -32,11 +32,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         public string ProjectStatus { get; set; }
         public JobHeader HeaderInfo { get; set; }
 
-        public OperationModel()
+        public JobModel()
         {
 
         }
-        public OperationModel(RobotController ParentController, int index = -1)
+        public JobModel(RobotController ParentController, int index = -1)
         {
             _parentController = ParentController;
             _controllerPresent = true;
@@ -45,6 +45,12 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (index == -1) _parentController.dataModel.Operations.Add(this);
             else _parentController.dataModel.Operations.Insert(index, this);
         }
+        /// <summary>
+        /// Connects to a controller and insert Job in list of jobs to be completed
+        /// </summary>
+        /// <param name="ParentController">Controller to be connected to</param>
+        /// <param name="index">Job index in list to be completed if known</param>
+        /// <returns></returns>
         public bool ConnectParentController(RobotController ParentController, int index = -1)
         {
             if (_controllerPresent)
@@ -77,9 +83,18 @@ namespace RFRCC_RobotController.Controller.DataModel
      *      - add 'attributes' dict or key list (refer operations produced)
      *      -
      */
+
+
     public class OperationAction : ICloneable
     {
+        /// <summary>
+        /// Key text of the operation action
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Attributes of the Operation sorted by key and string value
+        /// </summary>
+        public Dictionary<string,string> Attributes { get; set; }
 
         public object Clone()
         {
