@@ -1,6 +1,9 @@
 ﻿namespace RFRCC_RobotController.ABB_Data
 {
     // C# libraries of RobotStudio Classes
+    /// <summary>
+    /// 3D vector with RAPID Pos analog functionality in order to interface with ABB RAPID easily
+    /// </summary>
     public class CS_pos
     {
 
