@@ -4,7 +4,7 @@ using System;
 
 namespace RFRCC_RobotController.Controller.Importers
 {
-    class ImporterSettings
+    public class ImporterSettings
     {
         public ImportSettings Import = new ImportSettings();
         public GenerationSettings Generation = new GenerationSettings();

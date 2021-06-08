@@ -56,7 +56,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public List<JobHeader> jobHeaders = new List<JobHeader>();
         public List<JobFeature> jobFeatures = new List<JobFeature>();
         public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
-        public RAPID_OperationBuffer OperationBuffer;
+        //public RAPID_OperationBuffer OperationBuffer; //  --> has been moved to JobModel
         public RAPID_CutChart TopCutChart = new RAPID_CutChart();
         public RAPID_CutChart BottomCutChart = new RAPID_CutChart();
         public RAPID_CutChart FrontCutChart = new RAPID_CutChart();

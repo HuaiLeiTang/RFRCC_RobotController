@@ -1,4 +1,7 @@
-﻿using RFRCC_RobotController.Controller.DataModel.OperationData;
+﻿using ReplaceRSConnection.Robotics.ToolInfo;
+using RFRCC_RobotController.Controller.DataModel.OperationData;
+using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
+using RFRCC_RobotController.Controller.Importers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,10 +30,14 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _FinishedProcessing;
         private bool _ReadyforProcessing;
 
+        // Job specific Data
+        internal RAPID_OperationBuffer OperationRobotMoveData;  // previously 'OperationBuffer'
+
 
 
         public string ProjectStatus { get; set; }
         public JobHeader HeaderInfo { get; set; }
+        public ToolData ToolData { get; set; } = new ToolData();
 
         public JobModel()
         {
@@ -72,11 +79,21 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         // TODO: setup Load Job information from file import
 
-        public bool LoadJobFromFile()
+        public bool LoadJobFromFile(string Filename, bool Parse)
+        {
+            _filename = Filename;
+            if (Parse)
+            {
+
+            }
+            throw new NotImplementedException();
+        }
+        public bool LoadJobFromParser(FileImporter Parser)
         {
 
             throw new NotImplementedException();
         }
+
     }
 
     /* TODO:
