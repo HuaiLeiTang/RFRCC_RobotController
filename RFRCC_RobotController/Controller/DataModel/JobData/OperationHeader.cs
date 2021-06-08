@@ -1,9 +1,11 @@
 ﻿using ABB.Robotics.Math;
 using System;
 using System.Text;
-using ABB.Robotics.Controllers.RapidDomain;
 using System.Net;
 using RFRCC_RobotController.ABB_Data;
+using CopingLineModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
@@ -23,7 +25,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         private bool _LeadInstruction;
         private bool _Complete;
 
-
+        public string Name { get; set; } = "";
         public bool Complete
         {
             get
@@ -188,6 +190,25 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         {
             new OperationHeader().FromString(input);
         }
+        public OperationHeader(Manoeuvre manoeuvreHeader, List<OperationManoeuvre> movesList)
+        {
+            Name = manoeuvreHeader.Name;
+            _FeatureNum = 0;
+            _IdealXDisplacement = 0;
+            _TaskCode = "";
+            _Face = manoeuvreHeader.Face.ToString();
+            _LocationMin = movesList.Where(move => move.Type == "Cut").OrderBy(move => move.ManRobT.trans.X).First().ManRobT.trans;
+            _LocationMax = movesList.Where(move => move.Type == "Cut").OrderByDescending(move => move.ManRobT.trans.X).First().ManRobT.trans;
+            // might consider cheching ManEndRobT in future for min and max?
+            _NumInstructions = 1;
+            _NumManoeuvres = movesList.Count;
+            _ManoeuvreIndex = 0;
+            _PathComplete = true;
+            _Ready = false;
+            _LeadInstruction = false;
+            _Complete = false;
+        }
+
 
         public void FromString(string String)
         {
@@ -201,10 +222,10 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _NumInstructions = int.Parse(inputArray[10].ToLower());
             _NumManoeuvres = int.Parse(inputArray[11].ToLower());
             _ManoeuvreIndex = int.Parse(inputArray[12].ToLower());
-            _PathComplete = Bool.Parse(inputArray[13].ToLower());
-            _Ready = Bool.Parse(inputArray[14].ToLower());
-            _LeadInstruction = Bool.Parse(inputArray[15].ToLower());
-            _Complete = Bool.Parse(inputArray[16].ToLower());
+            _PathComplete = ABB.Robotics.Controllers.RapidDomain.Bool.Parse(inputArray[13].ToLower());
+            _Ready = ABB.Robotics.Controllers.RapidDomain.Bool.Parse(inputArray[14].ToLower());
+            _LeadInstruction = ABB.Robotics.Controllers.RapidDomain.Bool.Parse(inputArray[15].ToLower());
+            _Complete = ABB.Robotics.Controllers.RapidDomain.Bool.Parse(inputArray[16].ToLower());
         }
         public override string ToString()
         {
