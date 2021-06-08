@@ -36,6 +36,19 @@
             new CS_pos().FromString(input);
         }
 
+        public static CS_pos operator +(CS_pos p1, CS_pos p2)
+        {
+            return new CS_pos(p1.X + p2.X, p1.Y + p2.Y, p1.Z + p2.Z);
+        }
+        public static CS_pos operator *(CS_pos p1, int i)
+        {
+            return new CS_pos(p1.X * i, p1.Y * i, p1.Z * i);
+        }
+        public static CS_pos operator *(CS_pos p1, double i)
+        {
+            return new CS_pos(p1.X * i, p1.Y * i, p1.Z * i);
+        }
+
         public void FromString(string input)
         {
             string[] inputArray = input.Trim('[', ']').Split(',');

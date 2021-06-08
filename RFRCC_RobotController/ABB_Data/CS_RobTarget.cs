@@ -72,5 +72,7 @@ namespace RFRCC_RobotController.ABB_Data
             robconf.FromString(string.Join(",", InputArray[7..11]));
             extax.FromString(string.Join(",", InputArray[11..17]));
         }
+
+        }
     }
 }
