@@ -8,7 +8,6 @@ using ABB.Robotics.Controllers.RapidDomain;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
-
     public class RAPIDJob_Header
     {
         public string JobID { get; set; }

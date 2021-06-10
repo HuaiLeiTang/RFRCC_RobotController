@@ -67,7 +67,6 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             TextInfo4 = RapidString.Parse(RapidStruct[25].Value);
             FeatureQuant = Num.Parse(RapidStruct[26].Value);
         }
-
         override public string ToString()
         {
             string output = "[" +
@@ -101,7 +100,6 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 "]";
             return output;
         }
-
         public void UpdatedFromSQL(JobHeader SQLHeader)
         {
             JobID = RapidString.Parse(SQLHeader.JobID);

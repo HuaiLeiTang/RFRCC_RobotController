@@ -9,6 +9,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         public string Name { get; set; } = "";
         private OperationHeader _FeatureHeader = new OperationHeader();
         private List<OperationManoeuvre> _FeatureManoeuvres = new List<OperationManoeuvre>();
+        public FeatureData featureData { get; set; }
         public RobotComputedFeatures()
         {
         }
@@ -45,5 +46,4 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             }
         }
     }
-
 }

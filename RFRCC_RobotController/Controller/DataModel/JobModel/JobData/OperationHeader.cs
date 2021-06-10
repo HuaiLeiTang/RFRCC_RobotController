@@ -188,7 +188,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         }
         public OperationHeader(string input)
         {
-            new OperationHeader().FromString(input);
+            FromString(input);
         }
         public OperationHeader(Manoeuvre manoeuvreHeader, List<OperationManoeuvre> movesList)
         {

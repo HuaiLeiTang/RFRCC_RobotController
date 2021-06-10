@@ -51,7 +51,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         // Job Data Buffers
         public RAPIDJob_Header jobHeader;
         internal JobHeader jobHeaderData = new JobHeader();
-        internal RAPIDJobHeader Header_JobData_RapidBuffer = new RAPIDJobHeader();
+        internal RAPIDJobHeader Header_JobData_RapidBuffer { get; set; } = new RAPIDJobHeader();
         internal RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
         public List<JobHeader> jobHeaders = new List<JobHeader>();
         public List<JobFeature> jobFeatures = new List<JobFeature>();
@@ -153,7 +153,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 case "header":
 
-
+                    // TODO: REMOVE SQL DEPENDENCIE
                     Header_JobData_RapidBuffer.UpdatedFromSQL(HeaderData);
 
                     // Rewrite data to robot memory
@@ -163,6 +163,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                         {
                             using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
                             {
+                                // TODO: REMOVE SQL DEPENDENCIE
                                 RapidJobData.StringValue = Header_JobData_RapidBuffer.ToString();
                             }
                         }

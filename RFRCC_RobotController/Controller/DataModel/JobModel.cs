@@ -27,21 +27,30 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _StartedProcessing;
         private bool _FinishedProcessing;
         private bool _ReadyforProcessing;
+        public JobModelTemplate Template { get; set; } = new DefaultJobTemplate();
 
         // Job specific Data
+        public string Name { get; set; }
         internal RAPID_OperationBuffer OperationRobotMoveData;  // previously 'OperationBuffer'
+        // TODO: UID generation for Job
 
-
-
+        /// <summary>
+        /// String describing stage of job. e.g. 'complete'
+        /// </summary>
         public string ProjectStatus { get; set; }
         public JobHeader HeaderInfo { get; set; }
         public ToolData ToolData { get; set; } = new ToolData();
 
-        public JobModel()
+        public JobModel(JobModelTemplate template = null)
         {
-
+            if (template != null)
+            {
+                Template = template;
+                Name = template.Name;
+            }
+                
         }
-        public JobModel(RobotController ParentController, int index = -1)
+        public JobModel(RobotController ParentController, int index = -1, JobModelTemplate template = null) : this(template)
         {
             _parentController = ParentController;
             _controllerPresent = true;

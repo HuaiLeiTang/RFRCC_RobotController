@@ -6,6 +6,7 @@ using ReplaceRSConnection.Robotics;
 using ReplaceRSConnection.Robotics.ToolInfo;
 using RFRCC_RobotController.Controller.DataModel;
 using RFRCC_RobotController.Controller.DataModel.OperationData;
+using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,16 +45,25 @@ namespace RFRCC_RobotController.Controller.Importers
 
         // TODO: raise events on parse complete and JobReady complete
 
-        public FileImporter()
+        /// <summary>
+        /// Constructor for FileImporter Object
+        /// </summary>
+        public FileImporter() : this("")
         {
-            PathGenerator.GenerateComplete += PopulateJobData;
+            
         }
 
+        /// <summary>
+        /// Constructor for FileImporter Object
+        /// </summary>
+        /// <param name="filePath">filepath for import</param>
+        /// <param name="parse">if true, will parse data immediately</param>
         public FileImporter(string filePath, bool parse = false)
         {
             FilePath = filePath;
             FileName = filePath.Split('\\').Last(); // file name
             FileASCIIContent = System.IO.File.ReadAllText(filePath);
+            SetFileJobHeader(Job.HeaderInfo, FileASCIIContent, filePath.Split('\\').Last());
             PathGenerator.GenerateComplete += PopulateJobData;
 
             if (parse)
@@ -97,7 +107,7 @@ namespace RFRCC_RobotController.Controller.Importers
             {
                 Debug.Print("success in import");
                 string NumRobotManoeuvres = Importer.Operations.Count.ToString() + " manoeuvres"; //might be used later for something TODO: remove
-
+                _parsed = true;
                 return true;
             }
             else
@@ -107,6 +117,11 @@ namespace RFRCC_RobotController.Controller.Importers
             }
         }
 
+        /// <summary>
+        /// Event to generate JobData from parsed information
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         internal void PopulateJobData(object sender, GenerateCompleteArgs args)
         {
             // Fetch tool data for job
@@ -121,7 +136,6 @@ namespace RFRCC_RobotController.Controller.Importers
             RobTarget cirPoint;
             int TargetVoltage;
             int Speed;
-
 
             foreach (var Feature in args.Manoeuvres)
             {
@@ -139,7 +153,7 @@ namespace RFRCC_RobotController.Controller.Importers
                             new RobTarget().Copy();
                         Speed = moveInstruction.ToPointName.Contains("Target") ?
                             int.Parse(moveInstruction.InstructionArguments["speed"].Value.Split("_")[0].Split("cv")[1]) :
-                            401;
+                            401; // TODO: is default 401 speed correct? or should this be something else
                         if (moveInstruction.ToPointName.Contains("Target"))
                         {
                             CutEntry targetHigh = Job.ToolData.CutCharts.Where(chart => chart.Speed >= Speed * 60).OrderBy(chart => chart.Thickness).First();
@@ -153,6 +167,7 @@ namespace RFRCC_RobotController.Controller.Importers
                         manoeuvres.Add(new OperationManoeuvre(moveInstruction, toPoint, cirPoint, TargetVoltage, Speed));
                     }
 
+                    // goes through and sets plasma status during move sequence
                     bool cutting = false;
                     OperationManoeuvre previous = manoeuvres.FirstOrDefault();
 
@@ -168,8 +183,10 @@ namespace RFRCC_RobotController.Controller.Importers
                         previous = item;
                     }
 
+                    // TODO: more correlation information could be provided here
                     // add to RobotManouvre 
                     RobotManouvers.Add(new RobotComputedFeatures(new OperationHeader(Feature, manoeuvres), manoeuvres));
+                    RobotManouvers.Last().featureData.operation = (Operation)Feature.DerivedOp.Clone();
                 }
             }
 
@@ -199,7 +216,49 @@ namespace RFRCC_RobotController.Controller.Importers
             public ImporterSettings Settings = new ImporterSettings();
         }
 
+        private void SetFileJobHeader(JobHeader job_Header, string DSTV_File, string file_name)
+        {
 
+            string[] DSTV_Header = DSTV_File.Split("\r\n");
+            DSTV_Header = DSTV_Header.Where(Non_Comment => !Non_Comment.Contains("**")).ToArray();
+            DSTV_Header = DSTV_Header.Skip(Array.IndexOf(DSTV_Header, "ST") + 1).Take(24).ToArray();   // .Take().ToArray();
+
+            job_Header.JobID = file_name.Trim();
+            job_Header.OrderID = DSTV_Header[0].Trim();
+            job_Header.DwgID = DSTV_Header[1].Trim();
+            job_Header.PhaseID = DSTV_Header[2].Trim();
+            job_Header.PieceID = DSTV_Header[3].Trim();
+            job_Header.SteelQual = DSTV_Header[4].Trim();
+            job_Header.PieceQty = int.Parse(DSTV_Header[5]);
+            job_Header.Profile = DSTV_Header[6].Trim();
+            job_Header.CodeProfile = DSTV_Header[7].Trim();
+            job_Header.Length = float.Parse(DSTV_Header[8].Split(',').ToArray()[0]);
+            if (DSTV_Header[8].Split(',').ToArray().Length > 1)
+            {
+                job_Header.SawLength = float.Parse(DSTV_Header[8].Split(',').ToArray()[1]);
+            }
+            else
+            {
+                job_Header.SawLength = job_Header.Length;
+            }
+            job_Header.Height = float.Parse(DSTV_Header[9]);
+            job_Header.FlangeWidth = float.Parse(DSTV_Header[10]);
+            job_Header.FlangeThick = float.Parse(DSTV_Header[11]);
+            job_Header.WebThick = float.Parse(DSTV_Header[12]);
+            job_Header.Radius = float.Parse(DSTV_Header[13]);
+            job_Header.Weight = float.Parse(DSTV_Header[14]);
+            job_Header.PaintSurf = float.Parse(DSTV_Header[15]);
+            job_Header.WebStartCut = float.Parse(DSTV_Header[16]);
+            job_Header.WebEndCut = float.Parse(DSTV_Header[17]);
+            job_Header.FlangeStartCut = float.Parse(DSTV_Header[18]);
+            job_Header.FlangeEndCut = float.Parse(DSTV_Header[19]);
+            job_Header.TextInfo1 = DSTV_Header[20].Trim();
+            job_Header.TextInfo2 = DSTV_Header[21].Trim();
+            job_Header.TextInfo3 = DSTV_Header[22].Trim();
+            job_Header.TextInfo4 = DSTV_Header[23].Trim();
+
+            // still need to set feature quant   
+        }
     }
 
 }
