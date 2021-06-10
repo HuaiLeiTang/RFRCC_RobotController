@@ -216,6 +216,12 @@ namespace RFRCC_RobotController.Controller.Importers
             public ImporterSettings Settings = new ImporterSettings();
         }
 
+        /// <summary>
+        /// Updates Job headerinfo from DSTV string directly for future reference of Job parameters
+        /// </summary>
+        /// <param name="job_Header">HeaderInfo to be populated</param>
+        /// <param name="DSTV_File">ASCII conents of job file</param>
+        /// <param name="file_name">File name or Job name</param>
         private void SetFileJobHeader(JobHeader job_Header, string DSTV_File, string file_name)
         {
 
