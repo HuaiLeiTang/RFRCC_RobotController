@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RFRCC_RobotController.Controller.DataModel.OperationData;
+using System.Collections.Generic;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
@@ -126,6 +127,115 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Recurring = true,
                 ExpIndex = 8,
                 ExpIndexModifier = 1
+            });
+        }
+
+        public override void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
+        {
+            OperationActionList operationActions = new OperationActionList();
+            Dictionary<string, string> NextAttributes = new Dictionary<string, string>();
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "save time, date and job identification information to log for reference of machine activity");
+            operationActions.Add(new OperationAction()
+            {
+                Name = "Start Job",
+                Attributes = NextAttributes // this might need to be cloned
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Wait for Operator to place required stock on infeed conveyor and confirm ready to proceed");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Load Material onto Infeed",
+                Attributes = NextAttributes // this might need to be cloned
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Drive stock up to X datum of cell entry to measure length of stock");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Drive Stock onto Conveyor to X Datum",
+                Attributes = NextAttributes // this might need to be cloned
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Use displacement laser to measure end of stock");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable. If stock is not long enough to complete job, job will be ejected with stock not suitable error logged");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Measure stock length",
+                Attributes = NextAttributes // this might need to be cloned
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Move stock into cell position to check dimensions");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Drive stock into cell for checking",
+                Attributes = NextAttributes // this might need to be cloned
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Infeed clamp will close on stock, and Encoder to zero");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Close Infeed Clamp",
+                Attributes = NextAttributes // this might need to be cloned
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Robot will probe stock to ensure that stock is correct dimensions. If Stock dimensions are unacceptable, stock will be rejected, job ended, and stock not suitable error logged");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            operationActions.Add(new OperationRobotProcess()
+            {
+                Name = "Measure stock dimensions",
+                Attributes = NextAttributes // this might need to be cloned
+                //TODO: add robot execution process
+            });
+
+            foreach (RobotComputedFeatures Feature in jobData.OperationRobotMoveData.Operation)
+            {
+                NextAttributes.Clear();
+                NextAttributes.Add("Description", "Stock to move to required location");
+                NextAttributes.Add("Note", "Robot will update required position of stock");
+                operationActions.Add(new OperationPLCProcess()
+                {
+                    Name = "Drive Stock to next position",
+                    Attributes = NextAttributes // this might need to be cloned
+                });
+
+                NextAttributes.Clear();
+                NextAttributes.Add("Description", "Robot to cut feature");
+                operationActions.Add(new OperationRobotManoeuvre()
+                {
+                    Name = "Cut Feature",
+                    Attributes = NextAttributes,    // this might need to be cloned
+                    featureData = Feature           // this needs to be a pointer 
+                                                
+                });
+            }
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Move finished piece onto outfeed for pickup");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Eject completed job",
+                Attributes = NextAttributes // this might need to be cloned
+                //TODO: add robot execution process
+            });
+
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "save time, date and job identification information to log for reference of machine activity");
+            operationActions.Add(new OperationAction()
+            {
+                Name = "End of job",
+                Attributes = NextAttributes // this might need to be cloned
+                //TODO: add robot execution process
             });
         }
     }

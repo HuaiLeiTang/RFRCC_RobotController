@@ -1,4 +1,6 @@
-﻿namespace RFRCC_RobotController.Controller.DataModel
+﻿using System;
+
+namespace RFRCC_RobotController.Controller.DataModel
 {
     /// <summary>
     /// Template of job Data to be generated, passed to the parsing function in a new job in order to populate job as expected.
@@ -7,5 +9,9 @@
     {
         public string Name { get; set; } = "";
         public OperationActionList TemplateListofOperations { get; set; }
+        public virtual void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

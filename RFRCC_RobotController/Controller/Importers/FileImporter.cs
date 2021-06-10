@@ -137,6 +137,7 @@ namespace RFRCC_RobotController.Controller.Importers
             int TargetVoltage;
             int Speed;
 
+            // Get all manoeuvre data from generated paths and points
             foreach (var Feature in args.Manoeuvres)
             {
                 // refresh for each feature 
@@ -189,10 +190,10 @@ namespace RFRCC_RobotController.Controller.Importers
                     RobotManouvers.Last().featureData.operation = (Operation)Feature.DerivedOp.Clone();
                 }
             }
-
             Job.OperationRobotMoveData.AddOperationRange(RobotManouvers);
 
-            // upload header information
+            // Generate Operation Actions
+            Job.GenerateOpActionsFromRobManoeuvres();
 
             //TODO: Throw a JobData not  loaded exception on failure
             throw new NotImplementedException();

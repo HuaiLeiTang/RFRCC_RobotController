@@ -22,7 +22,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _controllerPresent = false;
         private string _filename;
         private string _filepath;
-        private OperationActionList _operationActions = new OperationActionList();
         private int _NumFeatures;
         private bool _StartedProcessing;
         private bool _FinishedProcessing;
@@ -32,6 +31,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         // Job specific Data
         public string Name { get; set; }
         internal RAPID_OperationBuffer OperationRobotMoveData;  // previously 'OperationBuffer'
+        public OperationActionList operationActions { get; set; }  = new OperationActionList();
         // TODO: UID generation for Job
 
         /// <summary>
@@ -100,6 +100,11 @@ namespace RFRCC_RobotController.Controller.DataModel
 
             throw new NotImplementedException();
         }
+        public void GenerateOpActionsFromRobManoeuvres() 
+        {
+            this.Template.GenerateOpActionsFromRobManoeuvres(this);
+        }
+
 
     }
 }
