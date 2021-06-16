@@ -183,7 +183,7 @@ namespace RFRCC_RobotController
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to update opt_x for feature: " + FeatAndXOpt[0]));
 
                     //OnUpdateFeatureOptimalX(this, new UpdateFeatureOptimalXEventArgs(Robot_Control.JobID, int.Parse(FeatAndXOpt[0]), decimal.Parse(FeatAndXOpt[1])));
-                    dataModel.OperationBuffer.Operation[int.Parse(FeatAndXOpt[0]) - 1].FeatureHeader.IdealXDisplacement = double.Parse(FeatAndXOpt[1]);
+                    dataModel.CurrentJob.OperationRobotMoveData.Operation[int.Parse(FeatAndXOpt[0]) - 1].FeatureHeader.IdealXDisplacement = double.Parse(FeatAndXOpt[1]);
 
                     PCSDK_Work_Complete();
                     return "Updated Feature " + FeatAndXOpt[0] + " X_Optimal to " + FeatAndXOpt[1];
@@ -210,7 +210,7 @@ namespace RFRCC_RobotController
                 case "JOBHEADR":
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to upload Job Header"));
 
-                    dataModel.jobHeader.FeatureQuant = dataModel.OperationBuffer.Operation.Count;
+                    dataModel.jobHeader.FeatureQuant = dataModel.CurrentJob.OperationRobotMoveData.Operation.Count;
                     dataModel.jobHeader.Upload();
                     PCSDK_Work_Complete();
                     return "Updated Robot Job Header Register";
@@ -324,8 +324,8 @@ namespace RFRCC_RobotController
         }
         internal protected virtual bool ManoeuvreUpdate(RobotController sender, ManoeuvreUpdateEventArgs e)
         {
-            dataModel.jobHeader.FeatureQuant = dataModel.OperationBuffer.Operation.Count;
-            bool ReturnVal = dataModel.OperationBuffer.UploadData(e.ManoeuvreNum, e.Carriage);
+            dataModel.jobHeader.FeatureQuant = dataModel.CurrentJob.OperationRobotMoveData.Operation.Count;
+            bool ReturnVal = dataModel.CurrentJob.OperationRobotMoveData.UploadData(e.ManoeuvreNum, e.Carriage);
 
             if (OnManoeuvreUpdate != null)
             {

@@ -24,19 +24,19 @@ namespace RFRCC_RobotController.Controller.Importers
         internal bool _JobReady = false;
 
         // file properties
-        public string FileASCIIContent;
-        public string FileName;
-        public string FilePath;
+        public string FileASCIIContent { get; set; }
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
 
         private ParserDataModel DataModel = new ParserDataModel();
         public ImporterSettings Settings => DataModel.Settings;
         private ImportModel Importer = new ImportModel();
         private GeneratePresenter PathGenerator = new GeneratePresenter();
         private Matrix4 MatrixBase = new Matrix4(); // not sure what for...
-        
+
 
         // Operation Data Loaded
-        public JobModel Job { get; set; }
+        public JobModel Job { get; set; } = new JobModel();
         /// <summary>
         /// Status if parsed file
         /// </summary>
@@ -48,9 +48,9 @@ namespace RFRCC_RobotController.Controller.Importers
         /// <summary>
         /// Constructor for FileImporter Object
         /// </summary>
-        public FileImporter() : this("")
+        public FileImporter()
         {
-            
+            PathGenerator.GenerateComplete += PopulateJobData;
         }
 
         /// <summary>
@@ -58,13 +58,12 @@ namespace RFRCC_RobotController.Controller.Importers
         /// </summary>
         /// <param name="filePath">filepath for import</param>
         /// <param name="parse">if true, will parse data immediately</param>
-        public FileImporter(string filePath, bool parse = false)
+        public FileImporter(string filePath, bool parse = false) : this()
         {
             FilePath = filePath;
             FileName = filePath.Split('\\').Last(); // file name
             FileASCIIContent = System.IO.File.ReadAllText(filePath);
             SetFileJobHeader(Job.HeaderInfo, FileASCIIContent, filePath.Split('\\').Last());
-            PathGenerator.GenerateComplete += PopulateJobData;
 
             if (parse)
             {
@@ -98,16 +97,25 @@ namespace RFRCC_RobotController.Controller.Importers
                 if (min < -start_angle) min += 2 * Math.PI;
                 if (max <= -start_angle) max += 2 * Math.PI;
                 int closest_face = (int)Math.Round((double)i * (8.0 / (double)number_of_faces_desired));
-                DataModel.Settings.Import.FaceDefinitions.Add((PlateFace)closest_face, new FaceQuadrant(min, max));
+                if (DataModel.Settings.Import.FaceDefinitions.ContainsKey((PlateFace)closest_face))
+                {
+                    DataModel.Settings.Import.FaceDefinitions[(PlateFace)closest_face] = new FaceQuadrant(min, max);
+                }
+                else
+                {
+                    DataModel.Settings.Import.FaceDefinitions.Add((PlateFace)closest_face, new FaceQuadrant(min, max));
+                }
+                    
             }
 
-            PathGenerator.View_Generate(this, new GenerateArgs(Importer.Operations, MatrixBase, "GeometryName", DataModel.Settings.Generation));
+            
 
             if (Importer.ProcessFile(filesToImport, DataModel.Settings.Import))
             {
                 Debug.Print("success in import");
                 string NumRobotManoeuvres = Importer.Operations.Count.ToString() + " manoeuvres"; //might be used later for something TODO: remove
                 _parsed = true;
+                PathGenerator.View_Generate(this, new GenerateArgs(Importer.Operations, MatrixBase, "GeometryName", DataModel.Settings.Generation));
                 return true;
             }
             else

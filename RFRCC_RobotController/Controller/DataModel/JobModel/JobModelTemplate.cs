@@ -8,7 +8,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     public class JobModelTemplate
     {
         public string Name { get; set; } = "";
-        public OperationActionList TemplateListofOperations { get; set; }
+        public OperationActionList TemplateListofOperations { get; set; } = new OperationActionList();
         public virtual void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
         {
             throw new NotImplementedException();

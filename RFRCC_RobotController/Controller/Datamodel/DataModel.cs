@@ -34,6 +34,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// list of job(s) to be completed
         /// </summary>
         public List<JobModel> Operations = new List<JobModel>();
+        public JobModel CurrentJob => Operations[0];
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
         internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
         
@@ -62,12 +63,12 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RAPID_CutChart FrontCutChart = new RAPID_CutChart();
         public RAPID_CutChart BackCutChart = new RAPID_CutChart();
 
-
         public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
 
         public DataModel(RobotController ParentController)
         {
             _parentController = ParentController;
+            Operations.Add(new JobModel()); // add job to list for current job 
         }
 
         // starts up data stream and checks that datamodel 
@@ -94,8 +95,8 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Robot_Control.ConnectToRAPID(_parentController.controller, _parentController.tRob1, "Module1", "Rob_Control");
                 OperationManeouvres = new RAPID_OM_List(99, _parentController.controller, _parentController.tRob1, "Module1", "OperationManoeuvres");
                 OperationHeaders = new RAPID_OH_List(20, _parentController.controller, _parentController.tRob1, "Module1", "OperationHeaders");
-                OperationBuffer = new RAPID_OperationBuffer(_parentController.controller, _parentController.tRob1, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
-                OperationBuffer.DescendingOrder = true;
+                CurrentJob.OperationRobotMoveData = new RAPID_OperationBuffer(_parentController.controller, _parentController.tRob1, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+                CurrentJob.OperationRobotMoveData.DescendingOrder = true;
                 jobHeader = new RAPIDJob_Header(_parentController.controller, _parentController.tRob1, "Module1", "Sys_JobData");
 
                 Robot_Control.ValueUpdate += _parentController.OnControlValueUpdate; // Maybe update to enable Interrupts
@@ -221,7 +222,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                     _parentController.StatusMesssageChange(_parentController, new RobotController.StatusMesssageEventArgs("Robot requested Manoeuvre " + FeatureNum.ToString() + ". Sending to Robot"));
 
                     //raise event to write manoeuvre 
-                    if (_parentController.ManoeuvreUpdate(_parentController, new RobotController.ManoeuvreUpdateEventArgs(FeatureNum, Carriage, OperationBuffer)))
+                    if (_parentController.ManoeuvreUpdate(_parentController, new RobotController.ManoeuvreUpdateEventArgs(FeatureNum, Carriage, CurrentJob.OperationRobotMoveData)))
                     {
                         _parentController.StatusMesssageChange(_parentController, new RobotController.StatusMesssageEventArgs("Successfully transferred Manoeuvre to Robot"));
                     }

@@ -3,6 +3,7 @@ using RFRCC_RobotController.Controller.DataModel.OperationData;
 using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using RFRCC_RobotController.Controller.Importers;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace RFRCC_RobotController.Controller.DataModel
@@ -20,8 +21,8 @@ namespace RFRCC_RobotController.Controller.DataModel
     {
         private RobotController _parentController;
         private bool _controllerPresent = false;
-        private string _filename;
         private string _filepath;
+        private string _filename;
         private int _NumFeatures;
         private bool _StartedProcessing;
         private bool _FinishedProcessing;
@@ -86,18 +87,35 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         // TODO: setup Load Job information from file import
 
-        public bool LoadJobFromFile(string Filename, bool Parse)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Filename"></param>
+        /// <param name="Parse"></param>
+        /// <returns></returns>
+        public bool LoadJobFromFile(string filePath, bool Parse)
         {
-            _filename = Filename;
+            _filepath = filePath;
+            _filename = filePath.Split('\\').Last();
+
             if (Parse)
             {
-
+                FileImporter Parser = new FileImporter() { Job = this, FilePath = _filepath, FileName = _filename };
+                if (!Parser.Parse())
+                {
+                    throw new NotImplementedException(); // TODO: turn this into an error exception
+                    // or
+                    return false;
+                }
+                return true;
             }
-            throw new NotImplementedException();
+            else
+            {
+                return true;
+            }
         }
         public bool LoadJobFromParser(FileImporter Parser)
         {
-
             throw new NotImplementedException();
         }
         public void GenerateOpActionsFromRobManoeuvres() 
