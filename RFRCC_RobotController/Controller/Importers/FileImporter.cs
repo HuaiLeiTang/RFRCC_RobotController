@@ -204,7 +204,6 @@ namespace RFRCC_RobotController.Controller.Importers
             Job.GenerateOpActionsFromRobManoeuvres();
 
             //TODO: Throw a JobData not  loaded exception on failure
-            throw new NotImplementedException();
         }
 
         /// <summary>

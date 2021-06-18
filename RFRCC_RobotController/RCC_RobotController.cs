@@ -334,13 +334,11 @@ namespace RFRCC_RobotController
             return true;
         }
 
+        public event EventHandler<ControllerConnectionEventArgs> OnControllerConnection;
 
-
-
-
-        
-
-
-
+        public void ConnectController()
+        {
+            OnControllerConnection?.Invoke(this,new ControllerConnectionEventArgs());
+        } 
     }
 }

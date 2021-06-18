@@ -4,20 +4,50 @@ using ABB.Robotics.Controllers.RapidDomain;
 using System.Linq;
 using static RFRCC_RobotController.Controller.DataModel.OperationData.PC_RobotMove_Register;
 using RFRCC_RobotController.Controller.DataModel.OperationData;
+using System;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
     // RAPID Data connection to Operation Buffer for PC generation of paths for manoeuvres
     public class RAPID_OperationBuffer
     {
+        private RobotController _ParentController;
         private int _SizeOfManBuffer;
         private RapidData _ManBufferRD;
         private RapidData _HeadBufferRD;
-        private ABB.Robotics.Controllers.Controller _Controller;
         private PC_RobotMove_Register _Operations = new PC_RobotMove_Register();
-        private bool _sortAscending = true;
+        private bool _sortAscending = false;
+        private string _OpManModule;
+        private string _OpManVARName;
+        private string _OpHeadModule;
+        private string _OpHeadVARName;
+        private bool _connected = false;
+        private bool _currentJob = false;
 
         public PC_RobotMove_Register Operation => _Operations;
+        /// <summary>
+        /// Status if this object is currently uploaded and maintained on associated robot controller
+        /// </summary>
+        public bool CurrentJob 
+        {
+            get
+            {
+                return _currentJob;
+            }
+            set
+            {
+                _currentJob = value;
+                if (_currentJob)
+                {
+                    // If controller is already specified
+                    _ParentController.OnControllerConnection += ConnectToController;
+                    if (_ParentController.ControllerConnected)
+                    {
+                        ConnectToController(_ParentController, new ControllerConnectionEventArgs());
+                    }
+                }
+            }
+        }
         public int SizeOfManBuffer
         {
             get
@@ -47,12 +77,69 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 _sortAscending = !value;
             }
         }
-        public RAPID_OperationBuffer(ABB.Robotics.Controllers.Controller controller, Task task, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
+        public RAPID_OperationBuffer()
         {
-            _Controller = controller;
-            _ManBufferRD = task.GetRapidData(OpManModule, OpManVARName);
-            _HeadBufferRD = task.GetRapidData(OpHeadModule, OpHeadVARName);
+
+        }
+        public RAPID_OperationBuffer(RobotController ParentController, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
+        {
+            _ParentController = ParentController;
+            _OpManModule = OpManModule;
+            _OpManVARName = OpManVARName;
+            _OpHeadModule = OpManModule;
+            _OpHeadVARName = OpHeadVARName;
+
+            if (_currentJob)
+            {
+                // If controller is already specified
+                _ParentController.OnControllerConnection += ConnectToController;
+                if (_ParentController.ControllerConnected)
+                {
+                    ConnectToController(_ParentController, new ControllerConnectionEventArgs());
+                }
+            }
+        }
+        public void ConnectParentController(RobotController ParentController, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
+        {
+            _ParentController = ParentController;
+            _OpManModule = OpManModule;
+            _OpManVARName = OpManVARName;
+            _OpHeadModule = OpManModule;
+            _OpHeadVARName = OpHeadVARName;
+
+            if (_currentJob)
+            {
+                // If controller is already specified
+                _ParentController.OnControllerConnection += ConnectToController;
+                if (_ParentController.ControllerConnected)
+                {
+                    ConnectToController(_ParentController, new ControllerConnectionEventArgs());
+                }
+            }
+        }
+        /// <summary>
+        /// Sets this job as current Job, uploads all relevant data to robot, and makes all required connections
+        /// </summary>
+        /// <param name="Current"> Current Job Status</param>
+        public void setCurrentJob(bool Current = true)
+        {
+            _currentJob = Current;
+            if (_currentJob)
+            {
+                // If controller is already specified
+                _ParentController.OnControllerConnection += ConnectToController;
+                if (_ParentController.ControllerConnected)
+                {
+                    ConnectToController(_ParentController, new ControllerConnectionEventArgs());
+                }
+            }
+        }
+        public void ConnectToController(object Sender, ControllerConnectionEventArgs args)
+        {
+            _ManBufferRD = _ParentController.tRob1.GetRapidData(_OpManModule, _OpManVARName);
+            _HeadBufferRD = _ParentController.tRob1.GetRapidData(_OpHeadModule, _OpHeadVARName);
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
+            _connected = true; // TODO: add this bool to other issues as a stop if required
         }
         public void Clear()
         {
@@ -221,7 +308,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(_Controller.Rapid))
+                    using (Mastership m = Mastership.Request(_ParentController.controller.Rapid))
                     {
                         _HeadBufferRD.StringValue = OpHeaderStringToUpload;
                         _ManBufferRD.StringValue = OpManStringToUpload;
@@ -270,7 +357,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(_Controller.Rapid))
+                    using (Mastership m = Mastership.Request(_ParentController.controller.Rapid))
                     {
                         _HeadBufferRD.StringValue = OpHeaderStringToUpload;
                         _ManBufferRD.StringValue = OpManStringToUpload;

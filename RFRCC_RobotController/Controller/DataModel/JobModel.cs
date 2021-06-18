@@ -31,7 +31,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         // Job specific Data
         public string Name { get; set; }
-        internal RAPID_OperationBuffer OperationRobotMoveData;  // previously 'OperationBuffer'
+        internal RAPID_OperationBuffer OperationRobotMoveData { get; set; } = new RAPID_OperationBuffer();  // previously 'OperationBuffer'
         public OperationActionList operationActions { get; set; }  = new OperationActionList();
         // TODO: UID generation for Job
 
@@ -55,10 +55,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             _parentController = ParentController;
             _controllerPresent = true;
-            // TODO: check connection active and associate this file with controller
-
-            if (index == -1) _parentController.dataModel.Operations.Add(this);
-            else _parentController.dataModel.Operations.Insert(index, this);
         }
         /// <summary>
         /// Connects to a controller and insert Job in list of jobs to be completed

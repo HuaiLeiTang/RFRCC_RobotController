@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
-    public partial class PC_RobotMove_Register : IEnumerable
+    public partial class PC_RobotMove_Register : IEnumerable, IEnumerator
     {
         private List<RobotComputedFeatures> _ComputedFeatures = new List<RobotComputedFeatures>();
+        private int _current;
         public int NumberOfFeaturesComplete
         {
             get
@@ -18,6 +19,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         public List<RobotComputedFeatures> ComputedFeatures => _ComputedFeatures;
         // TODO: make this function work
         public int Count => _ComputedFeatures.Count;
+
+        public object Current => _ComputedFeatures[_current];
+
         public PC_RobotMove_Register(List<RobotComputedFeatures> computedFeatures)
         {
             _ComputedFeatures = computedFeatures;
@@ -75,11 +79,6 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             else
                 return -1;
         }
-        private void UpdateComputedFeatureHeader(OperationHeader Input)
-        {
-
-        }
-        // checks if FeatureNum already contained within ComputedFeatures
         private bool FeatureNumberInComputedFeatures(int FeatureNum)
         {
             for (int i = 0; i < _ComputedFeatures.Count; i++)
@@ -89,11 +88,28 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         }
         public IEnumerator GetEnumerator()
         {
-            return (IEnumerator)_ComputedFeatures;
+            return this;
         }
         public List<RobotComputedFeatures> ToList()
         {
             return _ComputedFeatures;
+        }
+
+        public bool MoveNext()
+        {
+            _current++;
+            if (_current == _ComputedFeatures.Count)
+            {
+                _current--;
+                return false;
+            }
+            return true;
+            
+        }
+
+        public void Reset()
+        {
+            _current = 0;
         }
     }
 }

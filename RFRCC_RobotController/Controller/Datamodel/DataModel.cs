@@ -68,7 +68,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         public DataModel(RobotController ParentController)
         {
             _parentController = ParentController;
-            Operations.Add(new JobModel()); // add job to list for current job 
+            Operations.Add( new JobModel(ParentController)); // add's itself to job.datamodel to list for current job 
+            CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+            CurrentJob.OperationRobotMoveData.CurrentJob = true;
         }
 
         // starts up data stream and checks that datamodel 
@@ -95,8 +97,6 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Robot_Control.ConnectToRAPID(_parentController.controller, _parentController.tRob1, "Module1", "Rob_Control");
                 OperationManeouvres = new RAPID_OM_List(99, _parentController.controller, _parentController.tRob1, "Module1", "OperationManoeuvres");
                 OperationHeaders = new RAPID_OH_List(20, _parentController.controller, _parentController.tRob1, "Module1", "OperationHeaders");
-                CurrentJob.OperationRobotMoveData = new RAPID_OperationBuffer(_parentController.controller, _parentController.tRob1, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
-                CurrentJob.OperationRobotMoveData.DescendingOrder = true;
                 jobHeader = new RAPIDJob_Header(_parentController.controller, _parentController.tRob1, "Module1", "Sys_JobData");
 
                 Robot_Control.ValueUpdate += _parentController.OnControlValueUpdate; // Maybe update to enable Interrupts
@@ -104,6 +104,8 @@ namespace RFRCC_RobotController.Controller.DataModel
 
                 NextDX = _parentController.tRob1.GetRapidData("Module1", "NextDX");
                 NextDX.ValueChanged += _parentController.NextDXChange;
+
+                _parentController.ConnectController();
 
                 while (!complete)
                 {
