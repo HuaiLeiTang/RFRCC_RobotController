@@ -34,7 +34,29 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// list of job(s) to be completed
         /// </summary>
         public List<JobModel> Operations = new List<JobModel>();
-        public JobModel CurrentJob => Operations[0];
+        /// <summary>
+        /// Current Job loaded into memory and omboard any connected Controller
+        /// </summary>
+        public JobModel CurrentJob
+        {
+            get
+            {
+                if (Operations.Count == 0)
+                {
+                    return null;
+                }
+                return Operations[0];
+            }
+            set
+            {
+                if (Operations.Count != 0)
+                {
+                    Operations[0] = value;
+                }
+                // maybe a throw if no operations available
+            }
+        }
+
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
         internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
         
@@ -50,7 +72,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal List<JobFeature> jobFeatureData = new List<JobFeature>();
 
         // Job Data Buffers
-        public RAPIDJob_Header jobHeader;
+        public RAPIDJob_Header jobHeader { get; set; } // Move to operation (JobModel) 
         internal JobHeader jobHeaderData = new JobHeader();
         internal RAPIDJobHeader Header_JobData_RapidBuffer { get; set; } = new RAPIDJobHeader();
         internal RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
@@ -65,6 +87,10 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
 
+        /// <summary>
+        /// Data Model Constructor, securing parent controller and intitialising operations
+        /// </summary>
+        /// <param name="ParentController"></param>
         public DataModel(RobotController ParentController)
         {
             _parentController = ParentController;
@@ -105,7 +131,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 NextDX = _parentController.tRob1.GetRapidData("Module1", "NextDX");
                 NextDX.ValueChanged += _parentController.NextDXChange;
 
-                _parentController.ConnectController();
+                _parentController.ControllerConnectedEvent();
 
                 while (!complete)
                 {

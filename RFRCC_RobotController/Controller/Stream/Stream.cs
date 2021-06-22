@@ -117,10 +117,10 @@ namespace RFRCC_RobotController.Controller
             OnAvailableControllersChange(this, new AvailableControllersEventArgs(_AvailableControllers));
         }
         /// <summary>
-        /// Connect controller object to desired controller
+        /// Connect controller object to desired controller using ABB classes
         /// </summary>
         /// <param name="controller">Controller to be connected to</param>
-        public void ConnectToController(ABB.Robotics.Controllers.Controller controller)
+        public void ConnectToABBController(ABB.Robotics.Controllers.Controller controller)
         {
             if (_parentController._ControllerConnected)
                 Dispose();
@@ -133,10 +133,10 @@ namespace RFRCC_RobotController.Controller
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
         /// <summary>
-        /// Connect controller object to desired controller
+        /// Connect controller object to desired controller using ABB classes
         /// </summary>
         /// <param name="controllerInfo">Controller Info collected by ABB net scanner</param>
-        public void ConnectToController(ControllerInfo controllerInfo)
+        public void ConnectToABBController(ControllerInfo controllerInfo)
         {
             if (_parentController._ControllerConnected)
                 Dispose();

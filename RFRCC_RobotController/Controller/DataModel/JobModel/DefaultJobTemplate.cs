@@ -132,7 +132,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         public override void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
         {
-            OperationActionList operationActions = new OperationActionList();
+            OperationActionList operationActions = jobData.operationActions;
             Dictionary<string, string> NextAttributes = new Dictionary<string, string>();
 
             NextAttributes.Clear();
@@ -140,16 +140,18 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationAction()
             {
                 Name = "Start Job",
-                Attributes = NextAttributes // this might need to be cloned
-            });
+                Attributes = new Dictionary<string, string>()
+            }) ;
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Wait for Operator to place required stock on infeed conveyor and confirm ready to proceed");
             operationActions.Add(new OperationPLCProcess()
             {
                 Name = "Load Material onto Infeed",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Drive stock up to X datum of cell entry to measure length of stock");
@@ -157,8 +159,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationPLCProcess()
             {
                 Name = "Drive Stock onto Conveyor to X Datum",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Use displacement laser to measure end of stock");
@@ -166,8 +169,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationPLCProcess()
             {
                 Name = "Measure stock length",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Move stock into cell position to check dimensions");
@@ -175,8 +179,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationPLCProcess()
             {
                 Name = "Drive stock into cell for checking",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Infeed clamp will close on stock, and Encoder to zero");
@@ -184,8 +189,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationPLCProcess()
             {
                 Name = "Close Infeed Clamp",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Robot will probe stock to ensure that stock is correct dimensions. If Stock dimensions are unacceptable, stock will be rejected, job ended, and stock not suitable error logged");
@@ -193,9 +199,10 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationRobotProcess()
             {
                 Name = "Measure stock dimensions",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
                 //TODO: add robot execution process
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             foreach (RobotComputedFeatures Feature in jobData.OperationRobotMoveData.Operation)
             {
@@ -205,18 +212,20 @@ namespace RFRCC_RobotController.Controller.DataModel
                 operationActions.Add(new OperationPLCProcess()
                 {
                     Name = "Drive Stock to next position",
-                    Attributes = NextAttributes // this might need to be cloned
+                    Attributes = new Dictionary<string, string>()
                 });
+                operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
                 NextAttributes.Clear();
                 NextAttributes.Add("Description", "Robot to cut feature");
                 operationActions.Add(new OperationRobotManoeuvre()
                 {
                     Name = "Cut Feature",
-                    Attributes = NextAttributes,    // this might need to be cloned
+                    Attributes = new Dictionary<string, string>(),    
                     featureData = Feature           // this needs to be a pointer 
                                                 
                 });
+                operationActions[operationActions.Count - 1].Attributes = NextAttributes;
             }
 
             NextAttributes.Clear();
@@ -225,18 +234,20 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.Add(new OperationPLCProcess()
             {
                 Name = "Eject completed job",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
                 //TODO: add robot execution process
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "save time, date and job identification information to log for reference of machine activity");
             operationActions.Add(new OperationAction()
             {
                 Name = "End of job",
-                Attributes = NextAttributes // this might need to be cloned
+                Attributes = new Dictionary<string, string>()
                 //TODO: add robot execution process
             });
+            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
         }
     }
 }

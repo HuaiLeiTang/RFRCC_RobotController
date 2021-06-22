@@ -20,6 +20,7 @@ namespace RFRCC_RobotController.Controller.Importers
     public class FileImporter
     {
         // functional properties
+        internal bool _header = false;
         internal bool _parsed = false;
         internal bool _JobReady = false;
 
@@ -33,10 +34,22 @@ namespace RFRCC_RobotController.Controller.Importers
         private ImportModel Importer = new ImportModel();
         private GeneratePresenter PathGenerator = new GeneratePresenter();
         private Matrix4 MatrixBase = new Matrix4(); // not sure what for...
-
+        /// <summary>
+        /// Event raised when all information has been generated
+        /// </summary>
+        public event EventHandler OnParseComplete;
+        /// <summary>
+        /// Raise event when completing 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        internal protected virtual void ParseComplete(object sender, EventArgs args)
+        {
+            OnParseComplete?.Invoke(sender, args);
+        }
 
         // Operation Data Loaded
-        public JobModel Job { get; set; } = new JobModel();
+        public JobModel Job { get; set; }
         /// <summary>
         /// Status if parsed file
         /// </summary>
@@ -62,8 +75,6 @@ namespace RFRCC_RobotController.Controller.Importers
         {
             FilePath = filePath;
             FileName = filePath.Split('\\').Last(); // file name
-            FileASCIIContent = System.IO.File.ReadAllText(filePath);
-            SetFileJobHeader(Job.HeaderInfo, FileASCIIContent, filePath.Split('\\').Last());
 
             if (parse)
             {
@@ -72,6 +83,7 @@ namespace RFRCC_RobotController.Controller.Importers
             }
         }
 
+
         public bool Parse()
         {
             // TODO: Raise Exceptiong if importer filepath not present
@@ -79,6 +91,9 @@ namespace RFRCC_RobotController.Controller.Importers
 
             ImportEntityCollection filesToImport = new ImportEntityCollection();
             filesToImport.Add(new ImportEntity(FilePath, DataModel.Settings.Import.Qty, DataModel.Settings.Import.Offset, DataModel.Settings.Import.Flip_z, DataModel.Settings.Import.Rot_x));
+            FileASCIIContent = System.IO.File.ReadAllText(FilePath);
+            _header = SetFileJobHeader(Job.HeaderInfo, FileASCIIContent, FileName);
+            Job.Name = Job.Name == null ? Job.HeaderInfo.JobID + " - " + Job.HeaderInfo.Profile + " " + Job.HeaderInfo.SawLength + "mm" : Job.Name;
 
             int number_of_faces_desired = 4; // default 4
             bool start_aligned_with_face = false; // default false
@@ -203,7 +218,7 @@ namespace RFRCC_RobotController.Controller.Importers
             // Generate Operation Actions
             Job.GenerateOpActionsFromRobManoeuvres();
 
-            //TODO: Throw a JobData not  loaded exception on failure
+            //TODO: Throw a JobData not loaded exception on failure
         }
 
         /// <summary>
@@ -230,9 +245,8 @@ namespace RFRCC_RobotController.Controller.Importers
         /// <param name="job_Header">HeaderInfo to be populated</param>
         /// <param name="DSTV_File">ASCII conents of job file</param>
         /// <param name="file_name">File name or Job name</param>
-        private void SetFileJobHeader(JobHeader job_Header, string DSTV_File, string file_name)
+        private bool SetFileJobHeader(JobHeader job_Header, string DSTV_File, string file_name)
         {
-
             string[] DSTV_Header = DSTV_File.Split("\r\n");
             DSTV_Header = DSTV_Header.Where(Non_Comment => !Non_Comment.Contains("**")).ToArray();
             DSTV_Header = DSTV_Header.Skip(Array.IndexOf(DSTV_Header, "ST") + 1).Take(24).ToArray();   // .Take().ToArray();
@@ -272,6 +286,7 @@ namespace RFRCC_RobotController.Controller.Importers
             job_Header.TextInfo4 = DSTV_Header[23].Trim();
 
             // still need to set feature quant   
+            return true;
         }
     }
 

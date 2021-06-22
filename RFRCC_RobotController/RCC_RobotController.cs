@@ -90,32 +90,6 @@ namespace RFRCC_RobotController
             }
         }
 
-        /*// ------------------------------------------------------------------------------------------------
-                                            ROBOT FUNCTIONALITY AND CONTROL
-        */// ------------------------------------------------------------------------------------------------
-
-        // Control Message from robot
-        public delegate void ControlValueUpdateEventHandler(RobotController sender, ControlStrucEventArgs e);
-        public event ControlValueUpdateEventHandler ControlValueUpdate;
-        internal protected virtual void OnControlValueUpdate(object sender, ControlStrucEventArgs e)
-        {
-            Debug.WriteLine("OnControlValueUpdate Recieved instruction");
-            ControlValueUpdate?.Invoke(this, e);
-        }
-
-        // This will fire when the controller changes the PC_Message value in the control structure - TODO: setup message reading from this.
-        public void RobotPC_MessageChanged(object sender, ControlStrucEventArgs e)
-        {
-            Debug.WriteLine("RobotPC_MessageChanged Recieved instruction");
-
-            if (e.ValueName != "<CLEAR>" && e.ValueName != "")
-            {
-                MessageRecieved();
-                StatusMesssageChange(this, new StatusMesssageEventArgs("RAPID Data Change: PC Message"));
-                StatusMesssageChange(this, new StatusMesssageEventArgs(ParseMessage(e.ValueName)));
-            }
-        }
-
 
         // For Communication to Robot that message is being parsed and actioned
         public void MessageRecieved()
@@ -254,6 +228,55 @@ namespace RFRCC_RobotController
             }
         }
        
+        
+
+        
+
+
+
+
+
+
+        /*// ------------------------------------------------------------------------------------------------
+                                            CONTROLLER EVENTS
+        */// ------------------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Event firing when Controller connection secured
+        /// </summary>
+        public event EventHandler<ControllerConnectionEventArgs> OnControllerConnection;
+
+        /// <summary>
+        /// Controller Connection Event Invoke
+        /// </summary>
+        internal void ControllerConnectedEvent()
+        {
+            OnControllerConnection?.Invoke(this, new ControllerConnectionEventArgs());
+            _ControllerConnected = true;
+        }
+
+        // Control Message from robot
+        public delegate void ControlValueUpdateEventHandler(RobotController sender, ControlStrucEventArgs e);
+        public event ControlValueUpdateEventHandler ControlValueUpdate;
+        internal protected virtual void OnControlValueUpdate(object sender, ControlStrucEventArgs e)
+        {
+            Debug.WriteLine("OnControlValueUpdate Recieved instruction");
+            ControlValueUpdate?.Invoke(this, e);
+        }
+
+        // This will fire when the controller changes the PC_Message value in the control structure - TODO: setup message reading from this.
+        public void RobotPC_MessageChanged(object sender, ControlStrucEventArgs e)
+        {
+            Debug.WriteLine("RobotPC_MessageChanged Recieved instruction");
+
+            if (e.ValueName != "<CLEAR>" && e.ValueName != "")
+            {
+                MessageRecieved();
+                StatusMesssageChange(this, new StatusMesssageEventArgs("RAPID Data Change: PC Message"));
+                StatusMesssageChange(this, new StatusMesssageEventArgs(ParseMessage(e.ValueName)));
+            }
+        }
+
         public class UpdateFeatureOptimalXEventArgs : EventArgs
         {
             public UpdateFeatureOptimalXEventArgs(string JobID, int FeatureNum, decimal OptimalX)
@@ -333,12 +356,5 @@ namespace RFRCC_RobotController
             }
             return true;
         }
-
-        public event EventHandler<ControllerConnectionEventArgs> OnControllerConnection;
-
-        public void ConnectController()
-        {
-            OnControllerConnection?.Invoke(this,new ControllerConnectionEventArgs());
-        } 
     }
 }

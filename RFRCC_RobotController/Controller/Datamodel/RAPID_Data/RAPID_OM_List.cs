@@ -56,7 +56,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 if (_OpManArrayBuffer[i] == null)
                     _OpManArrayBuffer[i] = new OperationManoeuvre();
-                string InsertMe = string.Join(",", inputArray[(i * 51)..((i + 1) * 51)]);
+                string InsertMe = string.Join(",", inputArray[(i * 52)..((i + 1) * 52)]);
                 _OpManArrayBuffer[i].FromString(InsertMe);
             }
         }
