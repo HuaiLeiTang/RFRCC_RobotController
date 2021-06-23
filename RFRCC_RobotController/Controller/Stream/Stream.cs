@@ -129,7 +129,9 @@ namespace RFRCC_RobotController.Controller
             _parentController.tRob1 = controller.Rapid.GetTask("T_ROB1");
             _parentController.dataModel.InitDataStream();
             _parentController._ControllerConnected = true;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+
+            _parentController.ControllerConnectedEvent();
+            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
         /// <summary>
@@ -145,7 +147,9 @@ namespace RFRCC_RobotController.Controller
             _parentController.tRob1 = _parentController.controller.Rapid.GetTask("T_ROB1");
             _parentController.dataModel.InitDataStream();
             _parentController._ControllerConnected = true;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+
+            _parentController.ControllerConnectedEvent();
+            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
         /// <summary>
@@ -161,7 +165,9 @@ namespace RFRCC_RobotController.Controller
             _parentController.tRob1 = _parentController.controller.Rapid.GetTask("T_ROB1");
             _parentController.dataModel.InitDataStream();
             _parentController._ControllerConnected = true;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+
+            _parentController.ControllerConnectedEvent();
+            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
        
@@ -170,6 +176,7 @@ namespace RFRCC_RobotController.Controller
         /// </summary>
         public event EventHandler<ControllerConnectedEventArgs> OnControllerConnectedChange;
         
+        /////////////////////////////
         /// <summary>
         /// Custom Event Args with controller connection status
         /// </summary>
@@ -191,7 +198,7 @@ namespace RFRCC_RobotController.Controller
             if (handler != null)
                 handler(sender, e);
         }
-        
+        ///////////////////////////////////
 
         // TODO: change this to a close data stream of robot controller? 
         public void Dispose()
@@ -201,7 +208,9 @@ namespace RFRCC_RobotController.Controller
             _parentController.controller.Dispose();
             _parentController.controller = null;
             _parentController._ControllerConnected = false;
-            ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+
+            _parentController.ControllerConnectedEvent();
+            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Disconnected from controller"));
         }
 

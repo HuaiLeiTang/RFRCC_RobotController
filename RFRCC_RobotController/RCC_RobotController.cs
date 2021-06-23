@@ -92,7 +92,7 @@ namespace RFRCC_RobotController
 
 
         // For Communication to Robot that message is being parsed and actioned
-        public void MessageRecieved()
+        internal void MessageRecieved()
         {
             bool complete = false;
             while (!complete)
@@ -104,7 +104,7 @@ namespace RFRCC_RobotController
                         dataModel.SQLMessageRecieve.Value = Bool.Parse("TRUE");
                     }
                     StatusMesssageChange(this, new StatusMesssageEventArgs("PC acknowledged message"));
-                    Debug.WriteLine("Acknoledged Controller SQL Message");
+                    Debug.WriteLine("Acknoledged Controller Message");
                 }
                 catch
                 {
@@ -117,7 +117,7 @@ namespace RFRCC_RobotController
                 }
             }
         }
-        public string ParseMessage(string MessageString)
+        internal string ParseMessage(string MessageString)
         {
             if (MessageString.Length < 8)
             {

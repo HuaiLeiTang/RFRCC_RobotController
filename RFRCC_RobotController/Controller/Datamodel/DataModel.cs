@@ -29,7 +29,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Next job x from datum required for PLC to get job to
         /// </summary>
         public RapidData NextDX;
-
         /// <summary>
         /// list of job(s) to be completed
         /// </summary>
@@ -56,6 +55,11 @@ namespace RFRCC_RobotController.Controller.DataModel
                 // maybe a throw if no operations available
             }
         }
+        /// <summary>
+        /// Version of program loaded onto the controller connected
+        /// </summary>
+        public RobotProgramVersion ProgramVersion { get; }
+
 
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
         internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
@@ -97,6 +101,10 @@ namespace RFRCC_RobotController.Controller.DataModel
             Operations.Add( new JobModel(ParentController)); // add's itself to job.datamodel to list for current job 
             CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
             CurrentJob.OperationRobotMoveData.CurrentJob = true;
+
+            // Init variables
+            ProgramVersion = new RobotProgramVersion(_parentController);
+
         }
 
         // starts up data stream and checks that datamodel 
