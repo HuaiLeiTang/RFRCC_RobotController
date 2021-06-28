@@ -80,6 +80,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         /// <summary>
         /// Will retrieve features the machine is capable of
+        /// NOT YET IMPLEMENTED
         /// </summary>
         private void PopulateVersionFeatures()
         {

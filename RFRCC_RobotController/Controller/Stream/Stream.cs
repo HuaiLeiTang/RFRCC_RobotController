@@ -10,9 +10,6 @@ using RFRCC_RobotController.ABB_Data;
 
 namespace RFRCC_RobotController.Controller
 {
-    /* This class is to hanble network access, connection, and related events for the controller
-     * 
-     */
     /// <summary>
     /// handles network access, connection, and related events for the ABB Controllers, specifically intended for use with the 
     /// </summary>
@@ -65,6 +62,11 @@ namespace RFRCC_RobotController.Controller
             /// </summary>
             public ControllerCollection AvailableControllers { get; set; }
         }
+        /// <summary>
+        /// Event raising method used to trigger when any network controllers change status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void AvailableControllersChange(object sender, AvailableControllersEventArgs e)
         {
             EventHandler<AvailableControllersEventArgs> handler = OnAvailableControllersChange;
@@ -170,13 +172,10 @@ namespace RFRCC_RobotController.Controller
             //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
         }
-       
         /// <summary>
         /// controller connection connected or disconnected
         /// </summary>
         public event EventHandler<ControllerConnectedEventArgs> OnControllerConnectedChange;
-        
-        /////////////////////////////
         /// <summary>
         /// Custom Event Args with controller connection status
         /// </summary>
@@ -192,15 +191,21 @@ namespace RFRCC_RobotController.Controller
             /// </summary>
             public bool ControllerConnected { get; set; }
         }
+        /// <summary>
+        /// Event executing method for raising event when Controllers connection status changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void ControllerConnectedChange(object sender, ControllerConnectedEventArgs e)
         {
             EventHandler<ControllerConnectedEventArgs> handler = OnControllerConnectedChange;
             if (handler != null)
                 handler(sender, e);
         }
-        ///////////////////////////////////
-
         // TODO: change this to a close data stream of robot controller? 
+        /// <summary>
+        /// Logs off network controller and disposes of all connections and memory holds regarding this object 
+        /// </summary>
         public void Dispose()
         {
             // TODO Stop current task on disconnect?

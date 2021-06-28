@@ -2,6 +2,9 @@
 
 namespace RFRCC_RobotController.ABB_Data
 {
+    /// <summary>
+    /// Defines the axis positions of additional axes, positioners, or workpiece manipulators of robot
+    /// </summary>
     public class CS_extjoint
     {
         double _eax_a;
@@ -106,8 +109,13 @@ namespace RFRCC_RobotController.ABB_Data
                 ConnectedAxis[5] = true;
             }
         }
+        /// <summary>
+        /// Array of Bools indicating which axes are currently connected
+        /// </summary>
         private bool[] ConnectedAxis = new bool[6];
-
+        /// <summary>
+        /// CS_extjoint normalised with all axes zerod and not connected
+        /// </summary>
         public CS_extjoint()
         {
             eax_a = 0;
@@ -124,7 +132,16 @@ namespace RFRCC_RobotController.ABB_Data
             ConnectedAxis[4] = false;
             ConnectedAxis[5] = false;
         }
-        public CS_extjoint(string _eax_a, string _eax_b, string _eax_c, string _eax_d, string _eax_e, string _eax_f)
+        /// <summary>
+        /// CS_extjoint normalised to zero and not connected unless any axes are specified other that "9E+09"
+        /// </summary>
+        /// <param name="_eax_a"></param>
+        /// <param name="_eax_b"></param>
+        /// <param name="_eax_c"></param>
+        /// <param name="_eax_d"></param>
+        /// <param name="_eax_e"></param>
+        /// <param name="_eax_f"></param>
+        public CS_extjoint(string _eax_a = "9E+09", string _eax_b = "9E+09", string _eax_c = "9E+09", string _eax_d = "9E+09", string _eax_e = "9E+09", string _eax_f = "9E+09")
         {
             eax_a = _eax_a == "9E+09" ? 0f : Double.Parse(_eax_a);
             eax_b = _eax_b == "9E+09" ? 0f : Double.Parse(_eax_b);
@@ -140,6 +157,11 @@ namespace RFRCC_RobotController.ABB_Data
             ConnectedAxis[4] = _eax_e == "9E+09" ? true : false;
             ConnectedAxis[5] = _eax_f == "9E+09" ? true : false;
         }
+        /// <summary>
+        /// CS_extjoint normalised to zero from string in format "[eax_a,eax_b,eax_c,eax_d,eax_e,eax_f]"
+        /// Any axes nominated "9E+09" will be set as disconnected
+        /// </summary>
+        /// <param name="input"></param>
         public CS_extjoint(string input)
         {
             string[] inputArray = input.Trim('[', ']').Split(',');
@@ -157,6 +179,11 @@ namespace RFRCC_RobotController.ABB_Data
             ConnectedAxis[4] = inputArray[4] == "9E+09" ? false : true;
             ConnectedAxis[5] = inputArray[5] == "9E+09" ? false : true;
         }
+        /// <summary>
+        /// CS_extjoint normalised to 0 and connected if indicated by Bool Array
+        /// Bool Array may be of any size, connecteding and normalising all indicated axes from eax_a for each array index recieved
+        /// </summary>
+        /// <param name="BinaryInput">Bool array of any size</param>
         public CS_extjoint(bool[] BinaryInput)
         {
             int i = 0;
@@ -171,6 +198,11 @@ namespace RFRCC_RobotController.ABB_Data
                 }
             }
         }
+        /// <summary>
+        /// Connecting and normalising any axes inficated by Bool Array
+        /// Bool Array may be of any size, connecteding and normalising all indicated axes from eax_a for each array index recieved
+        /// </summary>
+        /// <param name="BinaryInput">Bool array of any size</param>
         public void ConnectExtAxis(bool[] BinaryInput)
         {
             int i = 0;
@@ -185,7 +217,11 @@ namespace RFRCC_RobotController.ABB_Data
                 }
             }
         }
-
+        /// <summary>
+        /// connect any axes via string, if string contains axes name
+        /// i.e. "eax_a" will connect eax_a, "eaxbeax_c" will connect both eax_b & eax_c
+        /// </summary>
+        /// <param name="input"></param>
         public void ConnectExtAxis(string input)
         {
             ConnectedAxis[0] = input.Contains("eax_a") ? true : ConnectedAxis[0];
@@ -195,12 +231,19 @@ namespace RFRCC_RobotController.ABB_Data
             ConnectedAxis[4] = input.Contains("eax_e") ? true : ConnectedAxis[4];
             ConnectedAxis[5] = input.Contains("eax_f") ? true : ConnectedAxis[5];
         }
-
+        /// <summary>
+        /// returns string in same formate required for RAPID data on Robot
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return ("[" + (ConnectedAxis[0] ? _eax_a.ToString() : "9E+09") + "," + (ConnectedAxis[1] ? _eax_b.ToString() : "9E+09") + "," + (ConnectedAxis[2] ? _eax_c.ToString() : "9E+09") + "," + (ConnectedAxis[3] ? _eax_d.ToString() : "9E+09") + "," + (ConnectedAxis[4] ? _eax_e.ToString() : "9E+09") + "," + (ConnectedAxis[5] ? _eax_f.ToString() : "9E+09") + "]");
         }
-
+        /// <summary>
+        /// populates eax from string of format "[eax_a,eax_b,eax_c,eax_d,eax_e,eax_f]"
+        /// Note: Does not connect or disconnect any axes based on innput
+        /// </summary>
+        /// <param name="Input"></param>
         public void FromString(string Input)
         {
             string[] InputArray = Input.Trim('[', ']').Split(',');

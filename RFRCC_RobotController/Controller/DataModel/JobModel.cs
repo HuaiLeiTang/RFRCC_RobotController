@@ -38,20 +38,28 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public string Name { get; set; }
         internal RAPID_OperationBuffer OperationRobotMoveData { get; set; } = new RAPID_OperationBuffer();  // previously 'OperationBuffer'
+        /// <summary>
+        /// List of Actions to be taken in processing the job
+        /// </summary>
         public OperationActionList operationActions { get; set; }  = new OperationActionList();
         // TODO: UID generation for Job
-
         /// <summary>
         /// String describing stage of job. e.g. 'complete'
         /// </summary>
         public string ProjectStatus { get; set; }
+        /// <summary>
+        /// Job Header data
+        /// </summary>
         public JobHeader HeaderInfo { get; set; } = new JobHeader();
-        
         /// <summary>
         /// Cutting information for job
         /// </summary>
         public ToolData ToolData { get; set; } = new ToolData();
-
+        /// <summary>
+        /// Initialised object with job process to follow
+        /// if job process template not provided, default process will be used
+        /// </summary>
+        /// <param name="template">job process to follow</param>
         public JobModel(JobModelTemplate template = null)
         {
             if (template != null)
@@ -61,6 +69,13 @@ namespace RFRCC_RobotController.Controller.DataModel
             }
                 
         }
+        /// <summary>
+        /// Initialise object with specified network controller, Job index on relevant network contoller, and template for job initialisation
+        /// default to last job index and default job process
+        /// </summary>
+        /// <param name="ParentController">Network controller Job is associated with</param>
+        /// <param name="index">index of job on Network controller list</param>
+        /// <param name="template">Template of job process to be used</param>
         public JobModel(RobotController ParentController, int index = -1, JobModelTemplate template = null) : this(template)
         {
             _parentController = ParentController;
@@ -71,7 +86,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="ParentController">Controller to be connected to</param>
         /// <param name="index">Job index in list to be completed if known</param>
-        /// <returns></returns>
+        /// <returns>Connection successfully established with network controller</returns>
         public bool ConnectParentController(RobotController ParentController, int index = -1)
         {
             if (_controllerPresent)
@@ -91,13 +106,12 @@ namespace RFRCC_RobotController.Controller.DataModel
             else _parentController.dataModel.Operations.Insert(index, this);
             return true; // return false if failed to connect
         }
-
         /// <summary>
         /// Load and parse data from file path in .nc1 format
         /// </summary>
         /// <param name="filePath">full filepath in storage</param>
         /// <param name="Parse">if parse on load</param>
-        /// <returns></returns>
+        /// <returns>Job Data successfully retrieved from filepath [and parsed]</returns>
         public bool LoadJobFromFile(string filePath, bool Parse)
         {
             _filepath = filePath;
@@ -122,6 +136,12 @@ namespace RFRCC_RobotController.Controller.DataModel
                 return true;
             }
         }
+        /// <summary>
+        /// NOT YET IMPLEMENTED
+        /// For loading job directly from a compatible job parsing class
+        /// </summary>
+        /// <param name="Parser"></param>
+        /// <returns></returns>
         public bool LoadJobFromParser(FileImporter Parser)
         {
             throw new NotImplementedException();
@@ -131,13 +151,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void GenerateOpActionsFromRobManoeuvres() 
         {
-            
             this.Template.GenerateOpActionsFromRobManoeuvres(this);
 
             _NumFeatures = OperationRobotMoveData.Operation.Count;
             _ReadyforProcessing = true; // TODO: check this is correct
-
-    }
+        }
 
 
     }

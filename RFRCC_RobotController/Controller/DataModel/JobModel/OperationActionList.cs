@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
+    // TODO: Current action is action worked on by robot
+
+
     public class OperationActionList : IEnumerable<OperationAction>, IEnumerator<OperationAction>, IList<OperationAction>
     {
         private List<OperationAction> _operationActions;

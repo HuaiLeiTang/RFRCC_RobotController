@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RFRCC_RobotController.Controller.DataModel
 {
     // TODO: make a class of UI Action :: may include an event execution
-     
+    // TODO: Action; skippable, stop_alert
 
 
     public class OperationAction : ICloneable

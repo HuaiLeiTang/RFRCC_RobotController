@@ -76,12 +76,35 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal List<JobFeature> jobFeatureData = new List<JobFeature>();
 
         // Job Data Buffers
+        // TODO: Update this and its use to RAPID connected register
+        /// <summary>
+        /// NOT FOR USE?
+        /// To be updated to RAPID memory associated class
+        /// </summary>
         public RAPIDJob_Header jobHeader { get; set; } // Move to operation (JobModel) 
         internal JobHeader jobHeaderData = new JobHeader();
+        /// <summary>
+        /// RAPID Data entry on associated controller for Job Header Information
+        /// </summary>
         internal RAPIDJobHeader Header_JobData_RapidBuffer { get; set; } = new RAPIDJobHeader();
+        /// <summary>
+        /// RAPID Data entry on associated controller for Featrue Data Information
+        /// </summary>
         internal RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
+        /// <summary>
+        /// NOT FOR USE?
+        /// To be updated to RAPID memory associated class
+        /// </summary>
         public List<JobHeader> jobHeaders = new List<JobHeader>();
+        /// <summary>
+        /// NOT FOR USE?
+        /// To be updated to RAPID memory associated class
+        /// </summary>
         public List<JobFeature> jobFeatures = new List<JobFeature>();
+        /// <summary>
+        /// NOT FOR USE?
+        /// To be updated to RAPID memory associated class
+        /// </summary>
         public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
         //public RAPID_OperationBuffer OperationBuffer; //  --> has been moved to JobModel
         public RAPID_CutChart TopCutChart = new RAPID_CutChart();
@@ -89,8 +112,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RAPID_CutChart FrontCutChart = new RAPID_CutChart();
         public RAPID_CutChart BackCutChart = new RAPID_CutChart();
 
+        /// <summary>
+        /// Tool data relevant to plasma cutting torch
+        /// </summary>
         public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
-
         /// <summary>
         /// Data Model Constructor, securing parent controller and intitialising operations
         /// </summary>
@@ -106,9 +131,10 @@ namespace RFRCC_RobotController.Controller.DataModel
             ProgramVersion = new RobotProgramVersion(_parentController);
 
         }
-
-        // starts up data stream and checks that datamodel 
         // TODO: test that this function correctly identifies the robot program will work with this library
+        /// <summary>
+        /// Starts up data stream and checks that datamodel is in 
+        /// </summary>
         public void InitDataStream()
         {
             bool complete = false;
@@ -165,24 +191,49 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("'targets' data does not exist!"));
             }
-
-
         }
+        // TODO: Implement this function "CheckProgramVersionSuitably()"
+        /// <summary>
+        /// Checks connected network controller if program version and features will work .
+        /// PLACEHOLDER FUNCTION - TO BE IMPLEMENTED
+        /// </summary>
+        /// <returns>Version of connected network controller is acceptable</returns>
+        public bool CheckProgramVersionSuitably()
+        {
+            // TODO: implement this function and update summary
+            return true;
+        }
+        /// <summary>
+        /// Entire Job feature list
+        /// </summary>
         public List<JobFeature> FeatureDataList
         {
             get { return jobFeatureData; }
             set { jobFeatureData = value; }
         }
+        /// <summary>
+        /// Job feature data
+        /// </summary>
+        /// <param name="index">index</param>
+        /// <returns></returns>
         public JobFeature FeatureData(int index)
         {
             return jobFeatureData[index];
         }
+        /// <summary>
+        /// Current Job Header Data
+        /// </summary>
         public JobHeader HeaderData
         {
             get { return jobHeaderData; }
             set { jobHeaderData = value; }
         }
-
+        /// <summary>
+        /// Calls event to update Header or Manoeuvre information onto the robot
+        /// </summary>
+        /// <param name="Table">Table = "header"/"feature"/"manoeuvre"</param>
+        /// <param name="FeatureNum">if Table != "header"</param>
+        /// <param name="Carriage">Carriage index for chunking manoeuvre information</param>
         public void UpdateRobot(string Table, int FeatureNum = 0, int Carriage = 0)
         {
             bool complete = false;
@@ -275,27 +326,39 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
         }
+        /// <summary>
+        /// Calls event to update JobData on robot by JobID
+        /// THIS MAY SOON BE REDUNDANT!
+        /// </summary>
+        /// <param name="JobID">JobID of job to update on robot</param>
+        /// <returns></returns>
         public bool UpdateRCC(string JobID)
         {
             return _parentController.OnRequestUpdatedJobData(_parentController, new RobotController.RequestUpdatedJobDataEventArgs(JobID, false));
         }
-
-
-
-
-
         // TODO: finish load data onto robot controller
+        /// <summary>
+        /// Not yet Implemented
+        /// </summary>
+        /// <param name="JobData"></param>
+        /// <returns></returns>
         public bool LoadJobData(string JobData)
         {
             throw new NotImplementedException();
         }
-
         // TODO: Implement load additional Jobs onto 
+        /// <summary>
+        /// Not yet implemented
+        /// </summary>
+        /// <param name="JobData"></param>
+        /// <returns></returns>
         public bool LoadAdditionalJobData(string JobData)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Removes all operations from Operation Queue
+        /// </summary>
         public void ClearJobData()
         {
             Operations.Clear();

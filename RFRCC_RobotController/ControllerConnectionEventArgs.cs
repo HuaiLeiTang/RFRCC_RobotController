@@ -2,6 +2,9 @@
 
 namespace RFRCC_RobotController
 {
+    /// <summary>
+    /// Custom Event Args for OnControllerConnection event
+    /// </summary>
     public class ControllerConnectionEventArgs : EventArgs
     {
         public ControllerConnectionEventArgs()

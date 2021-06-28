@@ -30,29 +30,44 @@ namespace RFRCC_RobotController
     /// </summary>
     public class RobotController
     {
+        /// <summary>
+        /// Network and stream related methods and parameters
+        /// </summary>
         public Stream stream;
+        /// <summary>
+        /// associated network controller memory and data relations, along with job and funcationality specific methods and parameters
+        /// </summary>
         public DataModel dataModel;
 
         internal ABB.Robotics.Controllers.Controller controller = null;
         internal ABB.Robotics.Controllers.RapidDomain.Task tRob1;
         internal bool _ControllerConnected = false;
 
-        // Housekeeping and networking  
-        //private bool FetchedData;
-
-        //TODO make into an event? or understand exactly what it does
-        public bool FetchedData { get; set; }
-
+        /// <summary>
+        /// Flag for collecting data from robot
+        /// </summary>
+        internal bool FetchedData { get; set; } = false;
+        /// <summary>
+        /// Event triggered when next X location of stock is updated
+        /// </summary>
         public event EventHandler<EventArgs> OnNextDXChange;
+        /// <summary>
+        /// internal triggre for OnNextDXChange update
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal protected virtual void NextDXChange(object sender, EventArgs e)
         {
             OnNextDXChange?.Invoke(sender, e);
         }
-
-
-        // messaging function from controller to outside
-        // i.e. error / status messaging / etc
+        /// <summary>
+        /// messaging function from controller to outside
+        /// i.e. error / status messaging / etc
+        /// </summary>
         public event EventHandler<StatusMesssageEventArgs> OnStatusMesssageChange;
+        /// <summary>
+        /// Event Arguments, holds status message update
+        /// </summary>
         public class StatusMesssageEventArgs : EventArgs
         {
             public StatusMesssageEventArgs(string statusMesssage)
@@ -62,18 +77,28 @@ namespace RFRCC_RobotController
 
             public string StatusMesssage { get; set; }
         }
+        /// <summary>
+        /// Internal OnStatusMessageChange event trigger
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected internal virtual void StatusMesssageChange(object sender, StatusMesssageEventArgs e)
         {
             EventHandler<StatusMesssageEventArgs> handler = OnStatusMesssageChange;
             if (handler != null)
                 handler(sender, e);
         }
-
+        /// <summary>
+        /// Robot controller Class for control of Robofab Australia Coping Cell
+        /// </summary>
         public RobotController()
         {
             stream = new Stream(this);
             dataModel = new DataModel(this);
         }
+        /// <summary>
+        /// Returns ABB referenced controller
+        /// </summary>
         ABB.Robotics.Controllers.Controller Controller
         {
             get
@@ -81,7 +106,9 @@ namespace RFRCC_RobotController
                 return controller;
             }
         }
-        
+        /// <summary>
+        /// If controller object is associated with a network controller, and connected to
+        /// </summary>
         public bool ControllerConnected
         {
             get
@@ -89,9 +116,10 @@ namespace RFRCC_RobotController
                 return _ControllerConnected;
             }
         }
-
-
-        // For Communication to Robot that message is being parsed and actioned
+        /// <summary>
+        /// For Communication to Robot that message is being parsed and actioned
+        /// Soon to be outdated and unsupported from Controller Ver 2.0.0
+        /// </summary>
         internal void MessageRecieved()
         {
             bool complete = false;
@@ -117,6 +145,12 @@ namespace RFRCC_RobotController
                 }
             }
         }
+        /// <summary>
+        /// To react to Network Controller messages, triggering related events 
+        /// to be outdated and unsupported from Controller Ver 2.0.0
+        /// </summary>
+        /// <param name="MessageString"></param>
+        /// <returns></returns>
         internal string ParseMessage(string MessageString)
         {
             if (MessageString.Length < 8)
@@ -204,6 +238,9 @@ namespace RFRCC_RobotController
 
 
         }
+        /// <summary>
+        /// Internal function to update network controller that this object has completed parsed request
+        /// </summary>
         private void PCSDK_Work_Complete()
         {
             bool complete = false;
@@ -227,14 +264,6 @@ namespace RFRCC_RobotController
                 }
             }
         }
-       
-        
-
-        
-
-
-
-
 
 
         /*// ------------------------------------------------------------------------------------------------
@@ -242,10 +271,9 @@ namespace RFRCC_RobotController
         */// ------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Event firing when Controller connection secured
+        /// Event triggered when Controller connection secured
         /// </summary>
         public event EventHandler<ControllerConnectionEventArgs> OnControllerConnection;
-
         /// <summary>
         /// Controller Connection Event Invoke
         /// </summary>
@@ -254,17 +282,31 @@ namespace RFRCC_RobotController
             OnControllerConnection?.Invoke(this, new ControllerConnectionEventArgs());
             _ControllerConnected = true;
         }
-
-        // Control Message from robot
+        /// <summary>
+        /// Delegte for when Control Memory struct Updated on network controller
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public delegate void ControlValueUpdateEventHandler(RobotController sender, ControlStrucEventArgs e);
+        /// <summary>
+        /// Event triggered when Control Memory struct Updated on network controller
+        /// </summary>
         public event ControlValueUpdateEventHandler ControlValueUpdate;
+        /// <summary>
+        /// Event for firing when Controller connection secured
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal protected virtual void OnControlValueUpdate(object sender, ControlStrucEventArgs e)
         {
             Debug.WriteLine("OnControlValueUpdate Recieved instruction");
             ControlValueUpdate?.Invoke(this, e);
         }
-
-        // This will fire when the controller changes the PC_Message value in the control structure - TODO: setup message reading from this.
+        /// <summary>
+        /// Event for firing when the controller changes the PC_Message value in the control structure
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void RobotPC_MessageChanged(object sender, ControlStrucEventArgs e)
         {
             Debug.WriteLine("RobotPC_MessageChanged Recieved instruction");
@@ -276,7 +318,10 @@ namespace RFRCC_RobotController
                 StatusMesssageChange(this, new StatusMesssageEventArgs(ParseMessage(e.ValueName)));
             }
         }
-
+        /// <summary>
+        /// Custom arguments for feature optimal X updates delivered by network controller to PC
+        /// used in updating memory structs in robot control library
+        /// </summary>
         public class UpdateFeatureOptimalXEventArgs : EventArgs
         {
             public UpdateFeatureOptimalXEventArgs(string JobID, int FeatureNum, decimal OptimalX)
@@ -290,16 +335,32 @@ namespace RFRCC_RobotController
             public int FeatureOptimalX_FeatureNum { get; set; }
             public decimal FeatureOptimalX_OptimalX { get; set; }
         }
+        /// <summary>
+        /// Custom Delegate for UpdateFeatureOptimalX so that the relevant network controller may be updated pased to event
+        /// </summary>
+        /// <param name="sender">relevant network controller to event</param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public delegate bool UpdateFeatureEventHandler(RobotController sender, UpdateFeatureOptimalXEventArgs e);
+        /// <summary>
+        /// Event triggered when feature optimal X is updated on the network controller
+        /// </summary>
         public event UpdateFeatureEventHandler UpdateFeatureOptimalX;
+        /// <summary>
+        /// Triggering method to call event when network controller has updated optimal x for a feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         internal protected virtual bool OnUpdateFeatureOptimalX(object sender, UpdateFeatureOptimalXEventArgs e)
         {
             dataModel.FeatureDataList[e.FeatureOptimalX_FeatureNum].Dim1Optimal = (float)e.FeatureOptimalX_OptimalX;
             return (UpdateFeatureOptimalX != null) ? UpdateFeatureOptimalX(this, e)
                 : throw new ArgumentException("No listeners logged to handle UpdateJobData event");
         }
-
-        // custom event args
+        /// <summary>
+        /// custom event args for network controller request for updated job data
+        /// </summary>
         public class RequestUpdatedJobDataEventArgs : EventArgs
         {
             public RequestUpdatedJobDataEventArgs(string JobID, bool completeFlag)
@@ -310,10 +371,23 @@ namespace RFRCC_RobotController
             public bool completed { get; set; }
             public string FeatureOptimalX_JobID { get; set; }
         }
-        // custom event delegate !! WITH RESPONSE !!
+        /// <summary>
+        /// Custom delegate for event where network controller requestes updated job data, allowing check of successful completion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns>if successfully updated network controller with required job data</returns>
         public delegate bool RequestUpdatedJobDataEventHandler(RobotController sender, RequestUpdatedJobDataEventArgs e);
-        // eventHandler
+        /// <summary>
+        /// Event triggered when network controller requests updated Jobdata
+        /// </summary>
         public event RequestUpdatedJobDataEventHandler RequestUpdatedJobData;
+        /// <summary>
+        /// triggering method to fire RequestUpdatedJobData event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns>successfully updated relevant network controller with relevant jobdata</returns>
         internal protected virtual bool OnRequestUpdatedJobData(object sender, RequestUpdatedJobDataEventArgs e)
         {
             if (RequestUpdatedJobData != null)
@@ -326,11 +400,20 @@ namespace RFRCC_RobotController
                 throw new ArgumentException("No listeners logged to handle UpdateJobData event");
             }
         }
-
-
-        // Event to request update of Manoeuvre from PC
+        /// <summary>
+        /// Custom Delegate for event where network controller requests updated manoeuvre information
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns>If network controller has been successfully updated with requested manoeuvre information</returns>
         public delegate bool OnManoeuvreUpdateEventHandler(RobotController sender, ManoeuvreUpdateEventArgs e);
+        /// <summary>
+        /// Event triggered when network controller requests manoeuvre information update
+        /// </summary>
         public event OnManoeuvreUpdateEventHandler OnManoeuvreUpdate;
+        /// <summary>
+        /// custom arguements for OnManoeuvreUpdate event
+        /// </summary>
         public class ManoeuvreUpdateEventArgs : EventArgs
         {
             public int ManoeuvreNum { get; set; }
@@ -345,6 +428,12 @@ namespace RFRCC_RobotController
                 OperationBuffer = operationBuffer;
             }
         }
+        /// <summary>
+        /// triggering method for OnManoeuvreUpdate event, when network contorller requests updated manoeuvre information
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns>successfully updated network controller with requested manoeuvre information</returns>
         internal protected virtual bool ManoeuvreUpdate(RobotController sender, ManoeuvreUpdateEventArgs e)
         {
             dataModel.jobHeader.FeatureQuant = dataModel.CurrentJob.OperationRobotMoveData.Operation.Count;
