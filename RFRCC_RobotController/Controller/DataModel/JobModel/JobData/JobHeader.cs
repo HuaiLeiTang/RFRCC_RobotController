@@ -1,5 +1,8 @@
 ﻿namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
+    /// <summary>
+    /// Job Header information from DSTV import
+    /// </summary>
     public class JobHeader
     {
         /// <summary>

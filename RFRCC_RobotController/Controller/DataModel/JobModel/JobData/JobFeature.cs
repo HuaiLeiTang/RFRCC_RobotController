@@ -91,8 +91,6 @@
         /// maybe display to user or check?
         /// </summary>
         public float ToleranceMax { get; set; }
-
-        // other stuff
         /// <summary>
         /// Value for welding preparation
         /// </summary>

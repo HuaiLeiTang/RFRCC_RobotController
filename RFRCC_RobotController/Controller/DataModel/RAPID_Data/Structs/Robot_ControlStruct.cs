@@ -6,18 +6,32 @@ using System.Diagnostics;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
+    /// <summary>
+    /// Custom event arguments for OnValueUpdate of Robot_ControlStruct
+    /// </summary>
     public class ControlStrucEventArgs : EventArgs
     {
+        /// <summary>
+        /// Initialise with Element Name
+        /// </summary>
+        /// <param name="valueName">Element Name</param>
         public ControlStrucEventArgs(string valueName)
         {
             ValueName = valueName;
         }
-
+        /// <summary>
+        /// Element Name
+        /// </summary>
         public string ValueName { get; set; }
     }
-
+    /// <summary>
+    /// RAPID integrated Control Structure for Robot communication, control and status during processing
+    /// </summary>
     public class Robot_ControlStruct
     {
+        /// <summary>
+        /// RAPIDData on connect Network Controller
+        /// </summary>
         public RapidData Robot_Control_RAPID { get; set; }
         private bool _JobInProgress;
         private string _JobID;
@@ -28,11 +42,18 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private bool _Park_Req;
         private string _PC_Message;
         private ABB.Robotics.Controllers.Controller ControllerConnection;
+        /// <summary>
+        /// Event raised when an object value is updated
+        /// </summary>
         public event EventHandler<ControlStrucEventArgs> ValueUpdate;
+        /// <summary>
+        /// Event raised when RAPID Data structure value is updated
+        /// </summary>
         public event EventHandler<ControlStrucEventArgs> PC_MessageUpdate;
-
-
-
+        /// <summary>
+        /// Method to raise ValueUpdate Event
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnValueUpdate(ControlStrucEventArgs e)
         {
             EventHandler<ControlStrucEventArgs> handler = ValueUpdate;
@@ -45,6 +66,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 Debug.WriteLine("struct OnValueUpdate fired if handler == null");
             }
         }
+        /// <summary>
+        /// Method to raise PC_MessageUpdate event
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnPC_MessageUpdate(ControlStrucEventArgs e)
         {
             EventHandler<ControlStrucEventArgs> handler = PC_MessageUpdate;
@@ -57,7 +82,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 Debug.WriteLine("struct OnValueUpdate handler not assigned");
             }
         }
-
+        /// <summary>
+        /// Current Job In progress
+        /// </summary>
         public bool JobInProgress
         {
             get { return _JobInProgress; }
@@ -71,6 +98,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Current Job processing ID
+        /// </summary>
         public string JobID
         {
             get { return _JobID; }
@@ -84,6 +114,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Plasma Torch Enabled
+        /// </summary>
         public bool TorchEnable
         {
             get { return _TorchEnable; }
@@ -97,6 +130,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Manual Control from operator Requested
+        /// </summary>
         public bool ManualControl_Req
         {
             get { return _ManualControl_Req; }
@@ -110,6 +146,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Current Stock X Displacement
+        /// to be populated from PLC
+        /// </summary>
         public float StockXDisplacement
         {
             get { return _StockXDisplacement; }
@@ -123,6 +163,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Robot Movement Enabled
+        /// </summary>
         public bool RobotEnabled
         {
             get { return _RobotEnabled; }
@@ -136,6 +179,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Park Position requested
+        /// </summary>
         public bool Park_Req
         {
             get { return _Park_Req; }
@@ -149,6 +195,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Message to Network Controller from PC
+        /// </summary>
         public string PC_Message
         {
             get { return _PC_Message; }
@@ -162,7 +211,13 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
-
+        /// <summary>
+        /// Initialise object with connection to controller
+        /// </summary>
+        /// <param name="controller">Network Controller</param>
+        /// <param name="RobotTask">Controller Task</param>
+        /// <param name="Module">Module housing Control structure</param>
+        /// <param name="RAPID_Name">name of Control structure</param>
         public void ConnectToRAPID(ABB.Robotics.Controllers.Controller controller, Task RobotTask, string Module, string RAPID_Name)
         {
             ControllerConnection = controller;
@@ -171,6 +226,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             InitialUpdateStruct();
             Robot_Control_RAPID.ValueChanged += Update_Struct;
         }
+        /// <summary>
+        /// Initialise object with network controller data
+        /// </summary>
         private void InitialUpdateStruct()
         {
             DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
@@ -183,13 +241,19 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (Park_Req != bool.Parse(RapidStruct[6].Value)) _Park_Req = bool.Parse(RapidStruct[6].Value);
             if (PC_Message != "\"" + RapidStruct[7].Value + "\"") _PC_Message = RapidStruct[7].Value[1..^1];
         }
-
+        /// <summary>
+        /// Update Object from controller when data changed 
+        /// </summary>
+        /// <param name="sender">Network Controller</param>
+        /// <param name="e">Data Changed Specification</param>
         private void Update_Struct(object sender, DataValueChangedEventArgs e)
         {
 
             GetFromRapidData();
         }
-
+        /// <summary>
+        /// Update Network controller with object data
+        /// </summary>
         private void Update_Rapid()
         {
             bool complete = false;
@@ -216,12 +280,17 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             complete = false;
 
         }
-
+        /// <summary>
+        /// Object Information displayed in string
+        /// </summary>
         public string DisplayInfo
         {
             get { return $"{JobInProgress}, { JobID }, { TorchEnable }, { ManualControl_Req }, { StockXDisplacement }, { RobotEnabled }, {Park_Req}, { PC_Message } "; }
 
         }
+        /// <summary>
+        /// Download Data from Network Controller
+        /// </summary>
         public void GetFromRapidData()
         {
             DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
@@ -235,7 +304,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (Park_Req != bool.Parse(RapidStruct[6].Value)) Park_Req = bool.Parse(RapidStruct[6].Value);
             if (PC_Message != "\"" + RapidStruct[7].Value + "\"") PC_Message = RapidStruct[7].Value[1..^1];
         }
-
+        /// <summary>
+        /// Output Structure in string representation 
+        /// format: "[JobInProgress, JobID, TorchEnabled, ManualControl_Req, StockXDisplacement, RobotEnabled, Park_Req, PC_Message]"
+        /// </summary>
+        /// <returns></returns>
         override public string ToString()
         {
             string output = "[" +

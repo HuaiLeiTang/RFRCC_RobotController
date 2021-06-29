@@ -8,11 +8,14 @@ using ReplaceRSConnection.Robotics.ToolInfo;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
+    /// <summary>
+    /// Cut chart information for use in settings required for Plasma cutter
+    /// </summary>
     public class RAPID_CutChart
     {
         private RapidData _RobotData;
         private ABB.Robotics.Controllers.Controller _Controller;
-        public bool _AutoUpdate = false;
+        internal bool _AutoUpdate = false;
 
 
         private float _Thickness;
@@ -30,6 +33,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private float _KerfWidth;
         private float _MinimumClearance;
 
+        /// <summary>
+        /// Thickness of cut material
+        /// </summary>
         public float Thickness
         {
             get
@@ -43,6 +49,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Arv Voltage of Plasma Cutter
+        /// </summary>
         public float ArcVoltage
         {
             get
@@ -56,6 +65,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Cutting Gas composition of plasma cutter
+        /// </summary>
         public string CutGas
         {
             get
@@ -69,6 +81,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Shield Gas composition of plasma cutter
+        /// </summary>
         public string ShieldGas
         {
             get
@@ -82,6 +97,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Height of torch from material after initiating cut
+        /// </summary>
         public float CutHeight
         {
             get
@@ -95,6 +113,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Height of torch from material during arcing
+        /// </summary>
         public float PierceHeight
         {
             get
@@ -108,6 +129,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Amount of time after striking arc before movement occurs
+        /// </summary>
         public float PierceDelay
         {
             get
@@ -121,6 +145,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Flowrate of Cutting Gas
+        /// </summary>
         public float PlasmaGasCutFlow
         {
             get
@@ -134,6 +161,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Flowrate of Cutting Gas prior to arcing
+        /// </summary>
         public float PlasmaGasPreFlow
         {
             get
@@ -147,6 +177,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Flowrate of Shield Gas
+        /// </summary>
         public float ShieldGasCutFlow
         {
             get
@@ -160,6 +193,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Flowrate of Shield Gas prior to arcing
+        /// </summary>
         public float ShieldGasPreFlow
         {
             get
@@ -173,6 +209,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Speed of plasma torch head during cutting proceedure 
+        /// in mm/s ?
+        /// </summary>
         public float Speed
         {
             get
@@ -186,6 +226,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// RAPID cutting data associated with Speed of cutting head
+        /// </summary>
         public CS_speeddata RAPIDSpeed
         {
             get
@@ -199,6 +242,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        /// <summary>
+        /// Radius of cutting incision 
+        /// </summary>
         public float KerfWidth
         {
             get
@@ -212,6 +258,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
+        // TODO: Update MinimumClearance summary comment
+        /// <summary>
+        /// Not Sure...
+        /// </summary>
         public float MinimumClearance
         {
             get
@@ -225,7 +275,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_AutoUpdate) Update_Robot();
             }
         }
-
+        /// <summary>
+        /// Initialise empty object 
+        /// </summary>
         public RAPID_CutChart()
         {
             _Thickness = 0;
@@ -243,6 +295,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _KerfWidth = 0;
             _MinimumClearance = 0;
         }
+        /// <summary>
+        /// Initialise object from string representation of RAPID memory struct
+        /// format: "[Thickness, ArcVoltage, CutGas, ShieldGas, CutHeight, PierceHeight, PierceDelay, PlasmaGasCutFlow, PlasmaGasPreFlow, ShieldGasCutFlow, ShieldGasPreFlow, RAPIDSpeed, Kerfwidth, MinimumClearance]"
+        /// </summary>
+        /// <param name="FromString">string representation of RAPID memory struct</param>
         public RAPID_CutChart(string FromString)
         {
             string[] inputArray = FromString.Trim('[', ']').Split(',');
@@ -261,12 +318,24 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _KerfWidth = float.Parse(inputArray[15].ToLower());
             _MinimumClearance = float.Parse(inputArray[16].ToLower());
         }
+        /// <summary>
+        /// Initialise object with relevant network controller, string, module and structure name for connection
+        /// </summary>
+        /// <param name="controller">Network Controller</param>
+        /// <param name="RobotTask">Network Controller Task</param>
+        /// <param name="Module">Module name housing parameter structure</param>
+        /// <param name="RAPID_Name">RAPID structure name</param>
         public void ConnectToRAPID(ABB.Robotics.Controllers.Controller controller, Task RobotTask, string Module, string RAPID_Name)
         {
             _Controller = controller;
             _RobotData = RobotTask.GetRapidData(Module, RAPID_Name);
 
         }
+        /// <summary>
+        /// Returns string representation of RAPID memory struct
+        /// format: "[Thickness, ArcVoltage, CutGas, ShieldGas, CutHeight, PierceHeight, PierceDelay, PlasmaGasCutFlow, PlasmaGasPreFlow, ShieldGasCutFlow, ShieldGasPreFlow, RAPIDSpeed, Kerfwidth, MinimumClearance]"
+        /// </summary>
+        /// <returns>string representation of RAPID memory struct</returns>
         public override string ToString()
         {
             string[] OutArray =
@@ -290,6 +359,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             return "[" + string.Join(',', OutArray) + "]";
 
         }
+        /// <summary>
+        /// Update Robot with information housed within this object
+        /// </summary>
         public void Update_Robot()
         {
             bool complete = false;
@@ -316,6 +388,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             complete = false;
         }
+        /// <summary>
+        /// Update local struct with Robot memory
+        /// </summary>
         public void Update_Local()
         {
             DataNode[] RapidStruct = _RobotData.Value.ToStructure().Children.ToArray();
@@ -336,6 +411,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (_MinimumClearance != float.Parse(RapidStruct[13].Value)) _MinimumClearance = float.Parse(RapidStruct[13].Value);
 
         }
+        /// <summary>
+        /// Populate object with information from CutEntry data
+        /// </summary>
+        /// <param name="FromCutEntry"></param>
         public void FromCutEntry(CutEntry FromCutEntry)
         {
             if (FromCutEntry == null) return;
@@ -354,7 +433,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _KerfWidth = float.Parse(FromCutEntry.KerfWidth.ToString());
             _MinimumClearance = float.Parse(FromCutEntry.MinimumClearance.ToString());
         }
-
+        /// <summary>
+        /// Populate object from string representation of RAPID memory struct
+        /// format: "[Thickness, ArcVoltage, CutGas, ShieldGas, CutHeight, PierceHeight, PierceDelay, PlasmaGasCutFlow, PlasmaGasPreFlow, ShieldGasCutFlow, ShieldGasPreFlow, RAPIDSpeed, Kerfwidth, MinimumClearance]"
+        /// </summary>
+        /// <param name="FromString">string representation of RAPID memory struct</param>
         public void FromString(string FromString)
         {
             string[] inputArray = FromString.Trim('[', ']').Split(',');

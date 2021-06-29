@@ -4,22 +4,37 @@ using System;
 
 namespace RFRCC_RobotController.Controller.Importers
 {
+    /// <summary>
+    /// Settings used to specify import characteristics and requirments 
+    /// </summary>
     public class ImporterSettings
     {
+        /// <summary>
+        /// Main settings used directly by parsing intity to decode and generate information from ASCII file
+        /// </summary>
         public ImportSettings Import = new ImportSettings();
+        /// <summary>
+        /// Main settings used directly in the generation of robot data from processing of job
+        /// </summary>
         public GenerationSettings Generation = new GenerationSettings();
-
+        /// <summary>
+        /// Initialise object with default of relevant requirements
+        /// </summary>
         public ImporterSettings()
         {
             Update();
         }
-
+        /// <summary>
+        /// Update all settings to default or relevant requirements
+        /// </summary>
         public void Update()
         {
             UpdateImportSettings();
             UpdateGenerationSettings();
         }
-
+        /// <summary>
+        /// Update Generation settings to default or relevant requirements
+        /// </summary>
         public void UpdateGenerationSettings()
         {
             Properties.Settings settings = Properties.Settings.Default;
@@ -83,7 +98,9 @@ namespace RFRCC_RobotController.Controller.Importers
             Generation.PathCorrectionEnabled = settings.PathCorrectionEnabled;
 
         }
-
+        /// <summary>
+        /// Update Import settings to default or relevant requirements
+        /// </summary>
         public void UpdateImportSettings()
         {
             Properties.Settings settings = Properties.Settings.Default;

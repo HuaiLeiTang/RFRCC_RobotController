@@ -15,8 +15,10 @@ using System.Text;
 
 namespace RFRCC_RobotController.Controller.Importers
 {
-
     // TODO: setup importy to import file and load into operation model in order to pass to robot controller
+    /// <summary>
+    /// Object to import file information, parse and populate required Job data for processing of jobs
+    /// </summary>
     public class FileImporter
     {
         // functional properties
@@ -25,8 +27,18 @@ namespace RFRCC_RobotController.Controller.Importers
         internal bool _JobReady = false;
 
         // file properties
+        /// <summary>
+        /// Complete ASCII file contents of file (to be) imported
+        /// </summary>
         public string FileASCIIContent { get; set; }
+        /// <summary>
+        /// File name of file (to be) imported
+        /// i.e."CV1.nc1"
+        /// </summary>
         public string FileName { get; set; }
+        /// <summary>
+        /// full path to file on local machine
+        /// </summary>
         public string FilePath { get; set; }
 
         private ParserDataModel DataModel = new ParserDataModel();
@@ -39,7 +51,7 @@ namespace RFRCC_RobotController.Controller.Importers
         /// </summary>
         public event EventHandler OnParseComplete;
         /// <summary>
-        /// Raise event when completing 
+        /// Event raising method on completion of file parse
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -49,17 +61,23 @@ namespace RFRCC_RobotController.Controller.Importers
         }
 
         // Operation Data Loaded
+        /// <summary>
+        /// Job specific data required for processing
+        /// </summary>
         public JobModel Job { get; set; }
         /// <summary>
-        /// Status if parsed file
+        /// Status if parsed file for all information and file data
         /// </summary>
         public bool Parsed { get => _parsed; }
+        /// <summary>
+        /// If Job is ready to be processed by machine
+        /// </summary>
         public bool JobReady { get => _JobReady; }
 
         // TODO: raise events on parse complete and JobReady complete
 
         /// <summary>
-        /// Constructor for FileImporter Object
+        /// Initialise empty FileImporter Object
         /// </summary>
         public FileImporter()
         {
@@ -67,7 +85,7 @@ namespace RFRCC_RobotController.Controller.Importers
         }
 
         /// <summary>
-        /// Constructor for FileImporter Object
+        /// Initialise FileImporter Object with filepath and trigger parse of file
         /// </summary>
         /// <param name="filePath">filepath for import</param>
         /// <param name="parse">if true, will parse data immediately</param>
@@ -83,7 +101,10 @@ namespace RFRCC_RobotController.Controller.Importers
             }
         }
 
-
+        /// <summary>
+        /// Extract information and file data from filepath given
+        /// </summary>
+        /// <returns>successful extracted information and file data</returns>
         public bool Parse()
         {
             // TODO: Raise Exceptiong if importer filepath not present

@@ -23,7 +23,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _OpHeadVARName;
         private bool _connected = false;
         private bool _currentJob = false;
-
+        /// <summary>
+        /// Operation
+        /// </summary>
         public PC_RobotMove_Register Operation => _Operations;
         /// <summary>
         /// Status if this object is currently uploaded and maintained on associated robot controller
@@ -48,6 +50,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Size of maneouvre buffer on network controller
+        /// </summary>
         public int SizeOfManBuffer
         {
             get
@@ -55,6 +60,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 return _SizeOfManBuffer;
             }
         }
+        /// <summary>
+        /// Set manoeuvre order in ascending order in distance from x = 0
+        /// </summary>
         public bool AscendingOrder
         {
             get
@@ -66,6 +74,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 _sortAscending = value;
             }
         }
+        /// <summary>
+        /// Set manoeuvre order in descending order in distance from x = 0
+        /// </summary>
         public bool DescendingOrder
         {
             get
@@ -77,10 +88,21 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 _sortAscending = !value;
             }
         }
+        /// <summary>
+        /// initialise empty object
+        /// </summary>
         public RAPID_OperationBuffer()
         {
 
         }
+        /// <summary>
+        /// Initialise object
+        /// </summary>
+        /// <param name="ParentController">Network Controller</param>
+        /// <param name="OpManModule">Module name housing Manoeuvre RAPID structure</param>
+        /// <param name="OpManVARName">Manoeuvre RAPID structure name</param>
+        /// <param name="OpHeadModule">Module name housing Header RAPID structure</param>
+        /// <param name="OpHeadVARName">Header RAPID structure name</param>
         public RAPID_OperationBuffer(RobotController ParentController, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
         {
             _ParentController = ParentController;
@@ -99,6 +121,14 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Connect network controller to this object
+        /// </summary>
+        /// <param name="ParentController">Network Controller</param>
+        /// <param name="OpManModule">Module name housing Manoeuvre RAPID structure</param>
+        /// <param name="OpManVARName">Manoeuvre RAPID structure name</param>
+        /// <param name="OpHeadModule">Module name housing Header RAPID structure</param>
+        /// <param name="OpHeadVARName">Header RAPID structure name</param>
         public void ConnectParentController(RobotController ParentController, string OpManModule, string OpManVARName, string OpHeadModule, string OpHeadVARName)
         {
             _ParentController = ParentController;
@@ -134,6 +164,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        /// <summary>
+        /// Event to Connect to controller
+        /// </summary>
+        /// <param name="Sender"></param>
+        /// <param name="args"></param>
         public void ConnectToController(object Sender, ControllerConnectionEventArgs args)
         {
             _ManBufferRD = _ParentController.tRob1.GetRapidData(_OpManModule, _OpManVARName);
@@ -141,10 +176,17 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
             _connected = true; // TODO: add this bool to other issues as a stop if required
         }
+        /// <summary>
+        /// removes all items contained in Operation List
+        /// </summary>
         public void Clear()
         {
             _Operations.Clear();
         }
+        /// <summary>
+        /// Add Operations to list of operations
+        /// </summary>
+        /// <param name="Operations">register of operations to add</param>
         public void AddOperationRange(PC_RobotMove_Register Operations)
         {
             foreach (RobotComputedFeatures feature in Operations)
@@ -153,6 +195,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             sort();
         }
+        /// <summary>
+        /// Add Operations to list of operations
+        /// </summary>
+        /// <param name="Operations">List of operations to add</param>
         public void AddOperationRange(List<RobotComputedFeatures> Operations)
         {
             foreach (RobotComputedFeatures feature in Operations)
@@ -161,13 +207,22 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             sort();
         }
+        /// <summary>
+        /// Add Operation to list of operations
+        /// </summary>
+        /// <param name="Operation">Operation to add</param>
         public void AddOperation(RobotComputedFeatures Operation)
         {
             _Operations.Add(Operation);
             sort();
         }
+        /// <summary>
+        /// NOT IMPLEMENTED
+        /// </summary>
+        /// <param name="input"></param>
         public void AddFromString(string input)
         {
+            throw new NotImplementedException();
             /*RobotComputedFeatures NewFeature = new RobotComputedFeatures();
             string[] inputArray = input.Trim('[', ']').Split(',');
             NewFeature.FeatureHeader.FromString(string.Join(",", inputArray[0..17]));
@@ -192,6 +247,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             //}
 
         }
+        /// <summary>
+        /// Sort the Operations by operation sort preference
+        /// </summary>
         public void sort()
         {
             if (_sortAscending)
@@ -216,6 +274,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
 
         }
+        /// <summary>
+        /// Sort the Operations by operation sort preference
+        /// </summary>
+        /// <param name="sortAscending">Set Sort Ascending or Descending</param>
         public void sort(bool sortAscending)
         {
             bool temp;
@@ -224,6 +286,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             sort();
             _sortAscending = temp;
         }
+        /// <summary>
+        /// Outputs string representation of RAPID structure Feature
+        /// </summary>
+        /// <param name="feature">Feature Number to be output</param>
+        /// <returns>string representation of RAPID structure Feature</returns>
         public string ToString(int feature)
         {
             string output = "[" + _Operations[feature].FeatureHeader.ToString() + ",[" + _Operations[feature].FeatureManoeuvres[0].ToString();
@@ -240,6 +307,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             return output + "]]";
         }
+        /// <summary>
+        /// Outputs string representation of RAPID structure Feature
+        /// </summary>
+        /// <param name="feature">Feature Number to be output</param>
+        /// <returns>string representation of RAPID structure Feature</returns>
         public string OperationManoeuvresToString(int feature)
         {
             string output = "[" + _Operations[feature - 1].FeatureManoeuvres[0].ToString();
@@ -256,6 +328,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             return output + "]";
         }
+        /// <summary>
+        /// Outputs string representation of Chunk of RAPID structure Features to fit into a carriage of data sent to network controller
+        /// </summary>
+        /// <param name="feature">Feature number to start chunk</param>
+        /// <param name="Carriage">Carriage number to upload</param>
+        /// <returns></returns>
         public string OperationManoeuvresChunkToString(int feature, int Carriage)
         {
             string output = "[" + _Operations[feature - 1].FeatureManoeuvres[(Carriage - 1) * _SizeOfManBuffer].ToString();
@@ -279,6 +357,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 
             return output + "]";
         }
+        /// <summary>
+        /// upload feature data to network Controller
+        /// </summary>
+        /// <param name="feature">Feature number to upload</param>
+        /// <returns>Successful upload</returns>
         public bool UploadData(int feature)
         {
             bool complete = false;
@@ -328,6 +411,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             return true;
         }
+        /// <summary>
+        /// upload Chunk of features data to network Controller starting from specified feature
+        /// </summary>
+        /// <param name="feature">Feature to start from</param>
+        /// <param name="carriage">Carriage number to upload</param>
+        /// <returns></returns>
         public bool UploadData(int feature, int carriage)
         {
 
