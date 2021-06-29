@@ -5,6 +5,7 @@ using RFRCC_RobotController.ABB_Data;
 
 namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
+
     public class OperationManoeuvre
     {
         private string _Movement = "";
@@ -18,8 +19,13 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         private CS_RobTarget _ManEndRobT;
         private CS_speeddata _ManSpeed = new CS_speeddata(1000, 500, 5000, 1000);
         private CS_zonedata _ManZone = new CS_zonedata(false, 100, 150, 150, 15, 150, 15);
-
+        /// <summary>
+        /// Name of Operation Manoeuvre
+        /// </summary>
         public string Name { get; set; } = "";
+        /// <summary>
+        /// ZoneData from Robot relevant to manoeuvre
+        /// </summary>
         public CS_zonedata ManZone
         {
             get
@@ -31,6 +37,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _ManZone = value;
             }
         }
+        /// <summary>
+        /// Speed Data from Robot relevant to manoeuvre
+        /// </summary>
         public CS_speeddata ManSpeed
         {
             get
@@ -42,6 +51,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _ManSpeed = value;
             }
         }
+        /// <summary>
+        /// End Robtarget from Robot relevant to manoeuvre
+        /// </summary>
         public CS_RobTarget ManEndRobT
         {
             get
@@ -53,6 +65,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _ManEndRobT = value;
             }
         }
+        /// <summary>
+        /// RobTarget from Robot relevant to manoeuvre
+        /// </summary>
         public CS_RobTarget ManRobT
         {
             get
@@ -64,6 +79,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _ManRobT = value;
             }
         }
+        /// <summary>
+        /// Indication if wrist will be moved first in move
+        /// </summary>
         public bool WristFirst
         {
             get
@@ -75,6 +93,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _WristFirst = value;
             }
         }
+        /// <summary>
+        /// indication if position is final position in cutting move
+        /// </summary>
         public bool EndCut
         {
             get
@@ -86,6 +107,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _EndCut = value;
             }
         }
+        /// <summary>
+        /// indication if position is starting position in cutting move
+        /// </summary>
         public bool StartCut
         {
             get
@@ -97,6 +121,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _StartCut = value;
             }
         }
+        /// <summary>
+        /// target voltage of plasma cutter during cutting
+        /// </summary>
         public int TargetVoltage
         {
             get
@@ -109,6 +136,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _TargetVoltage = value;
             }
         }
+        /// <summary>
+        /// Reference edge of dimension 2
+        /// </summary>
         public string Dim2Ref
         {
             get
@@ -120,6 +150,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _Dim2Ref = value;
             }
         }
+        /// <summary>
+        /// Type of Operation to be executed?
+        /// </summary>
         public string Type
         {
             get
@@ -131,6 +164,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _Type = value;
             }
         }
+        /// <summary>
+        /// Type of movement to be executed
+        /// </summary>
         public string Movement
         {
             get
@@ -142,6 +178,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _Movement = value;
             }
         }
+        /// <summary>
+        /// initialise empty object
+        /// </summary>
         public OperationManoeuvre()
         {
             _Movement = "";
@@ -156,14 +195,31 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _ManSpeed = new CS_speeddata();
             _ManZone = new CS_zonedata();
         }
+        /// <summary>
+        /// Initialise object from string representation of memory array
+        /// format: "[Movement, Type, Dim2Ref, StartCut, EndCut, WristFirst, TargetVoltage, ManoeuvreRobT, ManoeuvreEndRobT, ManoeuvreSpeed, ManoeuvreZone]"
+        /// </summary>
+        /// <param name="Input">String representation of memory array</param>
         public OperationManoeuvre(string Input)
         {
             new OperationManoeuvre().FromString(Input);
         }
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="target"></param>
         public OperationManoeuvre(Target target)
         {
-
+            throw new NotImplementedException();
         }
+        /// <summary>
+        /// Initialise object with direct infomration
+        /// </summary>
+        /// <param name="instruction">Move Instruction</param>
+        /// <param name="toPoint">to Robtarget</param>
+        /// <param name="cirPoint">mid Robtarget if circular move</param>
+        /// <param name="TargetVoltage">Target voltatge of plasma cutter</param>
+        /// <param name="Speed">robot speed</param>
         public OperationManoeuvre(MoveInstruction instruction, RobTarget toPoint, RobTarget cirPoint = null, int TargetVoltage = 0, double Speed = 0)
         {
             Name = instruction.ToPointName;
@@ -178,6 +234,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _ManSpeed.v_tcp = Speed > 0 ? Speed : _ManSpeed.v_tcp;
             _ManEndRobT = new CS_RobTarget(cirPoint.Frame != new RobTarget().Frame ? cirPoint : null);
         }
+        /// <summary>
+        /// update object from string representation of memory array
+        /// format: "[Movement, Type, Dim2Ref, StartCut, EndCut, WristFirst, TargetVoltage, ManoeuvreRobT, ManoeuvreEndRobT, ManoeuvreSpeed, ManoeuvreZone]"
+        /// </summary>
+        /// <param name="String"></param>
         public void FromString(string String)
         {
             string[] inputArray = String.Trim('[', ']').Split(',');
@@ -193,6 +254,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _ManSpeed.FromString(string.Join(",", inputArray[41..45]).ToLower()); // 4 variables
             _ManZone.FromString(string.Join(",", inputArray[45..52]).ToLower()); // 7 varables
         }
+        /// <summary>
+        /// provides string representation of memory array
+        /// format: "[Movement, Type, Dim2Ref, StartCut, EndCut, WristFirst, TargetVoltage, ManoeuvreRobT, ManoeuvreEndRobT, ManoeuvreSpeed, ManoeuvreZone]"
+        /// </summary>
+        /// <returns>string representation of memory array</returns>
         public override string ToString()
         {
             return "[\"" +
@@ -208,6 +274,10 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                _ManSpeed.ToString() + "," +
                _ManZone.ToString() + "]";
         }
+        /// <summary>
+        /// Elementwise clone of object
+        /// </summary>
+        /// <returns>new object clone of existing object</returns>
         public OperationManoeuvre Clone()
         {
             return (OperationManoeuvre)this.MemberwiseClone();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RFRCC_RobotController.Controller.DataModel
 {
     /// <summary>
-    /// Default Job Template without Infeed loading mechanism
+    /// Default Job process Template without Infeed loading mechanism
     /// </summary>
     public class DefaultJobTemplate : JobModelTemplate
     {
@@ -129,7 +129,10 @@ namespace RFRCC_RobotController.Controller.DataModel
                 ExpIndexModifier = 1
             });
         }
-
+        /// <summary>
+        /// Generates Job actions from JobModel Data
+        /// </summary>
+        /// <param name="jobData">Job Data</param>
         public override void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
         {
             OperationActionList operationActions = jobData.operationActions;

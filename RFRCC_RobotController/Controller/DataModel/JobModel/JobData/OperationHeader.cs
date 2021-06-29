@@ -9,6 +9,9 @@ using System.Linq;
 
 namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
+    /// <summary>
+    /// Header information for operation to be performed by robot
+    /// </summary>
     public class OperationHeader
     {
         private int _FeatureNum;
@@ -24,8 +27,13 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         private bool _Ready;
         private bool _LeadInstruction;
         private bool _Complete;
-
+        /// <summary>
+        /// name of operation
+        /// </summary>
         public string Name { get; set; } = "";
+        /// <summary>
+        /// status if complete
+        /// </summary>
         public bool Complete
         {
             get
@@ -37,6 +45,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _Complete = value;
             }
         }
+        /// <summary>
+        /// Status if this is the first instruction to be completed at a new X loaction
+        /// </summary>
         public bool LeadInstruction
         {
             get
@@ -48,6 +59,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _LeadInstruction = value;
             }
         }
+        /// <summary>
+        /// status if this instruction is ready to be executed on the robot
+        /// </summary>
         public bool Ready
         {
             get
@@ -59,6 +73,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _Ready = value;
             }
         }
+        /// <summary>
+        /// status if the path for the operation has been completed 
+        /// </summary>
         public bool PathComplete
         {
             get
@@ -70,6 +87,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _PathComplete = value;
             }
         }
+        /// <summary>
+        /// index location of movement data in robot memory
+        /// </summary>
         public int ManoeuvreIndex
         {
             get
@@ -81,6 +101,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _ManoeuvreIndex = value;
             }
         }
+        /// <summary>
+        /// number of manoeuvres required to complete feature
+        /// </summary>
         public int NumManoeuvres
         {
             get
@@ -92,6 +115,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _NumManoeuvres = value;
             }
         }
+        /// <summary>
+        /// Number of instructions associated with complete feature
+        /// </summary>
         public int NumInstructions
         {
             get
@@ -103,6 +129,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _NumInstructions = value;
             }
         }
+        /// <summary>
+        /// minimum XYZ Location 
+        /// </summary>
         public CS_pos LocationMax
         {
             get
@@ -114,6 +143,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _LocationMax = value;
             }
         }
+        /// <summary>
+        /// maximum XYZ location
+        /// </summary>
         public CS_pos LocationMin
         {
             get
@@ -125,6 +157,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _LocationMin = value;
             }
         }
+        /// <summary>
+        /// Face of stock profile that this feature is on
+        /// </summary>
         public string Face
         {
             get
@@ -136,6 +171,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _Face = value;
             }
         }
+        /// <summary>
+        /// DSTV task code
+        /// </summary>
         public string TaskCode
         {
             get
@@ -147,6 +185,10 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _TaskCode = value;
             }
         }
+        /// <summary>
+        /// Ideal X of stock in machine for processing
+        /// set by robot
+        /// </summary>
         public double IdealXDisplacement
         {
             get
@@ -158,6 +200,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _IdealXDisplacement = value;
             }
         }
+        /// <summary>
+        /// index number of feature in processesing timeline
+        /// </summary>
         public int FeatureNum
         {
             get
@@ -169,7 +214,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _FeatureNum = value;
             }
         }
-
+        /// <summary>
+        /// intiialise feature with 0's
+        /// </summary>
         public OperationHeader()
         {
             _FeatureNum = 0;
@@ -186,10 +233,20 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _LeadInstruction = false;
             _Complete = false;
         }
+        /// <summary>
+        /// Initialise feature with from string representing array of information
+        /// format: "[featurenum, idealXDisplacement, TaskCode, Face, LocationMin, LocationMax, NumInstructions, NumManoeuvres, MonoeuvreIndex, PathComplete, Ready, LeadInstruction, Complete]"
+        /// </summary>
+        /// <param name="input"></param>
         public OperationHeader(string input)
         {
             FromString(input);
         }
+        /// <summary>
+        /// Operation header populated from Manouvre header and list of manoeuvres
+        /// </summary>
+        /// <param name="manoeuvreHeader">Manoeuvre header information</param>
+        /// <param name="movesList">List of Operation Manoeuvres that are covered by the Operation</param>
         public OperationHeader(Manoeuvre manoeuvreHeader, List<OperationManoeuvre> movesList)
         {
             Name = manoeuvreHeader.Name;
@@ -208,8 +265,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _LeadInstruction = false;
             _Complete = false;
         }
-
-
+        /// <summary>
+        /// update object from information in string representation of robot data
+        /// string format: "[featurenum, idealXDisplacement, TaskCode, Face, LocationMin, LocationMax, NumInstructions, NumManoeuvres, MonoeuvreIndex, PathComplete, Ready, LeadInstruction, Complete]
+        /// </summary>
+        /// <param name="String">string representation of rapid data</param>
         public void FromString(string String)
         {
             string[] inputArray = String.Trim('[', ']').Split(',');
@@ -227,6 +287,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _LeadInstruction = ABB.Robotics.Controllers.RapidDomain.Bool.Parse(inputArray[15].ToLower());
             _Complete = ABB.Robotics.Controllers.RapidDomain.Bool.Parse(inputArray[16].ToLower());
         }
+        /// <summary>
+        /// returns string representation of robot data
+        /// format: "[featurenum, idealXDisplacement, TaskCode, Face, LocationMin, LocationMax, NumInstructions, NumManoeuvres, MonoeuvreIndex, PathComplete, Ready, LeadInstruction, Complete]
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "[" +
@@ -244,7 +309,10 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                _LeadInstruction.ToString() + "," +
                _Complete.ToString() + "]";
         }
-
+        /// <summary>
+        /// Clones object elementwise
+        /// </summary>
+        /// <returns></returns>
         public OperationHeader Clone()
         {
             return (OperationHeader)MemberwiseClone();
