@@ -1,0 +1,266 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct}\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+
+
+RAPID integrated Control Structure for Robot communication, control and status during processing  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ab8946991cdfed1fc4560eef3ce823f94}{Connect\+To\+RAPID}} (ABB.\+Robotics.\+Controllers.\+Controller controller, Task Robot\+Task, string Module, string RAPID\+\_\+\+Name)
+\begin{DoxyCompactList}\small\item\em Initialise object with connection to controller \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_aa4a8592c4e850366cd00044d80f436ec}{Get\+From\+Rapid\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Download Data from Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a3ebf780ca23c0233f10df1037e59c4a5}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em Output Structure in string representation format\+: \char`\"{}\mbox{[}\+Job\+In\+Progress, Job\+ID, Torch\+Enabled, Manual\+Control\+\_\+\+Req, Stock\+XDisplacement, Robot\+Enabled, Park\+\_\+\+Req, PC\+\_\+\+Message\mbox{]}\char`\"{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a3ed42eec883de2ba0b9b40f77cb69c21}{On\+Value\+Update}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Method to raise Value\+Update Event \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a44aa82e0ee1c4baef119c61d3a33afba}{On\+PC\+\_\+\+Message\+Update}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Method to raise PC\+\_\+\+Message\+Update event \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Rapid\+Data \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a69c56f9aaeff8a522f23f028fc08adfe}{Robot\+\_\+\+Control\+\_\+\+RAPID}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em RAPIDData on connect Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_add22eb9a19ab707c0f771a14a3ba67b0}{Job\+In\+Progress}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Current Job In progress \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a6602625a9dbd3f941fd11a24c512c6c0}{Job\+ID}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Current Job processing ID \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_aa0aa513767ba6c9660378291b27fde48}{Torch\+Enable}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Plasma Torch Enabled \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ab55498e196ee1dc107fe09e1e6e21378}{Manual\+Control\+\_\+\+Req}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Manual Control from operator Requested \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a51336efa9e6a1c907bf8e594851524d7}{Stock\+XDisplacement}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Current Stock X Displacement to be populated from PLC \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ae844b6cf25e5f80d59ca0a817868b002}{Robot\+Enabled}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Robot Movement Enabled \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a59bca9747378026720deb479135da78d}{Park\+\_\+\+Req}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Park Position requested \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ac41e676fcc86b58fa6b0344581c9a3cd}{PC\+\_\+\+Message}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Message to Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} from PC \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ac136f0a2d13ca9ec3a80665f1e2bdee5}{Display\+Info}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Object Information displayed in string \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a9e9446e29f21dad91c4d4d031bc01d5c}{Value\+Update}}
+\begin{DoxyCompactList}\small\item\em Event raised when an object value is updated \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_af40be349cef8116275e0805869e985a2}{PC\+\_\+\+Message\+Update}}
+\begin{DoxyCompactList}\small\item\em Event raised when RAPID Data structure value is updated \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+RAPID integrated Control Structure for Robot communication, control and status during processing 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ab8946991cdfed1fc4560eef3ce823f94}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ab8946991cdfed1fc4560eef3ce823f94}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!ConnectToRAPID@{ConnectToRAPID}}
+\index{ConnectToRAPID@{ConnectToRAPID}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{ConnectToRAPID()}{ConnectToRAPID()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Connect\+To\+RAPID (\begin{DoxyParamCaption}\item[{ABB.\+Robotics.\+Controllers.\+Controller}]{controller,  }\item[{Task}]{Robot\+Task,  }\item[{string}]{Module,  }\item[{string}]{RAPID\+\_\+\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialise object with connection to controller 
+
+
+\begin{DoxyParams}{Parameters}
+{\em controller} & Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}}\\
+\hline
+{\em Robot\+Task} & \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} Task\\
+\hline
+{\em Module} & Module housing Control structure\\
+\hline
+{\em RAPID\+\_\+\+Name} & name of Control structure\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_aa4a8592c4e850366cd00044d80f436ec}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_aa4a8592c4e850366cd00044d80f436ec}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!GetFromRapidData@{GetFromRapidData}}
+\index{GetFromRapidData@{GetFromRapidData}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{GetFromRapidData()}{GetFromRapidData()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Get\+From\+Rapid\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Download Data from Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a44aa82e0ee1c4baef119c61d3a33afba}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a44aa82e0ee1c4baef119c61d3a33afba}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!OnPC\_MessageUpdate@{OnPC\_MessageUpdate}}
+\index{OnPC\_MessageUpdate@{OnPC\_MessageUpdate}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{OnPC\_MessageUpdate()}{OnPC\_MessageUpdate()}}
+{\footnotesize\ttfamily virtual void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+On\+PC\+\_\+\+Message\+Update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Method to raise PC\+\_\+\+Message\+Update event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a3ed42eec883de2ba0b9b40f77cb69c21}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a3ed42eec883de2ba0b9b40f77cb69c21}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!OnValueUpdate@{OnValueUpdate}}
+\index{OnValueUpdate@{OnValueUpdate}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{OnValueUpdate()}{OnValueUpdate()}}
+{\footnotesize\ttfamily virtual void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+On\+Value\+Update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Method to raise Value\+Update Event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a3ebf780ca23c0233f10df1037e59c4a5}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a3ebf780ca23c0233f10df1037e59c4a5}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!ToString@{ToString}}
+\index{ToString@{ToString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Output Structure in string representation format\+: \char`\"{}\mbox{[}\+Job\+In\+Progress, Job\+ID, Torch\+Enabled, Manual\+Control\+\_\+\+Req, Stock\+XDisplacement, Robot\+Enabled, Park\+\_\+\+Req, PC\+\_\+\+Message\mbox{]}\char`\"{} 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ac136f0a2d13ca9ec3a80665f1e2bdee5}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ac136f0a2d13ca9ec3a80665f1e2bdee5}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!DisplayInfo@{DisplayInfo}}
+\index{DisplayInfo@{DisplayInfo}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{DisplayInfo}{DisplayInfo}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Display\+Info\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Object Information displayed in string 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a6602625a9dbd3f941fd11a24c512c6c0}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a6602625a9dbd3f941fd11a24c512c6c0}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!JobID@{JobID}}
+\index{JobID@{JobID}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{JobID}{JobID}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Job\+ID\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Current Job processing ID 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_add22eb9a19ab707c0f771a14a3ba67b0}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_add22eb9a19ab707c0f771a14a3ba67b0}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!JobInProgress@{JobInProgress}}
+\index{JobInProgress@{JobInProgress}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{JobInProgress}{JobInProgress}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Job\+In\+Progress\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Current Job In progress 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ab55498e196ee1dc107fe09e1e6e21378}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ab55498e196ee1dc107fe09e1e6e21378}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!ManualControl\_Req@{ManualControl\_Req}}
+\index{ManualControl\_Req@{ManualControl\_Req}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{ManualControl\_Req}{ManualControl\_Req}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Manual\+Control\+\_\+\+Req\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Manual Control from operator Requested 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a59bca9747378026720deb479135da78d}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a59bca9747378026720deb479135da78d}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!Park\_Req@{Park\_Req}}
+\index{Park\_Req@{Park\_Req}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{Park\_Req}{Park\_Req}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Park\+\_\+\+Req\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Park Position requested 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ac41e676fcc86b58fa6b0344581c9a3cd}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ac41e676fcc86b58fa6b0344581c9a3cd}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!PC\_Message@{PC\_Message}}
+\index{PC\_Message@{PC\_Message}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{PC\_Message}{PC\_Message}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+PC\+\_\+\+Message\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Message to Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} from PC 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a69c56f9aaeff8a522f23f028fc08adfe}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a69c56f9aaeff8a522f23f028fc08adfe}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!Robot\_Control\_RAPID@{Robot\_Control\_RAPID}}
+\index{Robot\_Control\_RAPID@{Robot\_Control\_RAPID}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{Robot\_Control\_RAPID}{Robot\_Control\_RAPID}}
+{\footnotesize\ttfamily Rapid\+Data RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Robot\+\_\+\+Control\+\_\+\+RAPID\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+RAPIDData on connect Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ae844b6cf25e5f80d59ca0a817868b002}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_ae844b6cf25e5f80d59ca0a817868b002}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!RobotEnabled@{RobotEnabled}}
+\index{RobotEnabled@{RobotEnabled}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{RobotEnabled}{RobotEnabled}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Robot\+Enabled\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Robot Movement Enabled 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a51336efa9e6a1c907bf8e594851524d7}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a51336efa9e6a1c907bf8e594851524d7}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!StockXDisplacement@{StockXDisplacement}}
+\index{StockXDisplacement@{StockXDisplacement}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{StockXDisplacement}{StockXDisplacement}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Stock\+XDisplacement\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Current Stock X Displacement to be populated from PLC 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_aa0aa513767ba6c9660378291b27fde48}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_aa0aa513767ba6c9660378291b27fde48}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!TorchEnable@{TorchEnable}}
+\index{TorchEnable@{TorchEnable}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{TorchEnable}{TorchEnable}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Torch\+Enable\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Plasma Torch Enabled 
+
+
+
+\doxysubsection{Event Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_af40be349cef8116275e0805869e985a2}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_af40be349cef8116275e0805869e985a2}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!PC\_MessageUpdate@{PC\_MessageUpdate}}
+\index{PC\_MessageUpdate@{PC\_MessageUpdate}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{PC\_MessageUpdate}{PC\_MessageUpdate}}
+{\footnotesize\ttfamily Event\+Handler$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+PC\+\_\+\+Message\+Update}
+
+
+
+Event raised when RAPID Data structure value is updated 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a9e9446e29f21dad91c4d4d031bc01d5c}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct_a9e9446e29f21dad91c4d4d031bc01d5c}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}!ValueUpdate@{ValueUpdate}}
+\index{ValueUpdate@{ValueUpdate}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.Robot\_ControlStruct}}
+\doxysubsubsection{\texorpdfstring{ValueUpdate}{ValueUpdate}}
+{\footnotesize\ttfamily Event\+Handler$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+Robot\+\_\+\+Control\+Struct.\+Value\+Update}
+
+
+
+Event raised when an object value is updated 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+Controller/\+Data\+Model/\+RAPID\+\_\+\+Data/\+Structs/Robot\+\_\+\+Control\+Struct.\+cs\end{DoxyCompactItemize}

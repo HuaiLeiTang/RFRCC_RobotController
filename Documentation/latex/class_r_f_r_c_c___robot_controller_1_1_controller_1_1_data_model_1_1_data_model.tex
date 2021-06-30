@@ -1,0 +1,348 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model}\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+
+
+Houses all project data and data connections to robot memory  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a4fc06e748b13eba4a93b1db4a8db1e21}{Data\+Model}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} Parent\+Controller)
+\begin{DoxyCompactList}\small\item\em Data Model Constructor, securing parent controller and intitialising operations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a2f262133e1333dd41a466318e2c17eb4}{Init\+Data\+Stream}} ()
+\begin{DoxyCompactList}\small\item\em Starts up data stream and checks that datamodel is in \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a3c00fc0d2fbdcbe94d2b0c42e83ae5ae}{Check\+Program\+Version\+Suitably}} ()
+\begin{DoxyCompactList}\small\item\em Checks connected network controller if program version and features will work . PLACEHOLDER FUNCTION -\/ TO BE IMPLEMENTED \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ad23dee860d689b9fd777e345f5243fba}{Feature\+Data}} (int index)
+\begin{DoxyCompactList}\small\item\em Job feature data \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a08511481607e7ef5b6eb8b71fb32ce02}{Update\+Robot}} (string Table, int Feature\+Num=0, int Carriage=0)
+\begin{DoxyCompactList}\small\item\em Calls event to update Header or Manoeuvre information onto the robot \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a81892f9669b0093c97b8d55175a758e9}{Update\+RCC}} (string Job\+ID)
+\begin{DoxyCompactList}\small\item\em Calls event to update Job\+Data on robot by Job\+ID THIS MAY SOON BE REDUNDANT! \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a919ee5d624246f101f4b010d93d4a0f7}{Load\+Job\+Data}} (string Job\+Data)
+\begin{DoxyCompactList}\small\item\em Not yet Implemented \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_af8be2e6ce5dc6445517de3b0d20596c7}{Load\+Additional\+Job\+Data}} (string Job\+Data)
+\begin{DoxyCompactList}\small\item\em Not yet implemented \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a110414fab5e0588fc8971babf4f9d577}{Clear\+Job\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Removes all operations from Operation Queue \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+Rapid\+Data \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aadf08884e02a2e6026bf80c7e7616d01}{Next\+DX}}
+\begin{DoxyCompactList}\small\item\em Next job x from datum required for PLC to get job to \end{DoxyCompactList}\item 
+List$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_job_model}{Job\+Model}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa42da127783b8bedd5d8c39ba5891d4a}{Operations}} = new List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_job_model}{Job\+Model}}$>$()
+\begin{DoxyCompactList}\small\item\em list of job(s) to be completed \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a4dbba8f783ea696f33f4124cf25446be}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a4dbba8f783ea696f33f4124cf25446be}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_p_c___robot_move___register}{PC\+\_\+\+Robot\+Move\+\_\+\+Register}} {\bfseries Robot\+Instuctions\+Register}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a39204432064679c3868fba3e7041f507}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a39204432064679c3868fba3e7041f507}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___o_m___list}{RAPID\+\_\+\+OM\+\_\+\+List}} {\bfseries Operation\+Maneouvres}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a0ad12a11b381166d79a77cdb9486d1fd}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a0ad12a11b381166d79a77cdb9486d1fd}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___o_h___list}{RAPID\+\_\+\+OH\+\_\+\+List}} {\bfseries Operation\+Headers}
+\item 
+List$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_header}{Job\+Header}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a028dc8ece4e1fe611fe5965165187d12}{job\+Headers}} = new List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_header}{Job\+Header}}$>$()
+\begin{DoxyCompactList}\small\item\em NOT FOR USE? To be updated to RAPID memory associated class \end{DoxyCompactList}\item 
+List$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa569d7634aeefc3f9be2997b2d396103}{job\+Features}} = new List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}}$>$()
+\begin{DoxyCompactList}\small\item\em NOT FOR USE? To be updated to RAPID memory associated class \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct}{Robot\+\_\+\+Control\+Struct}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa45df0208290857f3fc359cba94cce75}{Robot\+\_\+\+Control}} = new \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct}{Robot\+\_\+\+Control\+Struct}}()
+\begin{DoxyCompactList}\small\item\em NOT FOR USE? To be updated to RAPID memory associated class \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a127b596add28a93ddc83b5b1a59eea60}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a127b596add28a93ddc83b5b1a59eea60}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}} {\bfseries Top\+Cut\+Chart} = new \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}}()
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a38284603a7ef5c79ce8e8936206d261e}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a38284603a7ef5c79ce8e8936206d261e}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}} {\bfseries Bottom\+Cut\+Chart} = new \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}}()
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ad6107c4fd04d560aa60265f9c7c325b0}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ad6107c4fd04d560aa60265f9c7c325b0}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}} {\bfseries Front\+Cut\+Chart} = new \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}}()
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_adcfd3d400fa7524409a9ef37449507df}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_adcfd3d400fa7524409a9ef37449507df}} 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}} {\bfseries Back\+Cut\+Chart} = new \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{RAPID\+\_\+\+Cut\+Chart}}()
+\item 
+Replace\+RSConnection.\+Robotics.\+Tool\+Info.\+Tool\+Data \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_af2f5bde147215ff828a49147698a685a}{Tool\+Data}}
+\begin{DoxyCompactList}\small\item\em Tool data relevant to plasma cutting torch \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_job_model}{Job\+Model}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a9ee4483128809ac2ac779eed27847b2e}{Current\+Job}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Current Job loaded into memory and omboard any connected \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_robot_program_version}{Robot\+Program\+Version}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_adac150b1a91d80604386c85f0f792893}{Program\+Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Version of program loaded onto the controller connected \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d_job___header}{RAPIDJob\+\_\+\+Header}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a0961f7847a2cf32ccb593b266eca3b75}{job\+Header}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em NOT FOR USE? To be updated to RAPID memory associated class \end{DoxyCompactList}\item 
+List$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ae0eef5d400108f1caabee75538f60f81}{Feature\+Data\+List}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Entire Job feature list \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_header}{Job\+Header}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa87adba87e11b7fcb77a4a42bb00cf78}{Header\+Data}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Current Job Header Data \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Houses all project data and data connections to robot memory 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a4fc06e748b13eba4a93b1db4a8db1e21}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a4fc06e748b13eba4a93b1db4a8db1e21}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!DataModel@{DataModel}}
+\index{DataModel@{DataModel}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{DataModel()}{DataModel()}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Data\+Model (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{Parent\+Controller }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Data Model Constructor, securing parent controller and intitialising operations 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Parent\+Controller} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a3c00fc0d2fbdcbe94d2b0c42e83ae5ae}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a3c00fc0d2fbdcbe94d2b0c42e83ae5ae}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!CheckProgramVersionSuitably@{CheckProgramVersionSuitably}}
+\index{CheckProgramVersionSuitably@{CheckProgramVersionSuitably}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{CheckProgramVersionSuitably()}{CheckProgramVersionSuitably()}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Check\+Program\+Version\+Suitably (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Checks connected network controller if program version and features will work . PLACEHOLDER FUNCTION -\/ TO BE IMPLEMENTED 
+
+\begin{DoxyReturn}{Returns}
+Version of connected network controller is acceptable
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a110414fab5e0588fc8971babf4f9d577}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a110414fab5e0588fc8971babf4f9d577}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!ClearJobData@{ClearJobData}}
+\index{ClearJobData@{ClearJobData}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{ClearJobData()}{ClearJobData()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Clear\+Job\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes all operations from Operation Queue 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ad23dee860d689b9fd777e345f5243fba}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ad23dee860d689b9fd777e345f5243fba}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!FeatureData@{FeatureData}}
+\index{FeatureData@{FeatureData}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{FeatureData()}{FeatureData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Feature\+Data (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Job feature data 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & index\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a2f262133e1333dd41a466318e2c17eb4}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a2f262133e1333dd41a466318e2c17eb4}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!InitDataStream@{InitDataStream}}
+\index{InitDataStream@{InitDataStream}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{InitDataStream()}{InitDataStream()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Init\+Data\+Stream (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Starts up data stream and checks that datamodel is in 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_af8be2e6ce5dc6445517de3b0d20596c7}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_af8be2e6ce5dc6445517de3b0d20596c7}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!LoadAdditionalJobData@{LoadAdditionalJobData}}
+\index{LoadAdditionalJobData@{LoadAdditionalJobData}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{LoadAdditionalJobData()}{LoadAdditionalJobData()}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Load\+Additional\+Job\+Data (\begin{DoxyParamCaption}\item[{string}]{Job\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not yet implemented 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Job\+Data} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a919ee5d624246f101f4b010d93d4a0f7}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a919ee5d624246f101f4b010d93d4a0f7}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!LoadJobData@{LoadJobData}}
+\index{LoadJobData@{LoadJobData}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{LoadJobData()}{LoadJobData()}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Load\+Job\+Data (\begin{DoxyParamCaption}\item[{string}]{Job\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Not yet Implemented 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Job\+Data} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a81892f9669b0093c97b8d55175a758e9}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a81892f9669b0093c97b8d55175a758e9}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!UpdateRCC@{UpdateRCC}}
+\index{UpdateRCC@{UpdateRCC}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{UpdateRCC()}{UpdateRCC()}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Update\+RCC (\begin{DoxyParamCaption}\item[{string}]{Job\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calls event to update Job\+Data on robot by Job\+ID THIS MAY SOON BE REDUNDANT! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Job\+ID} & Job\+ID of job to update on robot\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a08511481607e7ef5b6eb8b71fb32ce02}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a08511481607e7ef5b6eb8b71fb32ce02}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!UpdateRobot@{UpdateRobot}}
+\index{UpdateRobot@{UpdateRobot}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{UpdateRobot()}{UpdateRobot()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Update\+Robot (\begin{DoxyParamCaption}\item[{string}]{Table,  }\item[{int}]{Feature\+Num = {\ttfamily 0},  }\item[{int}]{Carriage = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calls event to update Header or Manoeuvre information onto the robot 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Table} & Table = \char`\"{}header\char`\"{}/\char`\"{}feature\char`\"{}/\char`\"{}manoeuvre\char`\"{}\\
+\hline
+{\em Feature\+Num} & if Table != \char`\"{}header\char`\"{}\\
+\hline
+{\em Carriage} & Carriage index for chunking manoeuvre information\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa569d7634aeefc3f9be2997b2d396103}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa569d7634aeefc3f9be2997b2d396103}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!jobFeatures@{jobFeatures}}
+\index{jobFeatures@{jobFeatures}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{jobFeatures}{jobFeatures}}
+{\footnotesize\ttfamily List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+job\+Features = new List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}}$>$()}
+
+
+
+NOT FOR USE? To be updated to RAPID memory associated class 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a028dc8ece4e1fe611fe5965165187d12}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a028dc8ece4e1fe611fe5965165187d12}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!jobHeaders@{jobHeaders}}
+\index{jobHeaders@{jobHeaders}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{jobHeaders}{jobHeaders}}
+{\footnotesize\ttfamily List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_header}{Job\+Header}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+job\+Headers = new List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_header}{Job\+Header}}$>$()}
+
+
+
+NOT FOR USE? To be updated to RAPID memory associated class 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aadf08884e02a2e6026bf80c7e7616d01}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aadf08884e02a2e6026bf80c7e7616d01}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!NextDX@{NextDX}}
+\index{NextDX@{NextDX}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{NextDX}{NextDX}}
+{\footnotesize\ttfamily Rapid\+Data RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Next\+DX}
+
+
+
+Next job x from datum required for PLC to get job to 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa42da127783b8bedd5d8c39ba5891d4a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa42da127783b8bedd5d8c39ba5891d4a}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!Operations@{Operations}}
+\index{Operations@{Operations}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{Operations}{Operations}}
+{\footnotesize\ttfamily List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_job_model}{Job\+Model}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Operations = new List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_job_model}{Job\+Model}}$>$()}
+
+
+
+list of job(s) to be completed 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa45df0208290857f3fc359cba94cce75}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa45df0208290857f3fc359cba94cce75}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!Robot\_Control@{Robot\_Control}}
+\index{Robot\_Control@{Robot\_Control}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{Robot\_Control}{Robot\_Control}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct}{Robot\+\_\+\+Control\+Struct}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Robot\+\_\+\+Control = new \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_robot___control_struct}{Robot\+\_\+\+Control\+Struct}}()}
+
+
+
+NOT FOR USE? To be updated to RAPID memory associated class 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_af2f5bde147215ff828a49147698a685a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_af2f5bde147215ff828a49147698a685a}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!ToolData@{ToolData}}
+\index{ToolData@{ToolData}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{ToolData}{ToolData}}
+{\footnotesize\ttfamily Replace\+RSConnection.\+Robotics.\+Tool\+Info.\+Tool\+Data RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Tool\+Data}
+
+
+
+Tool data relevant to plasma cutting torch 
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a9ee4483128809ac2ac779eed27847b2e}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a9ee4483128809ac2ac779eed27847b2e}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!CurrentJob@{CurrentJob}}
+\index{CurrentJob@{CurrentJob}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{CurrentJob}{CurrentJob}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_job_model}{Job\+Model}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Current\+Job\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Current Job loaded into memory and omboard any connected \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ae0eef5d400108f1caabee75538f60f81}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_ae0eef5d400108f1caabee75538f60f81}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!FeatureDataList@{FeatureDataList}}
+\index{FeatureDataList@{FeatureDataList}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{FeatureDataList}{FeatureDataList}}
+{\footnotesize\ttfamily List$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_feature}{Job\+Feature}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Feature\+Data\+List\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Entire Job feature list 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa87adba87e11b7fcb77a4a42bb00cf78}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_aa87adba87e11b7fcb77a4a42bb00cf78}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!HeaderData@{HeaderData}}
+\index{HeaderData@{HeaderData}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{HeaderData}{HeaderData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_job_header}{Job\+Header}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Header\+Data\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Current Job Header Data 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a0961f7847a2cf32ccb593b266eca3b75}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_a0961f7847a2cf32ccb593b266eca3b75}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!jobHeader@{jobHeader}}
+\index{jobHeader@{jobHeader}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{jobHeader}{jobHeader}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d_job___header}{RAPIDJob\+\_\+\+Header}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+job\+Header\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+NOT FOR USE? To be updated to RAPID memory associated class 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_adac150b1a91d80604386c85f0f792893}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model_adac150b1a91d80604386c85f0f792893}} 
+\index{RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}!ProgramVersion@{ProgramVersion}}
+\index{ProgramVersion@{ProgramVersion}!RFRCC\_RobotController.Controller.DataModel.DataModel@{RFRCC\_RobotController.Controller.DataModel.DataModel}}
+\doxysubsubsection{\texorpdfstring{ProgramVersion}{ProgramVersion}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_robot_program_version}{Robot\+Program\+Version}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+Data\+Model.\+Program\+Version\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Version of program loaded onto the controller connected 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+Controller/\+Data\+Model/Data\+Model.\+cs\end{DoxyCompactItemize}

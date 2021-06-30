@@ -1,0 +1,393 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer}\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ac80b2b9323d65f20e602c25e9e96a238}{RAPID\+\_\+\+Operation\+Buffer}} ()
+\begin{DoxyCompactList}\small\item\em initialise empty object \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a288f968a0662d27b131f85ce57c54ba4}{RAPID\+\_\+\+Operation\+Buffer}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} Parent\+Controller, string Op\+Man\+Module, string Op\+Man\+VARName, string Op\+Head\+Module, string Op\+Head\+VARName)
+\begin{DoxyCompactList}\small\item\em Initialise object \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a445500db91e8ff121d9e84c01447fe82}{Connect\+Parent\+Controller}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} Parent\+Controller, string Op\+Man\+Module, string Op\+Man\+VARName, string Op\+Head\+Module, string Op\+Head\+VARName)
+\begin{DoxyCompactList}\small\item\em Connect network controller to this object \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aa6d8e61605e31989af8b109f371d17d5}{set\+Current\+Job}} (bool Current=true)
+\begin{DoxyCompactList}\small\item\em Sets this job as current Job, uploads all relevant data to robot, and makes all required connections \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2a1e2f8e342f437cba77587e554aa44a}{Connect\+To\+Controller}} (object Sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_connection_event_args}{Controller\+Connection\+Event\+Args}} args)
+\begin{DoxyCompactList}\small\item\em Event to Connect to controller \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a5aa23848fa2beb89f6cb825c920a19b6}{Clear}} ()
+\begin{DoxyCompactList}\small\item\em removes all items contained in Operation List \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_afced97eae24bbdcd2886d6818ce5fbfe}{Add\+Operation\+Range}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_p_c___robot_move___register}{PC\+\_\+\+Robot\+Move\+\_\+\+Register}} Operations)
+\begin{DoxyCompactList}\small\item\em Add Operations to list of operations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a8ee218562f5795f74675b79b330a6ac6}{Add\+Operation\+Range}} (List$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_robot_computed_features}{Robot\+Computed\+Features}} $>$ Operations)
+\begin{DoxyCompactList}\small\item\em Add Operations to list of operations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a683b2734d289eb464742412490861e27}{Add\+Operation}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_robot_computed_features}{Robot\+Computed\+Features}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a920e83a0a0a35991f19e967f5079c2a1}{Operation}})
+\begin{DoxyCompactList}\small\item\em Add Operation to list of operations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aa05285e3a4a41993b544b396445aab43}{Add\+From\+String}} (string input)
+\begin{DoxyCompactList}\small\item\em NOT IMPLEMENTED \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a0afc201a2bcdef77e60db3935300621d}{sort}} ()
+\begin{DoxyCompactList}\small\item\em Sort the Operations by operation sort preference \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ae27b79feed50b703ed61b84821cd7e09}{sort}} (bool sort\+Ascending)
+\begin{DoxyCompactList}\small\item\em Sort the Operations by operation sort preference \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ab8c5be6cf385a8cda06cca019ea30c08}{To\+String}} (int feature)
+\begin{DoxyCompactList}\small\item\em Outputs string representation of RAPID structure Feature \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aad257b04e83ce98569e956ed4e14849a}{Operation\+Manoeuvres\+To\+String}} (int feature)
+\begin{DoxyCompactList}\small\item\em Outputs string representation of RAPID structure Feature \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a86c3348e9d3bb6c4c2b6b09eb6afb675}{Operation\+Manoeuvres\+Chunk\+To\+String}} (int feature, int Carriage)
+\begin{DoxyCompactList}\small\item\em Outputs string representation of Chunk of RAPID structure Features to fit into a carriage of data sent to network controller \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2ec6ac80ad59527555268d65c0ab5b57}{Upload\+Data}} (int feature)
+\begin{DoxyCompactList}\small\item\em upload feature data to network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2bbfd7f934038a7d8b34c8a9ebefafe8}{Upload\+Data}} (int feature, int carriage)
+\begin{DoxyCompactList}\small\item\em upload Chunk of features data to network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} starting from specified feature \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_p_c___robot_move___register}{PC\+\_\+\+Robot\+Move\+\_\+\+Register}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a920e83a0a0a35991f19e967f5079c2a1}{Operation}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Operation \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a9310a1180962d54d1e63f92ee90571c9}{Current\+Job}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Status if this object is currently uploaded and maintained on associated robot controller \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a303f80197c0edb9a8ab1364d5424aa40}{Size\+Of\+Man\+Buffer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Size of maneouvre buffer on network controller \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a8617ca1f35b87e063b6c0617ae90d543}{Ascending\+Order}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Set manoeuvre order in ascending order in distance from x = 0 \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_afd4e3d73109eb68e94f15ea51b631f2b}{Descending\+Order}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Set manoeuvre order in descending order in distance from x = 0 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ac80b2b9323d65f20e602c25e9e96a238}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ac80b2b9323d65f20e602c25e9e96a238}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!RAPID\_OperationBuffer@{RAPID\_OperationBuffer}}
+\index{RAPID\_OperationBuffer@{RAPID\_OperationBuffer}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{RAPID\_OperationBuffer()}{RAPID\_OperationBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+RAPID\+\_\+\+Operation\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+initialise empty object 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a288f968a0662d27b131f85ce57c54ba4}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a288f968a0662d27b131f85ce57c54ba4}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!RAPID\_OperationBuffer@{RAPID\_OperationBuffer}}
+\index{RAPID\_OperationBuffer@{RAPID\_OperationBuffer}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{RAPID\_OperationBuffer()}{RAPID\_OperationBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+RAPID\+\_\+\+Operation\+Buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{Parent\+Controller,  }\item[{string}]{Op\+Man\+Module,  }\item[{string}]{Op\+Man\+VARName,  }\item[{string}]{Op\+Head\+Module,  }\item[{string}]{Op\+Head\+VARName }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialise object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Parent\+Controller} & Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}}\\
+\hline
+{\em Op\+Man\+Module} & Module name housing Manoeuvre RAPID structure\\
+\hline
+{\em Op\+Man\+VARName} & Manoeuvre RAPID structure name\\
+\hline
+{\em Op\+Head\+Module} & Module name housing Header RAPID structure\\
+\hline
+{\em Op\+Head\+VARName} & Header RAPID structure name\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aa05285e3a4a41993b544b396445aab43}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aa05285e3a4a41993b544b396445aab43}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!AddFromString@{AddFromString}}
+\index{AddFromString@{AddFromString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{AddFromString()}{AddFromString()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Add\+From\+String (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+NOT IMPLEMENTED 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a683b2734d289eb464742412490861e27}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a683b2734d289eb464742412490861e27}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!AddOperation@{AddOperation}}
+\index{AddOperation@{AddOperation}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{AddOperation()}{AddOperation()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Add\+Operation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_robot_computed_features}{Robot\+Computed\+Features}}}]{Operation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add Operation to list of operations 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Operation} & Operation to add\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a8ee218562f5795f74675b79b330a6ac6}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a8ee218562f5795f74675b79b330a6ac6}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!AddOperationRange@{AddOperationRange}}
+\index{AddOperationRange@{AddOperationRange}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{AddOperationRange()}{AddOperationRange()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Add\+Operation\+Range (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_robot_computed_features}{Robot\+Computed\+Features}} $>$}]{Operations }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add Operations to list of operations 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Operations} & List of operations to add\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_afced97eae24bbdcd2886d6818ce5fbfe}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_afced97eae24bbdcd2886d6818ce5fbfe}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!AddOperationRange@{AddOperationRange}}
+\index{AddOperationRange@{AddOperationRange}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{AddOperationRange()}{AddOperationRange()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Add\+Operation\+Range (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_p_c___robot_move___register}{PC\+\_\+\+Robot\+Move\+\_\+\+Register}}}]{Operations }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add Operations to list of operations 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Operations} & register of operations to add\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a5aa23848fa2beb89f6cb825c920a19b6}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a5aa23848fa2beb89f6cb825c920a19b6}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!Clear@{Clear}}
+\index{Clear@{Clear}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+removes all items contained in Operation List 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a445500db91e8ff121d9e84c01447fe82}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a445500db91e8ff121d9e84c01447fe82}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!ConnectParentController@{ConnectParentController}}
+\index{ConnectParentController@{ConnectParentController}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{ConnectParentController()}{ConnectParentController()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Connect\+Parent\+Controller (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{Parent\+Controller,  }\item[{string}]{Op\+Man\+Module,  }\item[{string}]{Op\+Man\+VARName,  }\item[{string}]{Op\+Head\+Module,  }\item[{string}]{Op\+Head\+VARName }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Connect network controller to this object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Parent\+Controller} & Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}}\\
+\hline
+{\em Op\+Man\+Module} & Module name housing Manoeuvre RAPID structure\\
+\hline
+{\em Op\+Man\+VARName} & Manoeuvre RAPID structure name\\
+\hline
+{\em Op\+Head\+Module} & Module name housing Header RAPID structure\\
+\hline
+{\em Op\+Head\+VARName} & Header RAPID structure name\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2a1e2f8e342f437cba77587e554aa44a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2a1e2f8e342f437cba77587e554aa44a}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!ConnectToController@{ConnectToController}}
+\index{ConnectToController@{ConnectToController}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{ConnectToController()}{ConnectToController()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Connect\+To\+Controller (\begin{DoxyParamCaption}\item[{object}]{Sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_connection_event_args}{Controller\+Connection\+Event\+Args}}}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Event to Connect to controller 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Sender} & \\
+\hline
+{\em args} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a86c3348e9d3bb6c4c2b6b09eb6afb675}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a86c3348e9d3bb6c4c2b6b09eb6afb675}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!OperationManoeuvresChunkToString@{OperationManoeuvresChunkToString}}
+\index{OperationManoeuvresChunkToString@{OperationManoeuvresChunkToString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{OperationManoeuvresChunkToString()}{OperationManoeuvresChunkToString()}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Operation\+Manoeuvres\+Chunk\+To\+String (\begin{DoxyParamCaption}\item[{int}]{feature,  }\item[{int}]{Carriage }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Outputs string representation of Chunk of RAPID structure Features to fit into a carriage of data sent to network controller 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & Feature number to start chunk\\
+\hline
+{\em Carriage} & Carriage number to upload\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aad257b04e83ce98569e956ed4e14849a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aad257b04e83ce98569e956ed4e14849a}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!OperationManoeuvresToString@{OperationManoeuvresToString}}
+\index{OperationManoeuvresToString@{OperationManoeuvresToString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{OperationManoeuvresToString()}{OperationManoeuvresToString()}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Operation\+Manoeuvres\+To\+String (\begin{DoxyParamCaption}\item[{int}]{feature }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Outputs string representation of RAPID structure Feature 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & Feature Number to be output\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string representation of RAPID structure Feature
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aa6d8e61605e31989af8b109f371d17d5}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_aa6d8e61605e31989af8b109f371d17d5}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!setCurrentJob@{setCurrentJob}}
+\index{setCurrentJob@{setCurrentJob}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{setCurrentJob()}{setCurrentJob()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+set\+Current\+Job (\begin{DoxyParamCaption}\item[{bool}]{Current = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets this job as current Job, uploads all relevant data to robot, and makes all required connections 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Current} & Current Job Status\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a0afc201a2bcdef77e60db3935300621d}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a0afc201a2bcdef77e60db3935300621d}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!sort@{sort}}
+\index{sort@{sort}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{sort()}{sort()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+sort (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sort the Operations by operation sort preference 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ae27b79feed50b703ed61b84821cd7e09}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ae27b79feed50b703ed61b84821cd7e09}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!sort@{sort}}
+\index{sort@{sort}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{sort()}{sort()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+sort (\begin{DoxyParamCaption}\item[{bool}]{sort\+Ascending }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sort the Operations by operation sort preference 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sort\+Ascending} & Set Sort Ascending or Descending\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ab8c5be6cf385a8cda06cca019ea30c08}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_ab8c5be6cf385a8cda06cca019ea30c08}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!ToString@{ToString}}
+\index{ToString@{ToString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+To\+String (\begin{DoxyParamCaption}\item[{int}]{feature }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Outputs string representation of RAPID structure Feature 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & Feature Number to be output\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string representation of RAPID structure Feature
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2ec6ac80ad59527555268d65c0ab5b57}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2ec6ac80ad59527555268d65c0ab5b57}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!UploadData@{UploadData}}
+\index{UploadData@{UploadData}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{UploadData()}{UploadData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Upload\+Data (\begin{DoxyParamCaption}\item[{int}]{feature }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+upload feature data to network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & Feature number to upload\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Successful upload
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2bbfd7f934038a7d8b34c8a9ebefafe8}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a2bbfd7f934038a7d8b34c8a9ebefafe8}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!UploadData@{UploadData}}
+\index{UploadData@{UploadData}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{UploadData()}{UploadData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Upload\+Data (\begin{DoxyParamCaption}\item[{int}]{feature,  }\item[{int}]{carriage }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+upload Chunk of features data to network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} starting from specified feature 
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & Feature to start from\\
+\hline
+{\em carriage} & Carriage number to upload\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a8617ca1f35b87e063b6c0617ae90d543}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a8617ca1f35b87e063b6c0617ae90d543}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!AscendingOrder@{AscendingOrder}}
+\index{AscendingOrder@{AscendingOrder}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{AscendingOrder}{AscendingOrder}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Ascending\+Order\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Set manoeuvre order in ascending order in distance from x = 0 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a9310a1180962d54d1e63f92ee90571c9}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a9310a1180962d54d1e63f92ee90571c9}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!CurrentJob@{CurrentJob}}
+\index{CurrentJob@{CurrentJob}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{CurrentJob}{CurrentJob}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Current\+Job\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Status if this object is currently uploaded and maintained on associated robot controller 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_afd4e3d73109eb68e94f15ea51b631f2b}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_afd4e3d73109eb68e94f15ea51b631f2b}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!DescendingOrder@{DescendingOrder}}
+\index{DescendingOrder@{DescendingOrder}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{DescendingOrder}{DescendingOrder}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Descending\+Order\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Set manoeuvre order in descending order in distance from x = 0 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a920e83a0a0a35991f19e967f5079c2a1}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a920e83a0a0a35991f19e967f5079c2a1}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!Operation@{Operation}}
+\index{Operation@{Operation}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{Operation}{Operation}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_operation_data_1_1_p_c___robot_move___register}{PC\+\_\+\+Robot\+Move\+\_\+\+Register}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Operation\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Operation 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a303f80197c0edb9a8ab1364d5424aa40}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___operation_buffer_a303f80197c0edb9a8ab1364d5424aa40}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}!SizeOfManBuffer@{SizeOfManBuffer}}
+\index{SizeOfManBuffer@{SizeOfManBuffer}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_OperationBuffer}}
+\doxysubsubsection{\texorpdfstring{SizeOfManBuffer}{SizeOfManBuffer}}
+{\footnotesize\ttfamily int RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Operation\+Buffer.\+Size\+Of\+Man\+Buffer\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Size of maneouvre buffer on network controller 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+Controller/\+Data\+Model/\+RAPID\+\_\+\+Data/RAPID\+\_\+\+Operation\+Buffer.\+cs\end{DoxyCompactItemize}

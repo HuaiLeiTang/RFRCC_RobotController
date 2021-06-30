@@ -1,0 +1,337 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart}\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+
+
+Cut chart information for use in settings required for Plasma cutter  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ad902fa1fb237a59d3f2fc5e0b966bc40}{RAPID\+\_\+\+Cut\+Chart}} ()
+\begin{DoxyCompactList}\small\item\em Initialise empty object \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a0e98c74f69200039011580d89d192d94}{RAPID\+\_\+\+Cut\+Chart}} (string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a1b5b19f96b165788e9748f4ae37e6e45}{From\+String}})
+\begin{DoxyCompactList}\small\item\em Initialise object from string representation of RAPID memory struct format\+: \char`\"{}\mbox{[}\+Thickness, Arc\+Voltage, Cut\+Gas, Shield\+Gas, Cut\+Height, Pierce\+Height, Pierce\+Delay, Plasma\+Gas\+Cut\+Flow, Plasma\+Gas\+Pre\+Flow, Shield\+Gas\+Cut\+Flow, Shield\+Gas\+Pre\+Flow, RAPIDSpeed, Kerfwidth, Minimum\+Clearance\mbox{]}\char`\"{} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a8c3e32e823329dfbd1ee7b08772cd44a}{Connect\+To\+RAPID}} (ABB.\+Robotics.\+Controllers.\+Controller controller, Task Robot\+Task, string Module, string RAPID\+\_\+\+Name)
+\begin{DoxyCompactList}\small\item\em Initialise object with relevant network controller, string, module and structure name for connection \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a7772bf41edc14a70d51808134340885c}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em Returns string representation of RAPID memory struct format\+: \char`\"{}\mbox{[}\+Thickness, Arc\+Voltage, Cut\+Gas, Shield\+Gas, Cut\+Height, Pierce\+Height, Pierce\+Delay, Plasma\+Gas\+Cut\+Flow, Plasma\+Gas\+Pre\+Flow, Shield\+Gas\+Cut\+Flow, Shield\+Gas\+Pre\+Flow, RAPIDSpeed, Kerfwidth, Minimum\+Clearance\mbox{]}\char`\"{} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ab415e602598379b01257d10ed41a41c4}{Update\+\_\+\+Robot}} ()
+\begin{DoxyCompactList}\small\item\em Update Robot with information housed within this object \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a4cc4e0ff794765ab418d80ca786057c6}{Update\+\_\+\+Local}} ()
+\begin{DoxyCompactList}\small\item\em Update local struct with Robot memory \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a682ecac2f4921e0b3abe9762e328b644}{From\+Cut\+Entry}} (Cut\+Entry From\+Cut\+Entry)
+\begin{DoxyCompactList}\small\item\em Populate object with information from Cut\+Entry data \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a1b5b19f96b165788e9748f4ae37e6e45}{From\+String}} (string From\+String)
+\begin{DoxyCompactList}\small\item\em Populate object from string representation of RAPID memory struct format\+: \char`\"{}\mbox{[}\+Thickness, Arc\+Voltage, Cut\+Gas, Shield\+Gas, Cut\+Height, Pierce\+Height, Pierce\+Delay, Plasma\+Gas\+Cut\+Flow, Plasma\+Gas\+Pre\+Flow, Shield\+Gas\+Cut\+Flow, Shield\+Gas\+Pre\+Flow, RAPIDSpeed, Kerfwidth, Minimum\+Clearance\mbox{]}\char`\"{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_afc8cb9e8426e4b7f403be6725635416a}{Thickness}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Thickness of cut material \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a4ade31c2eb409bdd0ebb6c0063d2245e}{Arc\+Voltage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Arv Voltage of Plasma Cutter \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_af5535a019de0e2a5dcbf2b7093e00c50}{Cut\+Gas}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Cutting Gas composition of plasma cutter \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ab26c8d59636e8ded147f6dd9715e0c62}{Shield\+Gas}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Shield Gas composition of plasma cutter \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a8fbe91b759df4459c20f6e9f0117f878}{Cut\+Height}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Height of torch from material after initiating cut \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a34307739158352426bce6ea47c6a9126}{Pierce\+Height}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Height of torch from material during arcing \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_acfb5f4015e852c75ef580c83a4b9c9fe}{Pierce\+Delay}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Amount of time after striking arc before movement occurs \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_adec7b7549aead466d10e27d0ad1e1a23}{Plasma\+Gas\+Cut\+Flow}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Flowrate of Cutting Gas \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a99147964912aef56c6d6e4f6b83099a4}{Plasma\+Gas\+Pre\+Flow}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Flowrate of Cutting Gas prior to arcing \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a2048461865f89a72a11c8becf19b5947}{Shield\+Gas\+Cut\+Flow}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Flowrate of Shield Gas \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a23ea69dc185094a74cd04e9e7aba3347}{Shield\+Gas\+Pre\+Flow}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Flowrate of Shield Gas prior to arcing \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a6f0f70f9e940be085af02a264cdd14fd}{Speed}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Speed of plasma torch head during cutting proceedure in mm/s ? \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__speeddata}{CS\+\_\+speeddata}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a835260689440cea0c756cad7a5d852ba}{RAPIDSpeed}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em RAPID cutting data associated with Speed of cutting head \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a384cc675b03398adbe14b08429c86228}{Kerf\+Width}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Radius of cutting incision \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a172c1c330d6e3ae447cf977cba24d2de}{Minimum\+Clearance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Not Sure... \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Cut chart information for use in settings required for Plasma cutter 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ad902fa1fb237a59d3f2fc5e0b966bc40}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ad902fa1fb237a59d3f2fc5e0b966bc40}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!RAPID\_CutChart@{RAPID\_CutChart}}
+\index{RAPID\_CutChart@{RAPID\_CutChart}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{RAPID\_CutChart()}{RAPID\_CutChart()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+RAPID\+\_\+\+Cut\+Chart (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialise empty object 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a0e98c74f69200039011580d89d192d94}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a0e98c74f69200039011580d89d192d94}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!RAPID\_CutChart@{RAPID\_CutChart}}
+\index{RAPID\_CutChart@{RAPID\_CutChart}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{RAPID\_CutChart()}{RAPID\_CutChart()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+RAPID\+\_\+\+Cut\+Chart (\begin{DoxyParamCaption}\item[{string}]{From\+String }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialise object from string representation of RAPID memory struct format\+: \char`\"{}\mbox{[}\+Thickness, Arc\+Voltage, Cut\+Gas, Shield\+Gas, Cut\+Height, Pierce\+Height, Pierce\+Delay, Plasma\+Gas\+Cut\+Flow, Plasma\+Gas\+Pre\+Flow, Shield\+Gas\+Cut\+Flow, Shield\+Gas\+Pre\+Flow, RAPIDSpeed, Kerfwidth, Minimum\+Clearance\mbox{]}\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em From\+String} & string representation of RAPID memory struct\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a8c3e32e823329dfbd1ee7b08772cd44a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a8c3e32e823329dfbd1ee7b08772cd44a}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!ConnectToRAPID@{ConnectToRAPID}}
+\index{ConnectToRAPID@{ConnectToRAPID}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{ConnectToRAPID()}{ConnectToRAPID()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Connect\+To\+RAPID (\begin{DoxyParamCaption}\item[{ABB.\+Robotics.\+Controllers.\+Controller}]{controller,  }\item[{Task}]{Robot\+Task,  }\item[{string}]{Module,  }\item[{string}]{RAPID\+\_\+\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialise object with relevant network controller, string, module and structure name for connection 
+
+
+\begin{DoxyParams}{Parameters}
+{\em controller} & Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}}\\
+\hline
+{\em Robot\+Task} & Network \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} Task\\
+\hline
+{\em Module} & Module name housing parameter structure\\
+\hline
+{\em RAPID\+\_\+\+Name} & RAPID structure name\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a682ecac2f4921e0b3abe9762e328b644}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a682ecac2f4921e0b3abe9762e328b644}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!FromCutEntry@{FromCutEntry}}
+\index{FromCutEntry@{FromCutEntry}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{FromCutEntry()}{FromCutEntry()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+From\+Cut\+Entry (\begin{DoxyParamCaption}\item[{Cut\+Entry}]{From\+Cut\+Entry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Populate object with information from Cut\+Entry data 
+
+
+\begin{DoxyParams}{Parameters}
+{\em From\+Cut\+Entry} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a1b5b19f96b165788e9748f4ae37e6e45}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a1b5b19f96b165788e9748f4ae37e6e45}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!FromString@{FromString}}
+\index{FromString@{FromString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{FromString()}{FromString()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+From\+String (\begin{DoxyParamCaption}\item[{string}]{From\+String }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Populate object from string representation of RAPID memory struct format\+: \char`\"{}\mbox{[}\+Thickness, Arc\+Voltage, Cut\+Gas, Shield\+Gas, Cut\+Height, Pierce\+Height, Pierce\+Delay, Plasma\+Gas\+Cut\+Flow, Plasma\+Gas\+Pre\+Flow, Shield\+Gas\+Cut\+Flow, Shield\+Gas\+Pre\+Flow, RAPIDSpeed, Kerfwidth, Minimum\+Clearance\mbox{]}\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em From\+String} & string representation of RAPID memory struct\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a7772bf41edc14a70d51808134340885c}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a7772bf41edc14a70d51808134340885c}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!ToString@{ToString}}
+\index{ToString@{ToString}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns string representation of RAPID memory struct format\+: \char`\"{}\mbox{[}\+Thickness, Arc\+Voltage, Cut\+Gas, Shield\+Gas, Cut\+Height, Pierce\+Height, Pierce\+Delay, Plasma\+Gas\+Cut\+Flow, Plasma\+Gas\+Pre\+Flow, Shield\+Gas\+Cut\+Flow, Shield\+Gas\+Pre\+Flow, RAPIDSpeed, Kerfwidth, Minimum\+Clearance\mbox{]}\char`\"{} 
+
+\begin{DoxyReturn}{Returns}
+string representation of RAPID memory struct
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a4cc4e0ff794765ab418d80ca786057c6}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a4cc4e0ff794765ab418d80ca786057c6}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!Update\_Local@{Update\_Local}}
+\index{Update\_Local@{Update\_Local}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{Update\_Local()}{Update\_Local()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Update\+\_\+\+Local (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Update local struct with Robot memory 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ab415e602598379b01257d10ed41a41c4}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ab415e602598379b01257d10ed41a41c4}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!Update\_Robot@{Update\_Robot}}
+\index{Update\_Robot@{Update\_Robot}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{Update\_Robot()}{Update\_Robot()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Update\+\_\+\+Robot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Update Robot with information housed within this object 
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a4ade31c2eb409bdd0ebb6c0063d2245e}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a4ade31c2eb409bdd0ebb6c0063d2245e}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!ArcVoltage@{ArcVoltage}}
+\index{ArcVoltage@{ArcVoltage}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{ArcVoltage}{ArcVoltage}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Arc\+Voltage\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Arv Voltage of Plasma Cutter 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_af5535a019de0e2a5dcbf2b7093e00c50}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_af5535a019de0e2a5dcbf2b7093e00c50}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!CutGas@{CutGas}}
+\index{CutGas@{CutGas}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{CutGas}{CutGas}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Cut\+Gas\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Cutting Gas composition of plasma cutter 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a8fbe91b759df4459c20f6e9f0117f878}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a8fbe91b759df4459c20f6e9f0117f878}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!CutHeight@{CutHeight}}
+\index{CutHeight@{CutHeight}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{CutHeight}{CutHeight}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Cut\+Height\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Height of torch from material after initiating cut 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a384cc675b03398adbe14b08429c86228}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a384cc675b03398adbe14b08429c86228}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!KerfWidth@{KerfWidth}}
+\index{KerfWidth@{KerfWidth}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{KerfWidth}{KerfWidth}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Kerf\+Width\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Radius of cutting incision 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a172c1c330d6e3ae447cf977cba24d2de}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a172c1c330d6e3ae447cf977cba24d2de}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!MinimumClearance@{MinimumClearance}}
+\index{MinimumClearance@{MinimumClearance}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{MinimumClearance}{MinimumClearance}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Minimum\+Clearance\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Not Sure... 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_acfb5f4015e852c75ef580c83a4b9c9fe}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_acfb5f4015e852c75ef580c83a4b9c9fe}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!PierceDelay@{PierceDelay}}
+\index{PierceDelay@{PierceDelay}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{PierceDelay}{PierceDelay}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Pierce\+Delay\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Amount of time after striking arc before movement occurs 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a34307739158352426bce6ea47c6a9126}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a34307739158352426bce6ea47c6a9126}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!PierceHeight@{PierceHeight}}
+\index{PierceHeight@{PierceHeight}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{PierceHeight}{PierceHeight}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Pierce\+Height\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Height of torch from material during arcing 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_adec7b7549aead466d10e27d0ad1e1a23}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_adec7b7549aead466d10e27d0ad1e1a23}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!PlasmaGasCutFlow@{PlasmaGasCutFlow}}
+\index{PlasmaGasCutFlow@{PlasmaGasCutFlow}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{PlasmaGasCutFlow}{PlasmaGasCutFlow}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Plasma\+Gas\+Cut\+Flow\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Flowrate of Cutting Gas 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a99147964912aef56c6d6e4f6b83099a4}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a99147964912aef56c6d6e4f6b83099a4}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!PlasmaGasPreFlow@{PlasmaGasPreFlow}}
+\index{PlasmaGasPreFlow@{PlasmaGasPreFlow}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{PlasmaGasPreFlow}{PlasmaGasPreFlow}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Plasma\+Gas\+Pre\+Flow\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Flowrate of Cutting Gas prior to arcing 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a835260689440cea0c756cad7a5d852ba}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a835260689440cea0c756cad7a5d852ba}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!RAPIDSpeed@{RAPIDSpeed}}
+\index{RAPIDSpeed@{RAPIDSpeed}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{RAPIDSpeed}{RAPIDSpeed}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__speeddata}{CS\+\_\+speeddata}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+RAPIDSpeed\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+RAPID cutting data associated with Speed of cutting head 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ab26c8d59636e8ded147f6dd9715e0c62}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_ab26c8d59636e8ded147f6dd9715e0c62}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!ShieldGas@{ShieldGas}}
+\index{ShieldGas@{ShieldGas}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{ShieldGas}{ShieldGas}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Shield\+Gas\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Shield Gas composition of plasma cutter 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a2048461865f89a72a11c8becf19b5947}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a2048461865f89a72a11c8becf19b5947}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!ShieldGasCutFlow@{ShieldGasCutFlow}}
+\index{ShieldGasCutFlow@{ShieldGasCutFlow}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{ShieldGasCutFlow}{ShieldGasCutFlow}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Shield\+Gas\+Cut\+Flow\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Flowrate of Shield Gas 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a23ea69dc185094a74cd04e9e7aba3347}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a23ea69dc185094a74cd04e9e7aba3347}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!ShieldGasPreFlow@{ShieldGasPreFlow}}
+\index{ShieldGasPreFlow@{ShieldGasPreFlow}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{ShieldGasPreFlow}{ShieldGasPreFlow}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Shield\+Gas\+Pre\+Flow\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Flowrate of Shield Gas prior to arcing 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a6f0f70f9e940be085af02a264cdd14fd}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_a6f0f70f9e940be085af02a264cdd14fd}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!Speed@{Speed}}
+\index{Speed@{Speed}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{Speed}{Speed}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Speed\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Speed of plasma torch head during cutting proceedure in mm/s ? 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_afc8cb9e8426e4b7f403be6725635416a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_r_a_p_i_d___cut_chart_afc8cb9e8426e4b7f403be6725635416a}} 
+\index{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}!Thickness@{Thickness}}
+\index{Thickness@{Thickness}!RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart@{RFRCC\_RobotController.Controller.DataModel.RAPID\_Data.RAPID\_CutChart}}
+\doxysubsubsection{\texorpdfstring{Thickness}{Thickness}}
+{\footnotesize\ttfamily float RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Data\+Model.\+RAPID\+\_\+\+Data.\+RAPID\+\_\+\+Cut\+Chart.\+Thickness\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Thickness of cut material 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+Controller/\+Data\+Model/\+RAPID\+\_\+\+Data/RAPID\+\_\+\+Cut\+Chart.\+cs\end{DoxyCompactItemize}

@@ -1,0 +1,122 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata}\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+
+
+used to specify how a position is to be terminated i.\+e. how close to the programmed position the axes must be before moving towards the next position.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_afdb34f82c95adabf72cfd36c1bc95f2a}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_afdb34f82c95adabf72cfd36c1bc95f2a}} 
+{\bfseries CS\+\_\+zonedata} (bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aaa7ccae9dd4627cf583c27d0e1b10b1f}{finep}}, double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a83dc1300bdd0e2d2d1c6b734c26dc414}{pzone\+\_\+tcp}}, double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a0db53d39cb4a7738b5f6d348375914cc}{pzone\+\_\+ori}}, double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a45ea73300cd63a720a03ea86c5affbc8}{pzone\+\_\+eax}}, double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a568954d404c768ff744964d7ab8242e5}{zone\+\_\+ori}}, double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_ad60a41448552b05fb259e844214c2726}{zone\+\_\+leax}}, double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a974b37f4b8d7feac7f6f8ab6e6100b20}{zone\+\_\+reax}})
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aae24be77937da5589aed4021ccf11284}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aae24be77937da5589aed4021ccf11284}} 
+{\bfseries CS\+\_\+zonedata} (string From\+String)
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_ad815c93d9f0fd29cea6098c7b888042e}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_ad815c93d9f0fd29cea6098c7b888042e}} 
+void {\bfseries From\+String} (string Input)
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aa2975e7444e2b62374df178cb1f5b133}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aa2975e7444e2b62374df178cb1f5b133}} 
+override string {\bfseries To\+String} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a974b37f4b8d7feac7f6f8ab6e6100b20}{zone\+\_\+reax}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The zone size for rotating external axes in degrees. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_ad60a41448552b05fb259e844214c2726}{zone\+\_\+leax}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The zone size for linear external axes in mm. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a568954d404c768ff744964d7ab8242e5}{zone\+\_\+ori}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The zone size for the tool reorientation in degrees. If the robotis holding the work object, this means an angle of rotation for the work object. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a45ea73300cd63a720a03ea86c5affbc8}{pzone\+\_\+eax}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The zone size (the radius) for external axes. The size is defined as the distance of the TCP from the programmed point in mm. The size must be larger than the corresponding value for pzone\+\_\+tcp. If a lower value is specified, the size is automatically increased to make it the same as pzone\+\_\+tcp. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a0db53d39cb4a7738b5f6d348375914cc}{pzone\+\_\+ori}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The zone size (the radius) for the tool reorientation. The size is definedas the distance of the TCP from the programmed point in mm. The size must be larger than the corresponding value for pzone\+\_\+tcp. If a lower value is specified, the size is automatically increased to make it the same as pzone\+\_\+tcp. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a83dc1300bdd0e2d2d1c6b734c26dc414}{pzone\+\_\+tcp}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The size (the radius) of the TCP zone in mm. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aaa7ccae9dd4627cf583c27d0e1b10b1f}{finep}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Defines whether the movement is to terminate as a stop point (finepoint) or as a fly-\/bypoint. TRUE\+: The movement terminates as a stop point, and the program execution will not continue until robot reach the stop point. The remaining components in the zonedata are not used. FALSE\+: The movement terminatesas a fly-\/bypoint, and the program execution continues when the prefetch conditions have been met (see system parameter Prefetch Time). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+used to specify how a position is to be terminated i.\+e. how close to the programmed position the axes must be before moving towards the next position. 
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aaa7ccae9dd4627cf583c27d0e1b10b1f}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_aaa7ccae9dd4627cf583c27d0e1b10b1f}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!finep@{finep}}
+\index{finep@{finep}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{finep}{finep}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+finep\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Defines whether the movement is to terminate as a stop point (finepoint) or as a fly-\/bypoint. TRUE\+: The movement terminates as a stop point, and the program execution will not continue until robot reach the stop point. The remaining components in the zonedata are not used. FALSE\+: The movement terminatesas a fly-\/bypoint, and the program execution continues when the prefetch conditions have been met (see system parameter Prefetch Time). 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a45ea73300cd63a720a03ea86c5affbc8}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a45ea73300cd63a720a03ea86c5affbc8}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!pzone\_eax@{pzone\_eax}}
+\index{pzone\_eax@{pzone\_eax}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{pzone\_eax}{pzone\_eax}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+pzone\+\_\+eax\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The zone size (the radius) for external axes. The size is defined as the distance of the TCP from the programmed point in mm. The size must be larger than the corresponding value for pzone\+\_\+tcp. If a lower value is specified, the size is automatically increased to make it the same as pzone\+\_\+tcp. 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a0db53d39cb4a7738b5f6d348375914cc}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a0db53d39cb4a7738b5f6d348375914cc}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!pzone\_ori@{pzone\_ori}}
+\index{pzone\_ori@{pzone\_ori}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{pzone\_ori}{pzone\_ori}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+pzone\+\_\+ori\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The zone size (the radius) for the tool reorientation. The size is definedas the distance of the TCP from the programmed point in mm. The size must be larger than the corresponding value for pzone\+\_\+tcp. If a lower value is specified, the size is automatically increased to make it the same as pzone\+\_\+tcp. 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a83dc1300bdd0e2d2d1c6b734c26dc414}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a83dc1300bdd0e2d2d1c6b734c26dc414}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!pzone\_tcp@{pzone\_tcp}}
+\index{pzone\_tcp@{pzone\_tcp}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{pzone\_tcp}{pzone\_tcp}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+pzone\+\_\+tcp\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The size (the radius) of the TCP zone in mm. 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_ad60a41448552b05fb259e844214c2726}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_ad60a41448552b05fb259e844214c2726}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!zone\_leax@{zone\_leax}}
+\index{zone\_leax@{zone\_leax}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{zone\_leax}{zone\_leax}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+zone\+\_\+leax\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The zone size for linear external axes in mm. 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a568954d404c768ff744964d7ab8242e5}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a568954d404c768ff744964d7ab8242e5}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!zone\_ori@{zone\_ori}}
+\index{zone\_ori@{zone\_ori}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{zone\_ori}{zone\_ori}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+zone\+\_\+ori\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The zone size for the tool reorientation in degrees. If the robotis holding the work object, this means an angle of rotation for the work object. 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a974b37f4b8d7feac7f6f8ab6e6100b20}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__zonedata_a974b37f4b8d7feac7f6f8ab6e6100b20}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}!zone\_reax@{zone\_reax}}
+\index{zone\_reax@{zone\_reax}!RFRCC\_RobotController.ABB\_Data.CS\_zonedata@{RFRCC\_RobotController.ABB\_Data.CS\_zonedata}}
+\doxysubsubsection{\texorpdfstring{zone\_reax}{zone\_reax}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+zonedata.\+zone\+\_\+reax\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The zone size for rotating external axes in degrees. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+ABB\+\_\+\+Data/CS\+\_\+zonedata.\+cs\end{DoxyCompactItemize}

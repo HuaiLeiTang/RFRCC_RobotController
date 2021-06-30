@@ -1,0 +1,204 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target}\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+
+
+used to define the position of the robot axes and additional axes.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae8ee04c824c6857844e6e3a2ba88ff3b}{CS\+\_\+\+Rob\+Target}} ()
+\begin{DoxyCompactList}\small\item\em Robtarget nomalised all variables normalised at 0 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a5c7ff85d94482acc34b05297256973d9}{CS\+\_\+\+Rob\+Target}} (bool\mbox{[}$\,$\mbox{]} Ext\+Ax)
+\begin{DoxyCompactList}\small\item\em Robtarget nomalised all variables normalised at 0 External axes connected set by bool array Bool Array may be of any size, connecteding and normalising all indicated axes from eax\+\_\+a for each array index recieved \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae64464dd5c24c3ae685ac1b08d1b9b0f}{CS\+\_\+\+Rob\+Target}} (string input)
+\begin{DoxyCompactList}\small\item\em Set robtarget from string with following format \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a3d10749002edbb8e48850178c1b6e033}{CS\+\_\+\+Rob\+Target}} (ABB.\+Robotics.\+Controllers.\+Rapid\+Domain.\+Data\+Node\mbox{[}$\,$\mbox{]} input)
+\begin{DoxyCompactList}\small\item\em Robtraget set from Data\+Node Array \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a388c540addc5f8ddd8223f9381aec63c}{CS\+\_\+\+Rob\+Target}} (Rob\+Target rob\+Target)
+\begin{DoxyCompactList}\small\item\em Robtarget cloned from ABB RAPID Robtarget \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_aefd735068aad5c8780415eedea3138f4}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em out string formated \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a7b98d7cd928fff901d503dbe114f5873}{From\+String}} (string Input)
+\begin{DoxyCompactList}\small\item\em Robtarget populated from string formatted \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a552b172e199377b2b9a41df89a1aff4f}{Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Position Name \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a7e3ea00c132ef74cbd82b904a99c07fd}{trans}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Translation of TCP location \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__orient}{CS\+\_\+orient}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_aa9842d0780c707aa258923db8273d5fb}{rot}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Rotation of TCP \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__confdata}{CS\+\_\+confdata}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae2e861e0610fa18769862ea4a7037b14}{robconf}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Configuration of robot at location \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ac37fd44479f4e6d6883117ed73a85dec}{extax}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Configuration of external axes at TCP location \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+used to define the position of the robot axes and additional axes. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae8ee04c824c6857844e6e3a2ba88ff3b}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae8ee04c824c6857844e6e3a2ba88ff3b}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!CS\_RobTarget@{CS\_RobTarget}}
+\index{CS\_RobTarget@{CS\_RobTarget}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{CS\_RobTarget()}{CS\_RobTarget()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+CS\+\_\+\+Rob\+Target (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Robtarget nomalised all variables normalised at 0 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a5c7ff85d94482acc34b05297256973d9}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a5c7ff85d94482acc34b05297256973d9}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!CS\_RobTarget@{CS\_RobTarget}}
+\index{CS\_RobTarget@{CS\_RobTarget}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{CS\_RobTarget()}{CS\_RobTarget()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+CS\+\_\+\+Rob\+Target (\begin{DoxyParamCaption}\item[{bool\mbox{[}$\,$\mbox{]}}]{Ext\+Ax }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Robtarget nomalised all variables normalised at 0 External axes connected set by bool array Bool Array may be of any size, connecteding and normalising all indicated axes from eax\+\_\+a for each array index recieved 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Ext\+Ax} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae64464dd5c24c3ae685ac1b08d1b9b0f}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae64464dd5c24c3ae685ac1b08d1b9b0f}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!CS\_RobTarget@{CS\_RobTarget}}
+\index{CS\_RobTarget@{CS\_RobTarget}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{CS\_RobTarget()}{CS\_RobTarget()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+CS\+\_\+\+Rob\+Target (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set robtarget from string with following format \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{}\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a3d10749002edbb8e48850178c1b6e033}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a3d10749002edbb8e48850178c1b6e033}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!CS\_RobTarget@{CS\_RobTarget}}
+\index{CS\_RobTarget@{CS\_RobTarget}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{CS\_RobTarget()}{CS\_RobTarget()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+CS\+\_\+\+Rob\+Target (\begin{DoxyParamCaption}\item[{ABB.\+Robotics.\+Controllers.\+Rapid\+Domain.\+Data\+Node\mbox{[}$\,$\mbox{]}}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Robtraget set from Data\+Node Array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Data\+Node Array of parameters pos, orient, confdata, extjoint\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a388c540addc5f8ddd8223f9381aec63c}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a388c540addc5f8ddd8223f9381aec63c}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!CS\_RobTarget@{CS\_RobTarget}}
+\index{CS\_RobTarget@{CS\_RobTarget}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{CS\_RobTarget()}{CS\_RobTarget()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+CS\+\_\+\+Rob\+Target (\begin{DoxyParamCaption}\item[{Rob\+Target}]{rob\+Target }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Robtarget cloned from ABB RAPID Robtarget 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rob\+Target} & ABB RAPID Robtarget\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a7b98d7cd928fff901d503dbe114f5873}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a7b98d7cd928fff901d503dbe114f5873}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!FromString@{FromString}}
+\index{FromString@{FromString}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{FromString()}{FromString()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+From\+String (\begin{DoxyParamCaption}\item[{string}]{Input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Robtarget populated from string formatted \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Input} & \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{}\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_aefd735068aad5c8780415eedea3138f4}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_aefd735068aad5c8780415eedea3138f4}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!ToString@{ToString}}
+\index{ToString@{ToString}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+out string formated \char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{} 
+
+\begin{DoxyReturn}{Returns}
+\char`\"{}\mbox{[}\mbox{[}\+X,\+Y,\+Z\mbox{]},\mbox{[}q1,q2,q3,q4\mbox{]},\mbox{[}cf1,cf4,cf6,cfx\mbox{]},\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\mbox{]}\char`\"{}
+\end{DoxyReturn}
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ac37fd44479f4e6d6883117ed73a85dec}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ac37fd44479f4e6d6883117ed73a85dec}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!extax@{extax}}
+\index{extax@{extax}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{extax}{extax}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+extax\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Configuration of external axes at TCP location 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a552b172e199377b2b9a41df89a1aff4f}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a552b172e199377b2b9a41df89a1aff4f}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!Name@{Name}}
+\index{Name@{Name}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{Name}{Name}}
+{\footnotesize\ttfamily string RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Position Name 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae2e861e0610fa18769862ea4a7037b14}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_ae2e861e0610fa18769862ea4a7037b14}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!robconf@{robconf}}
+\index{robconf@{robconf}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{robconf}{robconf}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__confdata}{CS\+\_\+confdata}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+robconf\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Configuration of robot at location 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_aa9842d0780c707aa258923db8273d5fb}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_aa9842d0780c707aa258923db8273d5fb}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!rot@{rot}}
+\index{rot@{rot}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{rot}{rot}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__orient}{CS\+\_\+orient}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+rot\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Rotation of TCP 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a7e3ea00c132ef74cbd82b904a99c07fd}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s___rob_target_a7e3ea00c132ef74cbd82b904a99c07fd}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}!trans@{trans}}
+\index{trans@{trans}!RFRCC\_RobotController.ABB\_Data.CS\_RobTarget@{RFRCC\_RobotController.ABB\_Data.CS\_RobTarget}}
+\doxysubsubsection{\texorpdfstring{trans}{trans}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+\+Rob\+Target.\+trans\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Translation of TCP location 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+ABB\+\_\+\+Data/CS\+\_\+\+Rob\+Target.\+cs\end{DoxyCompactItemize}

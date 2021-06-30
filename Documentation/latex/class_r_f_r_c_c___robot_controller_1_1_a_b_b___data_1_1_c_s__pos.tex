@@ -1,0 +1,236 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+
+
+3D vector with RAPID Pos analog functionality in order to interface with ABB RAPID easily  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a7ea52bff189b15b2a0f3368b4053671e}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em In string format \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a162f4c52dbd55ab9680ff571f0c688a4}{CS\+\_\+pos}} ()
+\begin{DoxyCompactList}\small\item\em normalised to 0,0,0 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a8caad219eb851ad7954ce76c49943343}{CS\+\_\+pos}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__orient}{CS\+\_\+orient}} Pos\+From\+Quat)
+\begin{DoxyCompactList}\small\item\em Taken XYZ from Q2, Q3, Q4 respectively \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_ac9e568454a03a5dd6eb679a7fc7c4a7f}{CS\+\_\+pos}} (double \+\_\+X, double \+\_\+Y, double \+\_\+Z)
+\begin{DoxyCompactList}\small\item\em Set X Y Z directly \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a5c6cbcbdee8bc2963f343a3768b3de70}{CS\+\_\+pos}} (string input)
+\begin{DoxyCompactList}\small\item\em set from string of format \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a44dd675466db1ec1a153d047baad3ca7}{From\+String}} (string input)
+\begin{DoxyCompactList}\small\item\em set from string of format \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a7ffa313d47ddb4d12224ea8ee1cb0e57}{operator+}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} p1, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} p2)
+\begin{DoxyCompactList}\small\item\em Adds X1+\+X2, Y1+\+Y2, Z1+\+Z2 \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a8e182e74fb79bc3092c0f81f29724231}{operator$\ast$}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} p1, int i)
+\begin{DoxyCompactList}\small\item\em mutliplies s$\ast$X, s$\ast$Y, s$\ast$Z \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a4160181a1fbd3b269af0b37cadbea896}{operator$\ast$}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} p1, double i)
+\begin{DoxyCompactList}\small\item\em mutliplies s$\ast$X, s$\ast$Y, s$\ast$Z \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a01eca19403534e09035a203e22a0957f}{X}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em X \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_aa01accaf108cd45ffec4fd10e396d45a}{Y}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Y \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_ade2390d13bcf2493c1b48d831439dbea}{Z}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Z \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+3D vector with RAPID Pos analog functionality in order to interface with ABB RAPID easily 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a162f4c52dbd55ab9680ff571f0c688a4}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a162f4c52dbd55ab9680ff571f0c688a4}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!CS\_pos@{CS\_pos}}
+\index{CS\_pos@{CS\_pos}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{CS\_pos()}{CS\_pos()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+CS\+\_\+pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+normalised to 0,0,0 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a8caad219eb851ad7954ce76c49943343}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a8caad219eb851ad7954ce76c49943343}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!CS\_pos@{CS\_pos}}
+\index{CS\_pos@{CS\_pos}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{CS\_pos()}{CS\_pos()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+CS\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__orient}{CS\+\_\+orient}}}]{Pos\+From\+Quat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Taken XYZ from Q2, Q3, Q4 respectively 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Pos\+From\+Quat} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_ac9e568454a03a5dd6eb679a7fc7c4a7f}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_ac9e568454a03a5dd6eb679a7fc7c4a7f}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!CS\_pos@{CS\_pos}}
+\index{CS\_pos@{CS\_pos}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{CS\_pos()}{CS\_pos()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+CS\+\_\+pos (\begin{DoxyParamCaption}\item[{double}]{\+\_\+X,  }\item[{double}]{\+\_\+Y,  }\item[{double}]{\+\_\+Z }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set X Y Z directly 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+X} & X\\
+\hline
+{\em \+\_\+Y} & Y\\
+\hline
+{\em \+\_\+Z} & Z\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a5c6cbcbdee8bc2963f343a3768b3de70}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a5c6cbcbdee8bc2963f343a3768b3de70}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!CS\_pos@{CS\_pos}}
+\index{CS\_pos@{CS\_pos}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{CS\_pos()}{CS\_pos()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+CS\+\_\+pos (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set from string of format \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{}\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a44dd675466db1ec1a153d047baad3ca7}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a44dd675466db1ec1a153d047baad3ca7}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!FromString@{FromString}}
+\index{FromString@{FromString}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{FromString()}{FromString()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+From\+String (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+set from string of format \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{}\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a4160181a1fbd3b269af0b37cadbea896}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a4160181a1fbd3b269af0b37cadbea896}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}}}]{p1,  }\item[{double}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+mutliplies s$\ast$X, s$\ast$Y, s$\ast$Z 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & XYZ\\
+\hline
+{\em i} & s\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a8e182e74fb79bc3092c0f81f29724231}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a8e182e74fb79bc3092c0f81f29724231}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+operator$\ast$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}}}]{p1,  }\item[{int}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+mutliplies s$\ast$X, s$\ast$Y, s$\ast$Z 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & XYZ\\
+\hline
+{\em i} & s\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a7ffa313d47ddb4d12224ea8ee1cb0e57}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a7ffa313d47ddb4d12224ea8ee1cb0e57}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!operator+@{operator+}}
+\index{operator+@{operator+}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}} RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+operator+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}}}]{p1,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos}{CS\+\_\+pos}}}]{p2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Adds X1+\+X2, Y1+\+Y2, Z1+\+Z2 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & xyz1\\
+\hline
+{\em p2} & xyz2\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a7ea52bff189b15b2a0f3368b4053671e}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a7ea52bff189b15b2a0f3368b4053671e}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!ToString@{ToString}}
+\index{ToString@{ToString}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+In string format \char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{} 
+
+\begin{DoxyReturn}{Returns}
+\char`\"{}\mbox{[}\+X,\+Y,\+Z\mbox{]}\char`\"{}
+\end{DoxyReturn}
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a01eca19403534e09035a203e22a0957f}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_a01eca19403534e09035a203e22a0957f}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!X@{X}}
+\index{X@{X}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{X}{X}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+X\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+X 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_aa01accaf108cd45ffec4fd10e396d45a}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_aa01accaf108cd45ffec4fd10e396d45a}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!Y@{Y}}
+\index{Y@{Y}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{Y}{Y}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+Y\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Y 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_ade2390d13bcf2493c1b48d831439dbea}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__pos_ade2390d13bcf2493c1b48d831439dbea}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}!Z@{Z}}
+\index{Z@{Z}!RFRCC\_RobotController.ABB\_Data.CS\_pos@{RFRCC\_RobotController.ABB\_Data.CS\_pos}}
+\doxysubsubsection{\texorpdfstring{Z}{Z}}
+{\footnotesize\ttfamily double RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+pos.\+Z\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Z 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+ABB\+\_\+\+Data/CS\+\_\+pos.\+cs\end{DoxyCompactItemize}

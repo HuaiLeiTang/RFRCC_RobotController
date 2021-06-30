@@ -1,0 +1,186 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+
+
+Defines the axis positions of additional axes, positioners, or workpiece manipulators of robot  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a39e83578d1a5a9c176be861df2190743}{CS\+\_\+extjoint}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised with all axes zerod and not connected \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a1b1de855187cad7469a7626c796f5113}{CS\+\_\+extjoint}} (string \+\_\+eax\+\_\+a=\char`\"{}9E+09\char`\"{}, string \+\_\+eax\+\_\+b=\char`\"{}9E+09\char`\"{}, string \+\_\+eax\+\_\+c=\char`\"{}9E+09\char`\"{}, string \+\_\+eax\+\_\+d=\char`\"{}9E+09\char`\"{}, string \+\_\+eax\+\_\+e=\char`\"{}9E+09\char`\"{}, string \+\_\+eax\+\_\+f=\char`\"{}9E+09\char`\"{})
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised to zero and not connected unless any axes are specified other that \char`\"{}9\+E+09\char`\"{} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a9e2b16f53706392f43b56a6641b2674d}{CS\+\_\+extjoint}} (string input)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised to zero from string in format \char`\"{}\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\char`\"{} Any axes nominated \char`\"{}9\+E+09\char`\"{} will be set as disconnected \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a61d73aea08e8ad993e397a0c36d0a76b}{CS\+\_\+extjoint}} (bool\mbox{[}$\,$\mbox{]} Binary\+Input)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised to 0 and connected if indicated by Bool Array Bool Array may be of any size, connecteding and normalising all indicated axes from eax\+\_\+a for each array index recieved \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_ad648de8e722eea83fa1e303ec7fd452a}{Connect\+Ext\+Axis}} (bool\mbox{[}$\,$\mbox{]} Binary\+Input)
+\begin{DoxyCompactList}\small\item\em Connecting and normalising any axes inficated by Bool Array Bool Array may be of any size, connecteding and normalising all indicated axes from eax\+\_\+a for each array index recieved \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a093031ec62c66706db35b13e20e999ad}{Connect\+Ext\+Axis}} (string input)
+\begin{DoxyCompactList}\small\item\em connect any axes via string, if string contains axes name i.\+e. \char`\"{}eax\+\_\+a\char`\"{} will connect eax\+\_\+a, \char`\"{}eaxbeax\+\_\+c\char`\"{} will connect both eax\+\_\+b \& eax\+\_\+c \end{DoxyCompactList}\item 
+override string \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a42dfa14b4c1cf75ea29f9a201e8b415a}{To\+String}} ()
+\begin{DoxyCompactList}\small\item\em returns string in same formate required for RAPID data on Robot \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a4a1027a45f9a74a82aa1c922bc15ba55}{From\+String}} (string Input)
+\begin{DoxyCompactList}\small\item\em populates eax from string of format \char`\"{}\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\char`\"{} Note\+: Does not connect or disconnect any axes based on innput \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a1dbabe8a41ca3436198d2efc614157e5}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a1dbabe8a41ca3436198d2efc614157e5}} 
+double {\bfseries eax\+\_\+a}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_aec2b56da954111e2188f02c248f25669}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_aec2b56da954111e2188f02c248f25669}} 
+double {\bfseries eax\+\_\+b}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_ab4963661f65193c25fd9bde2626a43b2}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_ab4963661f65193c25fd9bde2626a43b2}} 
+double {\bfseries eax\+\_\+c}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_aa6090cfc69e591f9b5a37987536bbb28}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_aa6090cfc69e591f9b5a37987536bbb28}} 
+double {\bfseries eax\+\_\+d}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a90b0fb19417878364d8b43a4fba8ec5a}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a90b0fb19417878364d8b43a4fba8ec5a}} 
+double {\bfseries eax\+\_\+e}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a3bf24345b9a22c92250b3ba1aab7b196}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a3bf24345b9a22c92250b3ba1aab7b196}} 
+double {\bfseries eax\+\_\+f}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines the axis positions of additional axes, positioners, or workpiece manipulators of robot 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a39e83578d1a5a9c176be861df2190743}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a39e83578d1a5a9c176be861df2190743}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!CS\_extjoint@{CS\_extjoint}}
+\index{CS\_extjoint@{CS\_extjoint}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{CS\_extjoint()}{CS\_extjoint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+CS\+\_\+extjoint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised with all axes zerod and not connected 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a1b1de855187cad7469a7626c796f5113}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a1b1de855187cad7469a7626c796f5113}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!CS\_extjoint@{CS\_extjoint}}
+\index{CS\_extjoint@{CS\_extjoint}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{CS\_extjoint()}{CS\_extjoint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+CS\+\_\+extjoint (\begin{DoxyParamCaption}\item[{string}]{\+\_\+eax\+\_\+a = {\ttfamily \char`\"{}9E+09\char`\"{}},  }\item[{string}]{\+\_\+eax\+\_\+b = {\ttfamily \char`\"{}9E+09\char`\"{}},  }\item[{string}]{\+\_\+eax\+\_\+c = {\ttfamily \char`\"{}9E+09\char`\"{}},  }\item[{string}]{\+\_\+eax\+\_\+d = {\ttfamily \char`\"{}9E+09\char`\"{}},  }\item[{string}]{\+\_\+eax\+\_\+e = {\ttfamily \char`\"{}9E+09\char`\"{}},  }\item[{string}]{\+\_\+eax\+\_\+f = {\ttfamily \char`\"{}9E+09\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised to zero and not connected unless any axes are specified other that \char`\"{}9\+E+09\char`\"{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+eax\+\_\+a} & \\
+\hline
+{\em \+\_\+eax\+\_\+b} & \\
+\hline
+{\em \+\_\+eax\+\_\+c} & \\
+\hline
+{\em \+\_\+eax\+\_\+d} & \\
+\hline
+{\em \+\_\+eax\+\_\+e} & \\
+\hline
+{\em \+\_\+eax\+\_\+f} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a9e2b16f53706392f43b56a6641b2674d}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a9e2b16f53706392f43b56a6641b2674d}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!CS\_extjoint@{CS\_extjoint}}
+\index{CS\_extjoint@{CS\_extjoint}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{CS\_extjoint()}{CS\_extjoint()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+CS\+\_\+extjoint (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised to zero from string in format \char`\"{}\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\char`\"{} Any axes nominated \char`\"{}9\+E+09\char`\"{} will be set as disconnected 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a61d73aea08e8ad993e397a0c36d0a76b}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a61d73aea08e8ad993e397a0c36d0a76b}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!CS\_extjoint@{CS\_extjoint}}
+\index{CS\_extjoint@{CS\_extjoint}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{CS\_extjoint()}{CS\_extjoint()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+CS\+\_\+extjoint (\begin{DoxyParamCaption}\item[{bool\mbox{[}$\,$\mbox{]}}]{Binary\+Input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint}{CS\+\_\+extjoint}} normalised to 0 and connected if indicated by Bool Array Bool Array may be of any size, connecteding and normalising all indicated axes from eax\+\_\+a for each array index recieved 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Binary\+Input} & Bool array of any size\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_ad648de8e722eea83fa1e303ec7fd452a}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_ad648de8e722eea83fa1e303ec7fd452a}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!ConnectExtAxis@{ConnectExtAxis}}
+\index{ConnectExtAxis@{ConnectExtAxis}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{ConnectExtAxis()}{ConnectExtAxis()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+Connect\+Ext\+Axis (\begin{DoxyParamCaption}\item[{bool\mbox{[}$\,$\mbox{]}}]{Binary\+Input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Connecting and normalising any axes inficated by Bool Array Bool Array may be of any size, connecteding and normalising all indicated axes from eax\+\_\+a for each array index recieved 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Binary\+Input} & Bool array of any size\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a093031ec62c66706db35b13e20e999ad}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a093031ec62c66706db35b13e20e999ad}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!ConnectExtAxis@{ConnectExtAxis}}
+\index{ConnectExtAxis@{ConnectExtAxis}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{ConnectExtAxis()}{ConnectExtAxis()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+Connect\+Ext\+Axis (\begin{DoxyParamCaption}\item[{string}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+connect any axes via string, if string contains axes name i.\+e. \char`\"{}eax\+\_\+a\char`\"{} will connect eax\+\_\+a, \char`\"{}eaxbeax\+\_\+c\char`\"{} will connect both eax\+\_\+b \& eax\+\_\+c 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a4a1027a45f9a74a82aa1c922bc15ba55}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a4a1027a45f9a74a82aa1c922bc15ba55}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!FromString@{FromString}}
+\index{FromString@{FromString}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{FromString()}{FromString()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+From\+String (\begin{DoxyParamCaption}\item[{string}]{Input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+populates eax from string of format \char`\"{}\mbox{[}eax\+\_\+a,eax\+\_\+b,eax\+\_\+c,eax\+\_\+d,eax\+\_\+e,eax\+\_\+f\mbox{]}\char`\"{} Note\+: Does not connect or disconnect any axes based on innput 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Input} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a42dfa14b4c1cf75ea29f9a201e8b415a}\label{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_c_s__extjoint_a42dfa14b4c1cf75ea29f9a201e8b415a}} 
+\index{RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}!ToString@{ToString}}
+\index{ToString@{ToString}!RFRCC\_RobotController.ABB\_Data.CS\_extjoint@{RFRCC\_RobotController.ABB\_Data.CS\_extjoint}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string RFRCC\+\_\+\+Robot\+Controller.\+ABB\+\_\+\+Data.\+CS\+\_\+extjoint.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+returns string in same formate required for RAPID data on Robot 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+ABB\+\_\+\+Data/CS\+\_\+extjoint.\+cs\end{DoxyCompactItemize}

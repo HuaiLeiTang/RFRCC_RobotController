@@ -1,0 +1,398 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller}\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+
+
+Robot controller Class for control of Robofab Australia Coping Cell  
+
+
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_manoeuvre_update_event_args}{Manoeuvre\+Update\+Event\+Args}}
+\begin{DoxyCompactList}\small\item\em custom arguements for On\+Manoeuvre\+Update event \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_request_updated_job_data_event_args}{Request\+Updated\+Job\+Data\+Event\+Args}}
+\begin{DoxyCompactList}\small\item\em custom event args for network controller request for updated job data \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_status_messsage_event_args}{Status\+Messsage\+Event\+Args}}
+\begin{DoxyCompactList}\small\item\em Event Arguments, holds status message update \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_update_feature_optimal_x_event_args}{Update\+Feature\+Optimal\+XEvent\+Args}}
+\begin{DoxyCompactList}\small\item\em Custom arguments for feature optimal X updates delivered by network controller to PC used in updating memory structs in robot control library \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a418b23e34613ce4ac30be912f9338039}{Robot\+Controller}} ()
+\begin{DoxyCompactList}\small\item\em Robot controller Class for control of Robofab Australia Coping Cell \end{DoxyCompactList}\item 
+delegate void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac86e019aba715e5d2ac68b30e578bb30}{Control\+Value\+Update\+Event\+Handler}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Delegte for when Control Memory struct Updated on network controller \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a039133c38516a0ab0edfdc18dca650f2}{Robot\+PC\+\_\+\+Message\+Changed}} (object sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Event for firing when the controller changes the PC\+\_\+\+Message value in the control structure \end{DoxyCompactList}\item 
+delegate bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a064c7427d1e3f890783eae02d43d9e9c}{Update\+Feature\+Event\+Handler}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_update_feature_optimal_x_event_args}{Update\+Feature\+Optimal\+XEvent\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Custom Delegate for Update\+Feature\+OptimalX so that the relevant network controller may be updated pased to event \end{DoxyCompactList}\item 
+delegate bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a14f926c6e03397afe37f4dad32f07c95}{Request\+Updated\+Job\+Data\+Event\+Handler}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_request_updated_job_data_event_args}{Request\+Updated\+Job\+Data\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Custom delegate for event where network controller requestes updated job data, allowing check of successful completion \end{DoxyCompactList}\item 
+delegate bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9ab8aac41103f5f61a383711616533c7}{On\+Manoeuvre\+Update\+Event\+Handler}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_manoeuvre_update_event_args}{Manoeuvre\+Update\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Custom Delegate for event where network controller requests updated manoeuvre information \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream}{Stream}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a5b9a4cc676a2b32cae9daf088b494f25}{stream}}
+\begin{DoxyCompactList}\small\item\em Network and stream related methods and parameters \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model}{Data\+Model}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_af9f6595664bf7839b1c61666f1b07a12}{data\+Model}}
+\begin{DoxyCompactList}\small\item\em associated network controller memory and data relations, along with job and funcationality specific methods and parameters \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a2fcae2eb7d21bb7b34e4295477366598}{Next\+DXChange}} (object sender, Event\+Args e)
+\begin{DoxyCompactList}\small\item\em internal triggre for On\+Next\+DXChange update \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_afff457fec1a0185e74c06b8414129980}{On\+Control\+Value\+Update}} (object sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Event for firing when \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} connection secured \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac2fa8a62da20603fb5026195efac5e74}{On\+Update\+Feature\+OptimalX}} (object sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_update_feature_optimal_x_event_args}{Update\+Feature\+Optimal\+XEvent\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Triggering method to call event when network controller has updated optimal x for a feature \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9154aba125a2b03de105f3ba0388695d}{On\+Request\+Updated\+Job\+Data}} (object sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_request_updated_job_data_event_args}{Request\+Updated\+Job\+Data\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em triggering method to fire Request\+Updated\+Job\+Data event \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a8dcbbf3b09460fda2d48c20e45bee759}{Manoeuvre\+Update}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_manoeuvre_update_event_args}{Manoeuvre\+Update\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em triggering method for On\+Manoeuvre\+Update event, when network contorller requests updated manoeuvre information \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a29f6f335e8886b8edbef024c3437e48d}{Controller\+Connected}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If controller object is associated with a network controller, and connected to \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ Event\+Args $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a83fbf060473f9ae86829f499fe31d074}{On\+Next\+DXChange}}
+\begin{DoxyCompactList}\small\item\em Event triggered when next X location of stock is updated \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_status_messsage_event_args}{Status\+Messsage\+Event\+Args}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_aa53113619335eac938a65c98a461a0e0}{On\+Status\+Messsage\+Change}}
+\begin{DoxyCompactList}\small\item\em messaging function from controller to outside i.\+e. error / status messaging / etc \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_connection_event_args}{Controller\+Connection\+Event\+Args}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac323718e0ffdd78d99df72748396c37c}{On\+Controller\+Connection}}
+\begin{DoxyCompactList}\small\item\em Event triggered when \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} connection secured \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac86e019aba715e5d2ac68b30e578bb30}{Control\+Value\+Update\+Event\+Handler}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac78d334b89b6f369e47aae02e35796a3}{Control\+Value\+Update}}
+\begin{DoxyCompactList}\small\item\em Event triggered when Control Memory struct Updated on network controller \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a064c7427d1e3f890783eae02d43d9e9c}{Update\+Feature\+Event\+Handler}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_abb1aa484bf22d3aacd98b1e30f4f4f30}{Update\+Feature\+OptimalX}}
+\begin{DoxyCompactList}\small\item\em Event triggered when feature optimal X is updated on the network controller \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a14f926c6e03397afe37f4dad32f07c95}{Request\+Updated\+Job\+Data\+Event\+Handler}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a268b44d6740b5354ca41cad3e48d617e}{Request\+Updated\+Job\+Data}}
+\begin{DoxyCompactList}\small\item\em Event triggered when network controller requests updated Jobdata \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9ab8aac41103f5f61a383711616533c7}{On\+Manoeuvre\+Update\+Event\+Handler}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a4f6ba99ce371808d4a0c05554bab1667}{On\+Manoeuvre\+Update}}
+\begin{DoxyCompactList}\small\item\em Event triggered when network controller requests manoeuvre information update \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Robot controller Class for control of Robofab Australia Coping Cell 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a418b23e34613ce4ac30be912f9338039}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a418b23e34613ce4ac30be912f9338039}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!RobotController@{RobotController}}
+\index{RobotController@{RobotController}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{RobotController()}{RobotController()}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Robot\+Controller (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Robot controller Class for control of Robofab Australia Coping Cell 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac86e019aba715e5d2ac68b30e578bb30}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac86e019aba715e5d2ac68b30e578bb30}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!ControlValueUpdateEventHandler@{ControlValueUpdateEventHandler}}
+\index{ControlValueUpdateEventHandler@{ControlValueUpdateEventHandler}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{ControlValueUpdateEventHandler()}{ControlValueUpdateEventHandler()}}
+{\footnotesize\ttfamily delegate void RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Control\+Value\+Update\+Event\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}}]{e }\end{DoxyParamCaption})}
+
+
+
+Delegte for when Control Memory struct Updated on network controller 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a8dcbbf3b09460fda2d48c20e45bee759}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a8dcbbf3b09460fda2d48c20e45bee759}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!ManoeuvreUpdate@{ManoeuvreUpdate}}
+\index{ManoeuvreUpdate@{ManoeuvreUpdate}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{ManoeuvreUpdate()}{ManoeuvreUpdate()}}
+{\footnotesize\ttfamily virtual bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Manoeuvre\+Update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_manoeuvre_update_event_args}{Manoeuvre\+Update\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+triggering method for On\+Manoeuvre\+Update event, when network contorller requests updated manoeuvre information 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+successfully updated network controller with requested manoeuvre information
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a2fcae2eb7d21bb7b34e4295477366598}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a2fcae2eb7d21bb7b34e4295477366598}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!NextDXChange@{NextDXChange}}
+\index{NextDXChange@{NextDXChange}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{NextDXChange()}{NextDXChange()}}
+{\footnotesize\ttfamily virtual void RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Next\+DXChange (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{Event\+Args}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+internal triggre for On\+Next\+DXChange update 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_afff457fec1a0185e74c06b8414129980}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_afff457fec1a0185e74c06b8414129980}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnControlValueUpdate@{OnControlValueUpdate}}
+\index{OnControlValueUpdate@{OnControlValueUpdate}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnControlValueUpdate()}{OnControlValueUpdate()}}
+{\footnotesize\ttfamily virtual void RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Control\+Value\+Update (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Event for firing when \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} connection secured 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9ab8aac41103f5f61a383711616533c7}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9ab8aac41103f5f61a383711616533c7}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnManoeuvreUpdateEventHandler@{OnManoeuvreUpdateEventHandler}}
+\index{OnManoeuvreUpdateEventHandler@{OnManoeuvreUpdateEventHandler}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnManoeuvreUpdateEventHandler()}{OnManoeuvreUpdateEventHandler()}}
+{\footnotesize\ttfamily delegate bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Manoeuvre\+Update\+Event\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_manoeuvre_update_event_args}{Manoeuvre\+Update\+Event\+Args}}}]{e }\end{DoxyParamCaption})}
+
+
+
+Custom Delegate for event where network controller requests updated manoeuvre information 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If network controller has been successfully updated with requested manoeuvre information
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9154aba125a2b03de105f3ba0388695d}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9154aba125a2b03de105f3ba0388695d}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnRequestUpdatedJobData@{OnRequestUpdatedJobData}}
+\index{OnRequestUpdatedJobData@{OnRequestUpdatedJobData}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnRequestUpdatedJobData()}{OnRequestUpdatedJobData()}}
+{\footnotesize\ttfamily virtual bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Request\+Updated\+Job\+Data (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_request_updated_job_data_event_args}{Request\+Updated\+Job\+Data\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+triggering method to fire Request\+Updated\+Job\+Data event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+successfully updated relevant network controller with relevant jobdata
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac2fa8a62da20603fb5026195efac5e74}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac2fa8a62da20603fb5026195efac5e74}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnUpdateFeatureOptimalX@{OnUpdateFeatureOptimalX}}
+\index{OnUpdateFeatureOptimalX@{OnUpdateFeatureOptimalX}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnUpdateFeatureOptimalX()}{OnUpdateFeatureOptimalX()}}
+{\footnotesize\ttfamily virtual bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Update\+Feature\+OptimalX (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_update_feature_optimal_x_event_args}{Update\+Feature\+Optimal\+XEvent\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Triggering method to call event when network controller has updated optimal x for a feature 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a14f926c6e03397afe37f4dad32f07c95}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a14f926c6e03397afe37f4dad32f07c95}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!RequestUpdatedJobDataEventHandler@{RequestUpdatedJobDataEventHandler}}
+\index{RequestUpdatedJobDataEventHandler@{RequestUpdatedJobDataEventHandler}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{RequestUpdatedJobDataEventHandler()}{RequestUpdatedJobDataEventHandler()}}
+{\footnotesize\ttfamily delegate bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Request\+Updated\+Job\+Data\+Event\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_request_updated_job_data_event_args}{Request\+Updated\+Job\+Data\+Event\+Args}}}]{e }\end{DoxyParamCaption})}
+
+
+
+Custom delegate for event where network controller requestes updated job data, allowing check of successful completion 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+if successfully updated network controller with required job data
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a039133c38516a0ab0edfdc18dca650f2}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a039133c38516a0ab0edfdc18dca650f2}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!RobotPC\_MessageChanged@{RobotPC\_MessageChanged}}
+\index{RobotPC\_MessageChanged@{RobotPC\_MessageChanged}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{RobotPC\_MessageChanged()}{RobotPC\_MessageChanged()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Robot\+PC\+\_\+\+Message\+Changed (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_r_a_p_i_d___data_1_1_control_struc_event_args}{Control\+Struc\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Event for firing when the controller changes the PC\+\_\+\+Message value in the control structure 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a064c7427d1e3f890783eae02d43d9e9c}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a064c7427d1e3f890783eae02d43d9e9c}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!UpdateFeatureEventHandler@{UpdateFeatureEventHandler}}
+\index{UpdateFeatureEventHandler@{UpdateFeatureEventHandler}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{UpdateFeatureEventHandler()}{UpdateFeatureEventHandler()}}
+{\footnotesize\ttfamily delegate bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Update\+Feature\+Event\+Handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_update_feature_optimal_x_event_args}{Update\+Feature\+Optimal\+XEvent\+Args}}}]{e }\end{DoxyParamCaption})}
+
+
+
+Custom Delegate for Update\+Feature\+OptimalX so that the relevant network controller may be updated pased to event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & relevant network controller to event\\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_af9f6595664bf7839b1c61666f1b07a12}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_af9f6595664bf7839b1c61666f1b07a12}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!dataModel@{dataModel}}
+\index{dataModel@{dataModel}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{dataModel}{dataModel}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_data_model_1_1_data_model}{Data\+Model}} RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+data\+Model}
+
+
+
+associated network controller memory and data relations, along with job and funcationality specific methods and parameters 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a5b9a4cc676a2b32cae9daf088b494f25}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a5b9a4cc676a2b32cae9daf088b494f25}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!stream@{stream}}
+\index{stream@{stream}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{stream}{stream}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream}{Stream}} RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+stream}
+
+
+
+Network and stream related methods and parameters 
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a29f6f335e8886b8edbef024c3437e48d}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a29f6f335e8886b8edbef024c3437e48d}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!ControllerConnected@{ControllerConnected}}
+\index{ControllerConnected@{ControllerConnected}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{ControllerConnected}{ControllerConnected}}
+{\footnotesize\ttfamily bool RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Controller\+Connected\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+If controller object is associated with a network controller, and connected to 
+
+
+
+\doxysubsection{Event Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac78d334b89b6f369e47aae02e35796a3}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac78d334b89b6f369e47aae02e35796a3}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!ControlValueUpdate@{ControlValueUpdate}}
+\index{ControlValueUpdate@{ControlValueUpdate}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{ControlValueUpdate}{ControlValueUpdate}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac86e019aba715e5d2ac68b30e578bb30}{Control\+Value\+Update\+Event\+Handler}} RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Control\+Value\+Update}
+
+
+
+Event triggered when Control Memory struct Updated on network controller 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac323718e0ffdd78d99df72748396c37c}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_ac323718e0ffdd78d99df72748396c37c}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnControllerConnection@{OnControllerConnection}}
+\index{OnControllerConnection@{OnControllerConnection}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnControllerConnection}{OnControllerConnection}}
+{\footnotesize\ttfamily Event\+Handler$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_connection_event_args}{Controller\+Connection\+Event\+Args}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Controller\+Connection}
+
+
+
+Event triggered when \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} connection secured 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a4f6ba99ce371808d4a0c05554bab1667}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a4f6ba99ce371808d4a0c05554bab1667}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnManoeuvreUpdate@{OnManoeuvreUpdate}}
+\index{OnManoeuvreUpdate@{OnManoeuvreUpdate}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnManoeuvreUpdate}{OnManoeuvreUpdate}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a9ab8aac41103f5f61a383711616533c7}{On\+Manoeuvre\+Update\+Event\+Handler}} RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Manoeuvre\+Update}
+
+
+
+Event triggered when network controller requests manoeuvre information update 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a83fbf060473f9ae86829f499fe31d074}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a83fbf060473f9ae86829f499fe31d074}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnNextDXChange@{OnNextDXChange}}
+\index{OnNextDXChange@{OnNextDXChange}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnNextDXChange}{OnNextDXChange}}
+{\footnotesize\ttfamily Event\+Handler$<$Event\+Args$>$ RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Next\+DXChange}
+
+
+
+Event triggered when next X location of stock is updated 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_aa53113619335eac938a65c98a461a0e0}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_aa53113619335eac938a65c98a461a0e0}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!OnStatusMesssageChange@{OnStatusMesssageChange}}
+\index{OnStatusMesssageChange@{OnStatusMesssageChange}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{OnStatusMesssageChange}{OnStatusMesssageChange}}
+{\footnotesize\ttfamily Event\+Handler$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_1_1_status_messsage_event_args}{Status\+Messsage\+Event\+Args}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+On\+Status\+Messsage\+Change}
+
+
+
+messaging function from controller to outside i.\+e. error / status messaging / etc 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a268b44d6740b5354ca41cad3e48d617e}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a268b44d6740b5354ca41cad3e48d617e}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!RequestUpdatedJobData@{RequestUpdatedJobData}}
+\index{RequestUpdatedJobData@{RequestUpdatedJobData}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{RequestUpdatedJobData}{RequestUpdatedJobData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a14f926c6e03397afe37f4dad32f07c95}{Request\+Updated\+Job\+Data\+Event\+Handler}} RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Request\+Updated\+Job\+Data}
+
+
+
+Event triggered when network controller requests updated Jobdata 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_robot_controller_abb1aa484bf22d3aacd98b1e30f4f4f30}\label{class_r_f_r_c_c___robot_controller_1_1_robot_controller_abb1aa484bf22d3aacd98b1e30f4f4f30}} 
+\index{RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}!UpdateFeatureOptimalX@{UpdateFeatureOptimalX}}
+\index{UpdateFeatureOptimalX@{UpdateFeatureOptimalX}!RFRCC\_RobotController.RobotController@{RFRCC\_RobotController.RobotController}}
+\doxysubsubsection{\texorpdfstring{UpdateFeatureOptimalX}{UpdateFeatureOptimalX}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller_a064c7427d1e3f890783eae02d43d9e9c}{Update\+Feature\+Event\+Handler}} RFRCC\+\_\+\+Robot\+Controller.\+Robot\+Controller.\+Update\+Feature\+OptimalX}
+
+
+
+Event triggered when feature optimal X is updated on the network controller 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/RCC\+\_\+\+Robot\+Controller.\+cs\end{DoxyCompactItemize}

@@ -1,0 +1,202 @@
+\hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream}{}\doxysection{RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream Class Reference}
+\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream}\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+
+
+handles network access, connection, and related events for the ABB Controllers, specifically intended for use with the  
+
+
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_available_controllers_event_args}{Available\+Controllers\+Event\+Args}}
+\begin{DoxyCompactList}\small\item\em Contains updated list of controllers available on the network \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_controller_connected_event_args}{Controller\+Connected\+Event\+Args}}
+\begin{DoxyCompactList}\small\item\em Custom Event Args with controller connection status \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a337ae7c2b50f867599c0e3153ab3b002}{Stream}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}} parent\+Controller)
+\begin{DoxyCompactList}\small\item\em Initialise stream functionality with a parent controller class \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_ae2813d85d78e44b4b2c75da1627acb96}{Connect\+To\+ABBController}} (ABB.\+Robotics.\+Controllers.\+Controller controller)
+\begin{DoxyCompactList}\small\item\em Connect controller object to desired controller using ABB classes \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a5ba85cc3b7f6acc11e127bb2fc8a3092}{Connect\+To\+ABBController}} (Controller\+Info controller\+Info)
+\begin{DoxyCompactList}\small\item\em Connect controller object to desired controller using ABB classes \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a833a01a7b143da52d932be5504346b4a}{Connect\+To\+Controller}} (\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_network_controller_info}{Network\+Controller\+Info}} controller\+Info)
+\begin{DoxyCompactList}\small\item\em Connect controller object to desired controller \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a6412ba0d76c904f8689fd3fcf0ba3741}{Dispose}} ()
+\begin{DoxyCompactList}\small\item\em Logs off network controller and disposes of all connections and memory holds regarding this object \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a577bed68ea9690a0750e653fa7bad61c}{Available\+Controllers\+Change}} (object sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_available_controllers_event_args}{Available\+Controllers\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Event raising method used to trigger when any network controllers change status \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a0dc90c8c8726020e91f6f29e62511dba}{Controller\+Connected\+Change}} (object sender, \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_controller_connected_event_args}{Controller\+Connected\+Event\+Args}} e)
+\begin{DoxyCompactList}\small\item\em Event executing method for raising event when Controllers connection status changes \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_controller_collection}{Controller\+Collection}} \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a8e393957f84076a88292834579607607}{Available\+Controllers}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Provide list of Controllers available on the network \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_available_controllers_event_args}{Available\+Controllers\+Event\+Args}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a20726d2e5ab03f374919afb5fb4ec6ef}{On\+Available\+Controllers\+Change}}
+\begin{DoxyCompactList}\small\item\em Update if any controllers are discovered or lost on the network \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_controller_connected_event_args}{Controller\+Connected\+Event\+Args}} $>$ \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_ac8c98339d96cc399ec629efe0d82d095}{On\+Controller\+Connected\+Change}}
+\begin{DoxyCompactList}\small\item\em controller connection connected or disconnected \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+handles network access, connection, and related events for the ABB Controllers, specifically intended for use with the 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a337ae7c2b50f867599c0e3153ab3b002}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a337ae7c2b50f867599c0e3153ab3b002}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!Stream@{Stream}}
+\index{Stream@{Stream}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{Stream()}{Stream()}}
+{\footnotesize\ttfamily RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_robot_controller}{Robot\+Controller}}}]{parent\+Controller }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialise stream functionality with a parent controller class 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent\+Controller} & \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} class to house any connection made and access events\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a577bed68ea9690a0750e653fa7bad61c}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a577bed68ea9690a0750e653fa7bad61c}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!AvailableControllersChange@{AvailableControllersChange}}
+\index{AvailableControllersChange@{AvailableControllersChange}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{AvailableControllersChange()}{AvailableControllersChange()}}
+{\footnotesize\ttfamily virtual void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Available\+Controllers\+Change (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_available_controllers_event_args}{Available\+Controllers\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Event raising method used to trigger when any network controllers change status 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_ae2813d85d78e44b4b2c75da1627acb96}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_ae2813d85d78e44b4b2c75da1627acb96}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!ConnectToABBController@{ConnectToABBController}}
+\index{ConnectToABBController@{ConnectToABBController}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{ConnectToABBController()}{ConnectToABBController()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Connect\+To\+ABBController (\begin{DoxyParamCaption}\item[{ABB.\+Robotics.\+Controllers.\+Controller}]{controller }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Connect controller object to desired controller using ABB classes 
+
+
+\begin{DoxyParams}{Parameters}
+{\em controller} & \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} to be connected to\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a5ba85cc3b7f6acc11e127bb2fc8a3092}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a5ba85cc3b7f6acc11e127bb2fc8a3092}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!ConnectToABBController@{ConnectToABBController}}
+\index{ConnectToABBController@{ConnectToABBController}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{ConnectToABBController()}{ConnectToABBController()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Connect\+To\+ABBController (\begin{DoxyParamCaption}\item[{Controller\+Info}]{controller\+Info }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Connect controller object to desired controller using ABB classes 
+
+
+\begin{DoxyParams}{Parameters}
+{\em controller\+Info} & \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} Info collected by ABB net scanner\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a833a01a7b143da52d932be5504346b4a}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a833a01a7b143da52d932be5504346b4a}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!ConnectToController@{ConnectToController}}
+\index{ConnectToController@{ConnectToController}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{ConnectToController()}{ConnectToController()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Connect\+To\+Controller (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_network_controller_info}{Network\+Controller\+Info}}}]{controller\+Info }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Connect controller object to desired controller 
+
+
+\begin{DoxyParams}{Parameters}
+{\em controller\+Info} & \mbox{\hyperlink{namespace_r_f_r_c_c___robot_controller_1_1_controller}{Controller}} info collected by stream.\+Available\+Controllers\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a0dc90c8c8726020e91f6f29e62511dba}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a0dc90c8c8726020e91f6f29e62511dba}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!ControllerConnectedChange@{ControllerConnectedChange}}
+\index{ControllerConnectedChange@{ControllerConnectedChange}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{ControllerConnectedChange()}{ControllerConnectedChange()}}
+{\footnotesize\ttfamily virtual void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Controller\+Connected\+Change (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_controller_connected_event_args}{Controller\+Connected\+Event\+Args}}}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Event executing method for raising event when Controllers connection status changes 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+{\em e} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a6412ba0d76c904f8689fd3fcf0ba3741}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a6412ba0d76c904f8689fd3fcf0ba3741}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!Dispose@{Dispose}}
+\index{Dispose@{Dispose}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{Dispose()}{Dispose()}}
+{\footnotesize\ttfamily void RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Dispose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Logs off network controller and disposes of all connections and memory holds regarding this object 
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a8e393957f84076a88292834579607607}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a8e393957f84076a88292834579607607}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!AvailableControllers@{AvailableControllers}}
+\index{AvailableControllers@{AvailableControllers}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{AvailableControllers}{AvailableControllers}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_a_b_b___data_1_1_controller_collection}{Controller\+Collection}} RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+Available\+Controllers\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Provide list of Controllers available on the network 
+
+
+
+\doxysubsection{Event Documentation}
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a20726d2e5ab03f374919afb5fb4ec6ef}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_a20726d2e5ab03f374919afb5fb4ec6ef}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!OnAvailableControllersChange@{OnAvailableControllersChange}}
+\index{OnAvailableControllersChange@{OnAvailableControllersChange}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{OnAvailableControllersChange}{OnAvailableControllersChange}}
+{\footnotesize\ttfamily Event\+Handler$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_available_controllers_event_args}{Available\+Controllers\+Event\+Args}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+On\+Available\+Controllers\+Change}
+
+
+
+Update if any controllers are discovered or lost on the network 
+
+\mbox{\Hypertarget{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_ac8c98339d96cc399ec629efe0d82d095}\label{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_ac8c98339d96cc399ec629efe0d82d095}} 
+\index{RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}!OnControllerConnectedChange@{OnControllerConnectedChange}}
+\index{OnControllerConnectedChange@{OnControllerConnectedChange}!RFRCC\_RobotController.Controller.Stream@{RFRCC\_RobotController.Controller.Stream}}
+\doxysubsubsection{\texorpdfstring{OnControllerConnectedChange}{OnControllerConnectedChange}}
+{\footnotesize\ttfamily Event\+Handler$<$\mbox{\hyperlink{class_r_f_r_c_c___robot_controller_1_1_controller_1_1_stream_1_1_controller_connected_event_args}{Controller\+Connected\+Event\+Args}}$>$ RFRCC\+\_\+\+Robot\+Controller.\+Controller.\+Stream.\+On\+Controller\+Connected\+Change}
+
+
+
+controller connection connected or disconnected 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+RFRCC\+\_\+\+Robot\+Controller/\+Controller/\+Stream/Stream.\+cs\end{DoxyCompactItemize}
