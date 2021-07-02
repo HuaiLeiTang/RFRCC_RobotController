@@ -111,7 +111,19 @@ namespace RFRCC_RobotController.Controller.Importers
             // TODO: complete job 
 
             ImportEntityCollection filesToImport = new ImportEntityCollection();
-            filesToImport.Add(new ImportEntity(FilePath, DataModel.Settings.Import.Qty, DataModel.Settings.Import.Offset, DataModel.Settings.Import.Flip_z, DataModel.Settings.Import.Rot_x));
+            if (FilePath == "Not Provided")
+            {
+                // Hard coded for NC1 file
+                ImportEntity importEntityFromASCII = new ImportEntity(FileName + ".nc1", DataModel.Settings.Import.Qty, DataModel.Settings.Import.Offset, DataModel.Settings.Import.Flip_z, DataModel.Settings.Import.Rot_x)
+                {
+                    ASCIIContent = FileASCIIContent
+                };
+                filesToImport.Add(importEntityFromASCII);
+            }
+            else
+            {
+                filesToImport.Add(new ImportEntity(FilePath, DataModel.Settings.Import.Qty, DataModel.Settings.Import.Offset, DataModel.Settings.Import.Flip_z, DataModel.Settings.Import.Rot_x));
+            }
             FileASCIIContent = System.IO.File.ReadAllText(FilePath);
             _header = SetFileJobHeader(Job.HeaderInfo, FileASCIIContent, FileName);
             Job.Name = Job.Name == null ? Job.HeaderInfo.JobID + " - " + Job.HeaderInfo.Profile + " " + Job.HeaderInfo.SawLength + "mm" : Job.Name;

@@ -32,7 +32,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <summary>
         /// list of job(s) to be completed
         /// </summary>
-        public List<JobModel> Operations = new List<JobModel>();
+        public List<JobModel> Jobs = new List<JobModel>();
         /// <summary>
         /// Current Job loaded into memory and omboard any connected Controller
         /// </summary>
@@ -40,17 +40,17 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             get
             {
-                if (Operations.Count == 0)
+                if (Jobs.Count == 0)
                 {
                     return null;
                 }
-                return Operations[0];
+                return Jobs[0];
             }
             set
             {
-                if (Operations.Count != 0)
+                if (Jobs.Count != 0)
                 {
-                    Operations[0] = value;
+                    Jobs[0] = value;
                 }
                 // maybe a throw if no operations available
             }
@@ -123,7 +123,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public DataModel(RobotController ParentController)
         {
             _parentController = ParentController;
-            Operations.Add( new JobModel(ParentController)); // add's itself to job.datamodel to list for current job 
+            Jobs.Add( new JobModel(ParentController)); // add new job to job list ready for population
             CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
             CurrentJob.OperationRobotMoveData.CurrentJob = true;
 
@@ -361,7 +361,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void ClearJobData()
         {
-            Operations.Clear();
+            Jobs.Clear();
         }
 
 
