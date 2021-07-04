@@ -135,6 +135,7 @@ namespace RFRCC_RobotController.Controller
             _parentController.ControllerConnectedEvent();
             //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
+            _parentController.dataModel.CurrentJob.Status.RobotConnected();
         }
         /// <summary>
         /// Connect controller object to desired controller using ABB classes
@@ -142,17 +143,7 @@ namespace RFRCC_RobotController.Controller
         /// <param name="controllerInfo">Controller Info collected by ABB net scanner</param>
         public void ConnectToABBController(ControllerInfo controllerInfo)
         {
-            if (_parentController._ControllerConnected)
-                Dispose();
-            _parentController.controller = ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone);
-            _parentController.controller.Logon(UserInfo.DefaultUser);
-            _parentController.tRob1 = _parentController.controller.Rapid.GetTask("T_ROB1");
-            _parentController.dataModel.InitDataStream();
-            _parentController._ControllerConnected = true;
-
-            _parentController.ControllerConnectedEvent();
-            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
-            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
+            ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone));
         }
         /// <summary>
         /// Connect controller object to desired controller
@@ -160,17 +151,7 @@ namespace RFRCC_RobotController.Controller
         /// <param name="controllerInfo">Controller info collected by stream.AvailableControllers</param>
         public void ConnectToController(NetworkControllerInfo controllerInfo)
         {
-            if (_parentController._ControllerConnected)
-                Dispose();
-            _parentController.controller = ABB.Robotics.Controllers.Controller.Connect(controllerInfo._ABBControllerInfo, ConnectionType.Standalone);
-            _parentController.controller.Logon(UserInfo.DefaultUser);
-            _parentController.tRob1 = _parentController.controller.Rapid.GetTask("T_ROB1");
-            _parentController.dataModel.InitDataStream();
-            _parentController._ControllerConnected = true;
-
-            _parentController.ControllerConnectedEvent();
-            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
-            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
+            ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo._ABBControllerInfo, ConnectionType.Standalone));
         }
         /// <summary>
         /// controller connection connected or disconnected

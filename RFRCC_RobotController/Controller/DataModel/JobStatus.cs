@@ -186,7 +186,6 @@ namespace RFRCC_RobotController.Controller.DataModel
                 OnJobPaused(new JobStatusEventArgs(_ParentJob));
             }
         }
-
         /// <summary>
         /// Call when job is being cancelled
         /// </summary>
@@ -195,7 +194,6 @@ namespace RFRCC_RobotController.Controller.DataModel
             _Progress = JobProgress.JobAborting;
             OnJobAborted(new JobStatusEventArgs(_ParentJob));
         }
-
         /// <summary>
         /// Call when job is being cancelled
         /// </summary>
@@ -212,7 +210,6 @@ namespace RFRCC_RobotController.Controller.DataModel
                 OnJobAborted(new JobStatusEventArgs(_ParentJob));
             }
         }
-
         /// <summary>
         /// Call when job is ending due to completion or cancellation
         /// </summary>
@@ -236,6 +233,16 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 _Progress = JobProgress.JobFinished;
                 OnJobFinished(new JobStatusEventArgs(_ParentJob));
+            }
+        }
+        /// <summary>
+        /// call when robot is connected to robot controller library
+        /// </summary>
+        internal void RobotConnected()
+        {
+            if (_Progress == JobProgress.WaitingForRobotConnection)
+            {
+                _Progress = JobProgress.WaitingForJobStart;
             }
         }
 

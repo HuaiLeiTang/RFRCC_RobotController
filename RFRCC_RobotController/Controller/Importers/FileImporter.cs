@@ -163,6 +163,7 @@ namespace RFRCC_RobotController.Controller.Importers
                 Debug.Print("success in import");
                 string NumRobotManoeuvres = Importer.Operations.Count.ToString() + " manoeuvres"; //might be used later for something TODO: remove
                 _parsed = true;
+                Job.Status.FileParsed();
                 PathGenerator.View_Generate(this, new GenerateArgs(Importer.Operations, MatrixBase, "GeometryName", DataModel.Settings.Generation));
                 return true;
             }
@@ -250,6 +251,7 @@ namespace RFRCC_RobotController.Controller.Importers
 
             // Generate Operation Actions
             Job.GenerateOpActionsFromRobManoeuvres();
+            Job.Status.JobDataPopulated();
 
             //TODO: Throw a JobData not loaded exception on failure
         }

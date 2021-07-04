@@ -24,9 +24,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         private string _filepath;
         private string _filename;
         private int _NumFeatures;
-        private bool _StartedProcessing;
-        private bool _FinishedProcessing;
-        private bool _ReadyforProcessing;
+        private bool _aborted;
+        private int _CurrentAction = 0;
 
         /// <summary>
         /// Handles Status of the job
@@ -46,10 +45,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public OperationActionList operationActions { get; set; }  = new OperationActionList();
         // TODO: UID generation for Job
-        /// <summary>
-        /// String describing stage of job. e.g. 'complete'
-        /// </summary>
-        public string ProjectStatus { get; set; }
         /// <summary>
         /// Job Header data
         /// </summary>
@@ -85,6 +80,71 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             _parentController = ParentController;
             _controllerPresent = true;
+        }
+        // TODO: complete start process
+        /// <summary>
+        /// NOT IMPLEMENTED YET
+        /// </summary>
+        /// <returns>if successfully started</returns>
+        public bool Start()
+        {
+            switch (Status.Progress)
+            {
+                case JobProgress.WaitingForFile:
+                    throw new Exception("Robot waiting for file upload");
+                    break;
+                case JobProgress.WaitingToParse:
+                    throw new Exception("Robot waiting to parse file");
+                    break;
+                case JobProgress.WaitingToPopulateJobData:
+                    throw new Exception("Robot waiting to populate job data from parsed file");
+                    break;
+                case JobProgress.WaitingForRobotConnection:
+                    throw new Exception("Robot Controller not connected");
+                    break;
+                case JobProgress.JobAborting:
+                    throw new Exception("Robot Aborting job");
+                    break;
+                case JobProgress.JobCancelled:
+                    throw new Exception("Job has been cancelled");
+                    break;
+                case JobProgress.JobFinished:
+                    throw new Exception("Job completed");
+                    break;
+                default:
+                    break;
+            }
+
+            throw new NotImplementedException();
+
+            // Success in conditions
+            // TODO: set next Action
+            // 
+            Status.Started();
+            return true;
+        }
+        // TODO: COmplete pause process
+        /// <summary>
+        /// NOT YET IMPLEMENTED
+        /// </summary>
+        public void Pause()
+        {
+            throw new NotImplementedException();
+            // TODO: Check if robot shout be IM Stopped and enact
+            // TODO: Pause all robot processes
+            Status.Paused();
+        }
+        // TODO: Implement Abort process
+        /// <summary>
+        /// NOT YET IMPLEMENTED
+        /// </summary>
+        public void Abort()
+        {
+            throw new NotImplementedException();
+            Status.Aborting();
+            // TODO: IM Stop robot
+            // TODO: setup new Actions based on stock exit criteria 
+
         }
         /// <summary>
         /// Connects to a controller and insert Job in list of jobs to be completed
@@ -127,13 +187,14 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (Parse)
             {
                 FileImporter Parser = new FileImporter() { Job = this, FilePath = _filepath, FileName = _filename };
+                Status.FileImported();
+
                 if (!Parser.Parse())
                 {
                     throw new NotImplementedException(); // TODO: turn this into an error exception
                     // or
                     return false;
                 }
-
                 // update infomation from Parser
 
                 return true;
@@ -157,6 +218,8 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (Parse)
             {
                 FileImporter Parser = new FileImporter() { Job = this, FilePath = _filepath, FileName = _filename };
+                Status.FileImported();
+
                 if (!Parser.Parse())
                 {
                     throw new NotImplementedException(); // TODO: turn this into an error exception
