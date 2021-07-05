@@ -79,6 +79,16 @@ namespace RFRCC_RobotController.Controller.DataModel
             _processing = true;
             OnActionStart();
         }
+        public void Pause()
+        {
+            _processing = false;
+            throw new NotImplementedException();
+        }
+        public void Continue()
+        {
+            _processing = true;
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// Stops processing of Action marks complete if action was successful
         /// </summary>

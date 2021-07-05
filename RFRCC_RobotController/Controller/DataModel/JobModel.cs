@@ -24,8 +24,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         private string _filepath;
         private string _filename;
         private int _NumFeatures;
-        private bool _aborted;
+        private bool _aborted = false;
         private int _CurrentAction = 0;
+
+        public EventHandler JobCompleted;
 
         /// <summary>
         /// Handles Status of the job
@@ -67,6 +69,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             }
 
             Status = new JobStatus(this);
+            operationActions.OperationsAllComplete += OnJobCompleted;
                 
         }
         /// <summary>
@@ -121,6 +124,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             // TODO: set next Action
             // 
             Status.Started();
+            operationActions.Current.Start();
             return true;
         }
         // TODO: COmplete pause process
@@ -141,7 +145,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void Abort()
         {
             throw new NotImplementedException();
+            _aborted = true;
             Status.Aborting();
+            
             // TODO: IM Stop robot
             // TODO: setup new Actions based on stock exit criteria 
 
@@ -254,7 +260,16 @@ namespace RFRCC_RobotController.Controller.DataModel
             this.Template.GenerateOpActionsFromRobManoeuvres(this);
 
             _NumFeatures = OperationRobotMoveData.Operation.Count;
-            _ReadyforProcessing = true; // TODO: check this is correct
+            Status.JobDataPopulated(); 
         }
+
+        // Internal Events
+        protected virtual void OnJobCompleted(object sender, EventArgs args)
+        {
+            Status.JobEnd(_aborted);
+            JobCompleted?.Invoke(this, args);
+        }
+        
+
     }
 }

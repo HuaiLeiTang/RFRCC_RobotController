@@ -251,7 +251,6 @@ namespace RFRCC_RobotController.Controller.Importers
 
             // Generate Operation Actions
             Job.GenerateOpActionsFromRobManoeuvres();
-            Job.Status.JobDataPopulated();
 
             //TODO: Throw a JobData not loaded exception on failure
         }

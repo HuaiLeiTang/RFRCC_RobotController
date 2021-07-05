@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
@@ -12,6 +13,35 @@ namespace RFRCC_RobotController.Controller.DataModel
         private List<OperationAction> _operationActions;
         private bool _ReadOnly;
         private int _index;
+
+        /// <summary>
+        /// The List of OperationActions has changed
+        /// </summary>
+        public EventHandler OperationActionsListChanged;
+        /// <summary>
+        /// an Operation action has been completed
+        /// </summary>
+        public EventHandler OperationActionCompleted;
+        /// <summary>
+        /// An operations skip status has been changed
+        /// </summary>
+        public EventHandler OperationSkipUpdated;
+        /// <summary>
+        /// Current operation has been started
+        /// </summary>
+        public EventHandler OperationStarted;
+        /// <summary>
+        /// Current Process is a PLC enabled process
+        /// </summary>
+        public EventHandler PLCProcessRequired;
+        /// <summary>
+        /// Current Process is a Robot enabled process
+        /// </summary>
+        public EventHandler RobotProcessRequired;
+        /// <summary>
+        /// Final Operation has been completed or is skipped
+        /// </summary>
+        public EventHandler OperationsAllComplete;
 
         /// <summary>
         /// Initialise object with empty list
@@ -32,6 +62,12 @@ namespace RFRCC_RobotController.Controller.DataModel
             _index = 0;
             _operationActions = new List<OperationAction>();
             _operationActions.AddRange(operationActions);
+            foreach (OperationAction Action in _operationActions)
+            {
+                Action.ActionCompleted += OnOperationActionCompleted;
+                Action.ActionSkipUpdated += OnOperationSkipUpdated;
+                Action.ActionStarted += OnOperationStarted;
+            }
         }
         /// <summary>
         /// indexed operation action from list
@@ -88,6 +124,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void Add(OperationAction item)
         {
             _operationActions.Add(item);
+            _operationActions.Last().ActionCompleted += OnOperationActionCompleted;
+            _operationActions.Last().ActionSkipUpdated += OnOperationSkipUpdated;
+            _operationActions.Last().ActionStarted += OnOperationStarted;
+            OnOperationActionsListChanged(this, new EventArgs());
         }
         /// <summary>
         /// Add multiple items to list of operation actions
@@ -98,7 +138,11 @@ namespace RFRCC_RobotController.Controller.DataModel
             foreach (OperationAction item in items)
             {
                 _operationActions.Add(item);
+                _operationActions.Last().ActionCompleted += OnOperationActionCompleted;
+                _operationActions.Last().ActionSkipUpdated += OnOperationSkipUpdated;
+                _operationActions.Last().ActionStarted += OnOperationStarted;
             }
+            OnOperationActionsListChanged(this, new EventArgs());
         }
         /// <summary>
         /// Clear list of all operation actions
@@ -106,6 +150,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void Clear()
         {
             _operationActions.Clear();
+            OnOperationActionsListChanged(this, new EventArgs());
         }
         /// <summary>
         /// check if operation action is contained in list
@@ -130,8 +175,31 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <returns>if successfull incremented item</returns>
         public bool MoveNext()
         {
-            if (_index + 1 == _operationActions.Count) return false;
+            if (Current == _operationActions.Last())
+            {
+                OnOperationsAllComplete();
+                return false;
+            }
+            
             _index++;
+            while (Current.Skip)
+            {
+                if (Current == _operationActions.Last())
+                {
+                    OnOperationsAllComplete();
+                    return false;
+                }
+                _index++;
+            }
+
+            if (Current is OperationPLCProcess)
+            {
+                OnPLCProcessRequired(Current, new EventArgs());
+            } 
+            else if (Current is OperationRobotManoeuvre || Current is OperationRobotProcess)
+            {
+                OnRobotProcessRequired(Current, new EventArgs());
+            }
             return true;
         }
         /// <summary>
@@ -165,6 +233,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void Insert(int index, OperationAction item)
         {
             _operationActions.Insert(index, item);
+            _operationActions[index].ActionCompleted += OnOperationActionCompleted;
+            _operationActions[index].ActionSkipUpdated += OnOperationSkipUpdated;
+            _operationActions[index].ActionStarted += OnOperationStarted;
+            OnOperationActionsListChanged(this, new EventArgs());
+
         }
         /// <summary>
         /// Remove item from list at index location
@@ -172,7 +245,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <param name="index">index of item to be removed</param>
         public void RemoveAt(int index)
         {
+            _operationActions[index].ActionCompleted -= OnOperationActionCompleted;
+            _operationActions[index].ActionSkipUpdated -= OnOperationSkipUpdated;
+            _operationActions[index].ActionStarted -= OnOperationStarted;
             _operationActions.RemoveAt(index);
+            OnOperationActionsListChanged(this, new EventArgs());
         }
         /// <summary>
         /// Copy indexed item from list to the end of an array
@@ -190,7 +267,13 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <returns>if found and removed</returns>
         public bool Remove(OperationAction item)
         {
-            return _operationActions.Remove(item);
+            _operationActions[_operationActions.IndexOf(item)].ActionCompleted += OnOperationActionCompleted;
+            _operationActions[_operationActions.IndexOf(item)].ActionSkipUpdated += OnOperationSkipUpdated;
+            _operationActions[_operationActions.IndexOf(item)].ActionStarted += OnOperationStarted;
+            var ans = _operationActions.Remove(item);
+            OnOperationActionsListChanged(this, new EventArgs());
+            return ans;
+
         }
         /// <summary>
         /// Enumerator of OperationActions list
@@ -199,6 +282,40 @@ namespace RFRCC_RobotController.Controller.DataModel
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)_operationActions).GetEnumerator();
+        }
+
+        // Internal Event Handlers
+        protected virtual void OnOperationActionsListChanged(object sender, EventArgs args)
+        {
+            OperationActionsListChanged?.Invoke(sender, args);
+        }
+        protected virtual void OnOperationActionCompleted(object sender, EventArgs args)
+        {
+            if (sender == Current)
+            {
+                this.MoveNext();
+            }
+            OperationActionCompleted?.Invoke(sender, args);
+        }
+        protected virtual void OnOperationSkipUpdated(object sender, EventArgs args)
+        {
+            OperationSkipUpdated?.Invoke(sender, args);
+        }
+        protected virtual void OnOperationStarted(object sender, EventArgs args)
+        {
+            OperationStarted?.Invoke(sender, args);
+        }
+        protected virtual void OnPLCProcessRequired(object sender, EventArgs args)
+        {
+            PLCProcessRequired?.Invoke(sender, args);
+        }
+        protected virtual void OnRobotProcessRequired(object sender, EventArgs args)
+        {
+            RobotProcessRequired?.Invoke(sender, args);
+        }
+        protected virtual void OnOperationsAllComplete()
+        {
+            OperationsAllComplete?.Invoke(this, new EventArgs());
         }
     }
 }
