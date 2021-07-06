@@ -17,35 +17,35 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <summary>
         /// Generic event update if status changes to any stage
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobStatusChange;
+        public event EventHandler<JobStatusEventArgs> JobStatusChange;
         /// <summary>
         /// Event raised if Job File is imported successfully
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobFileImported;
+        public event EventHandler<JobStatusEventArgs> JobFileImported;
         /// <summary>
         /// Event raised if Job File is parsed successfully
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobFileParsed;
+        public event EventHandler<JobStatusEventArgs> JobFileParsed;
         /// <summary>
         /// Event raised if Job Data is successfully populated from parsed data
         /// </summary>
-        public EventHandler<JobStatusEventArgs> DataPopulated;
+        public event EventHandler<JobStatusEventArgs> DataPopulated;
         /// <summary>
         /// Event raised if Job processessing is started
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobStarted;
+        public event EventHandler<JobStatusEventArgs> JobStarted;
         /// <summary>
         /// Event raised if Job is Paused
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobPaused;
+        public event EventHandler<JobStatusEventArgs> JobPaused;
         /// <summary>
         /// Event raised if Job is Aborted
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobAborted;
+        public event EventHandler<JobStatusEventArgs> JobAborted;
         /// <summary>
         /// Event raised if Job is completed
         /// </summary>
-        public EventHandler<JobStatusEventArgs> JobFinished;
+        public event EventHandler<JobStatusEventArgs> JobFinished;
 
         /// <summary>
         /// raises event JobStatusChange

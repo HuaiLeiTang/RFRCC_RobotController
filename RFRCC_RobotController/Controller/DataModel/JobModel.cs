@@ -19,6 +19,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// </summary>
     public class JobModel
     {
+        // INTERNAL
         internal RobotController _parentController;
         private bool _controllerPresent = false;
         private string _filepath;
@@ -27,12 +28,18 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _aborted = false;
         private int _CurrentAction = 0;
 
-        public EventHandler JobCompleted;
+        // Events
+        public event EventHandler JobCompleted;
 
+        // PARAMETERS
         /// <summary>
         /// Handles Status of the job
         /// </summary>
         public JobStatus Status { get; set; }
+        /// <summary>
+        /// Settings used during Job Processing through the machine
+        /// </summary>
+        public JobProcessSettings ProcessSettings;
         /// <summary>
         /// Template used om populating Job Action Items
         /// </summary>
@@ -55,6 +62,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Cutting information for job
         /// </summary>
         public ToolData ToolData { get; set; } = new ToolData();
+
+        // CONSTRUCTORS
         /// <summary>
         /// Initialised object with job process to follow
         /// if job process template not provided, default process will be used
@@ -70,7 +79,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
             Status = new JobStatus(this);
             operationActions.OperationsAllComplete += OnJobCompleted;
-                
+            ProcessSettings = new JobProcessSettings(this);
         }
         /// <summary>
         /// Initialise object with specified network controller, Job index on relevant network contoller, and template for job initialisation
@@ -84,6 +93,8 @@ namespace RFRCC_RobotController.Controller.DataModel
             _parentController = ParentController;
             _controllerPresent = true;
         }
+
+        // METHODS
         // TODO: complete start process
         /// <summary>
         /// NOT IMPLEMENTED YET
@@ -177,15 +188,24 @@ namespace RFRCC_RobotController.Controller.DataModel
             else _parentController.dataModel.Jobs.Insert(index, this);
             return true; // return false if failed to connect
         }
+        public bool ConnectToController()
+        {
+            OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+            OperationRobotMoveData.CurrentJob = true;
+            return true;
+        }
+        public void DisconnectFromController()
+        {
+            OperationRobotMoveData.DisconnectFromController(this, new ControllerConnectionEventArgs());
+        }
         /// <summary>
-        /// NOT IMPLEMENTED YET
         /// imports ASCII contents of DSTV file ready for parseing and jobdata population
         /// </summary>
         /// <param name="filename">Name of file or job</param>
         /// <param name="ASCII_Content">ASCII contents of DSTV file</param>
         /// <param name="Parse">If information is to be parsed immediately</param>
         /// <returns></returns>
-        public bool LoadJobFromASCII(string filename, string ASCII_Content , bool Parse)
+        internal bool LoadJobFromASCII(string filename, string ASCII_Content , bool Parse)
         {
             _filepath = "Not Provided";
             _filename = filename;

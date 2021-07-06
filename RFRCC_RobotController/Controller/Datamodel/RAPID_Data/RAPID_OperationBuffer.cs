@@ -176,6 +176,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
             _connected = true; // TODO: add this bool to other issues as a stop if required
         }
+        public void DisconnectFromController(object sender, ControllerConnectionEventArgs args)
+        {
+            _connected = false;
+            _ManBufferRD.Dispose();
+            _HeadBufferRD.Dispose();
+        }
         /// <summary>
         /// removes all items contained in Operation List
         /// </summary>

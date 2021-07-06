@@ -17,31 +17,31 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <summary>
         /// The List of OperationActions has changed
         /// </summary>
-        public EventHandler OperationActionsListChanged;
+        public event EventHandler OperationActionsListChanged;
         /// <summary>
         /// an Operation action has been completed
         /// </summary>
-        public EventHandler OperationActionCompleted;
+        public event EventHandler OperationActionCompleted;
         /// <summary>
         /// An operations skip status has been changed
         /// </summary>
-        public EventHandler OperationSkipUpdated;
+        public event EventHandler OperationSkipUpdated;
         /// <summary>
         /// Current operation has been started
         /// </summary>
-        public EventHandler OperationStarted;
+        public event EventHandler OperationStarted;
         /// <summary>
         /// Current Process is a PLC enabled process
         /// </summary>
-        public EventHandler PLCProcessRequired;
+        public event EventHandler PLCProcessRequired;
         /// <summary>
         /// Current Process is a Robot enabled process
         /// </summary>
-        public EventHandler RobotProcessRequired;
+        public event EventHandler RobotProcessRequired;
         /// <summary>
         /// Final Operation has been completed or is skipped
         /// </summary>
-        public EventHandler OperationsAllComplete;
+        public event EventHandler OperationsAllComplete;
 
         /// <summary>
         /// Initialise object with empty list

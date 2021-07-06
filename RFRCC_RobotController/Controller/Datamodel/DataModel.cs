@@ -7,6 +7,7 @@ using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.RapidDomain;
 using RFRCC_RobotController.Controller.DataModel.OperationData;
+using System.Linq;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
@@ -34,7 +35,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public List<JobModel> Jobs = new List<JobModel>();
         /// <summary>
-        /// Current Job loaded into memory and omboard any connected Controller
+        /// Current Job loaded into memory and onboard connected network Controller
         /// </summary>
         public JobModel CurrentJob
         {
@@ -64,9 +65,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
         internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
         
-
-
-
         // TODO: update and move the below
 
         // Generated Path structures
@@ -82,6 +80,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// To be updated to RAPID memory associated class
         /// </summary>
         public RAPIDJob_Header jobHeader { get; set; } // Move to operation (JobModel) 
+        // TODO: Add Machine Settings
+        public MachineProcessSettings ProcessSettings;
         internal JobHeader jobHeaderData = new JobHeader();
         /// <summary>
         /// RAPID Data entry on associated controller for Job Header Information
@@ -129,6 +129,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
             // Init variables
             ProgramVersion = new RobotProgramVersion(_parentController);
+            ProcessSettings = new MachineProcessSettings(this);
 
         }
         // TODO: test that this function correctly identifies the robot program will work with this library
@@ -338,21 +339,57 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         // TODO: finish load data onto robot controller
         /// <summary>
-        /// Not yet Implemented
+        /// imports ASCII contents of DSTV file ready for parseing and jobdata population
         /// </summary>
-        /// <param name="JobData"></param>
+        /// <param name="filename">Name of file or job</param>
+        /// <param name="ASCII_Content">ASCII contents of DSTV fileparam>
+        /// <param name="Parse">if false, file will not be parsed immediately</param>
         /// <returns></returns>
-        public bool LoadJobData(string JobData)
+        public int LoadJobFromASCII(string filename, string ASCII_Content, bool Parse = true)
         {
-            throw new NotImplementedException();
+            Jobs.Add(new JobModel(_parentController));
+
+            if (!CurrentJob.OperationRobotMoveData.CurrentJob)
+            {
+                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
+                CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+                CurrentJob.OperationRobotMoveData.CurrentJob = true;
+                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
+            }
+
+            if (!Jobs.Last().LoadJobFromASCII(filename, ASCII_Content, Parse)) return -1;
+
+            return Jobs.Count - 1;
         }
         // TODO: Implement load additional Jobs onto 
         /// <summary>
-        /// Not yet implemented
+        /// Load and parse data from file path in .nc1 format
+        /// parsed automatically unless parse = false
         /// </summary>
-        /// <param name="JobData"></param>
+        /// <param name="filepath">full filepath in storage</param>
+        /// <param name="parse">if false, file will not be parsed immediately</param>
+        /// <returns>index of file added, -1 if failed</returns>
+        public int LoadJobFromFile(string filepath, bool Parse = true)
+        {
+            Jobs.Add(new JobModel(_parentController));
+            
+            if (!CurrentJob.OperationRobotMoveData.CurrentJob)
+            {
+                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
+                CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+                CurrentJob.OperationRobotMoveData.CurrentJob = true;
+                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
+            }
+
+            if (!Jobs.Last().LoadJobFromFile(filepath, Parse)) return -1;
+
+            return Jobs.Count - 1;
+        }
+        /// <summary>
+        /// NOT YET IMPLEMENTED
+        /// </summary>
         /// <returns></returns>
-        public bool LoadAdditionalJobData(string JobData)
+        public int LoadJobFromParser()
         {
             throw new NotImplementedException();
         }
@@ -361,10 +398,26 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void ClearJobData()
         {
+            if (CurrentJob != null) CurrentJob.DisconnectFromController();
             Jobs.Clear();
         }
-
-
-
+        // TODO: add subscribe if auto pull next job
+        /// <summary>
+        /// Progresses Current Job out of memory and connects next job for processing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void NextJob(object sender = null, EventArgs args = null)
+        {
+            CurrentJob.DisconnectFromController();
+            CurrentJob.JobCompleted -= NextJob;
+            Jobs.RemoveAt(0);
+            if (CurrentJob != null)
+            {
+                CurrentJob.ConnectToController();
+                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
+            }
+        }
     }
+
 }

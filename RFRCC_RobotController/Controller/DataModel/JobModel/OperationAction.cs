@@ -62,15 +62,15 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <summary>
         /// Event when Action is completed
         /// </summary>
-        public EventHandler ActionCompleted;
+        public event EventHandler ActionCompleted;
         /// <summary>
         /// Event when Action is started
         /// </summary>
-        public EventHandler ActionStarted;
+        public event EventHandler ActionStarted;
         /// <summary>
         /// Event when skip status of this action is changed
         /// </summary>
-        public EventHandler ActionSkipUpdated;
+        public event EventHandler ActionSkipUpdated;
         /// <summary>
         /// Begins Actions Processing and raises start event
         /// </summary>
