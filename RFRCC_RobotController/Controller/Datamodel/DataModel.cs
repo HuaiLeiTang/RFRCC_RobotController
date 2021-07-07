@@ -108,10 +108,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
         //public RAPID_OperationBuffer OperationBuffer; //  --> has been moved to JobModel
-        public RAPID_CutChart TopCutChart = new RAPID_CutChart();
-        public RAPID_CutChart BottomCutChart = new RAPID_CutChart();
-        public RAPID_CutChart FrontCutChart = new RAPID_CutChart();
-        public RAPID_CutChart BackCutChart = new RAPID_CutChart();
+        public RAPID_CutChart TopCutChart { get; set; } = new RAPID_CutChart();
+        public RAPID_CutChart BottomCutChart { get; set; } = new RAPID_CutChart();
+        public RAPID_CutChart FrontCutChart { get; set; } = new RAPID_CutChart();
+        public RAPID_CutChart BackCutChart { get; set; } = new RAPID_CutChart();
         /// <summary>
         /// Tool data relevant to plasma cutting torch
         /// </summary>

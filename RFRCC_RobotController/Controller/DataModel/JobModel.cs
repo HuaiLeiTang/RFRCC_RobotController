@@ -116,10 +116,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             _controllerPresent = true;
         }
 
-        // METHODS
-        // TODO: complete start process
+        // --- METHODS ---
         /// <summary>
-        /// NOT IMPLEMENTED YET
+        /// Job starts processing and autoprogressing procession actions
         /// </summary>
         /// <returns>if successfully started</returns>
         public bool Start()
@@ -160,21 +159,20 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         // TODO: COmplete pause process
         /// <summary>
-        /// NOT YET IMPLEMENTED
+        /// Pauses current Job
         /// </summary>
         public void Pause()
         {
-            throw new NotImplementedException();
-            // TODO: Check if robot should be IM Stopped and enact
-            // TODO: Pause all robot processes
             operationActions.Current.Pause();
             Status.Paused();
         }
         /// <summary>
-        /// NOT IMPLEMENTED YET
+        /// Un-Pauses current Job
         /// </summary>
         public void Continue()
         {
+            // make error progress state
+            if (Status.Progress != JobProgress.JobPaused) throw new Exception("Job not in correct state for continuation");
             // if action is a skip, skip it.
             if (CurrentAction.Skip) operationActions.MoveNext();
             // if action is not processing, start processing
@@ -183,7 +181,6 @@ namespace RFRCC_RobotController.Controller.DataModel
                 CurrentAction.Start();
             }
             // if action requires continuation, do continuation to it
-            throw new NotImplementedException();
         }
         // TODO: Implement Abort process
         /// <summary>
@@ -191,14 +188,12 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void Abort()
         {
-            throw new NotImplementedException();
             if (_parentController.dataModel.ProcessSettings.ForcePauseBeforeAbort && Status.Progress != JobProgress.JobPaused) throw new Exception("Process Setting do not allow machine to abort without pause");
             _aborted = true;
             Status.Aborting();
-            
-            // TODO: IM Stop robot
+            operationActions.Current.Complete(false);
+            OnOperationAbort();
             // TODO: setup new Actions based on stock exit criteria 
-
         }
         /// <summary>
         /// Connects to a controller and insert Job in list of jobs to be completed
@@ -363,6 +358,14 @@ namespace RFRCC_RobotController.Controller.DataModel
                 if (IMStopRequest == null) throw new Exception("No subscribers to IM Stop request");
                 IMStopRequest?.Invoke(sender, args);
             }
+        }
+        protected virtual void OnOperationAbort(object sender = null, EventArgs args = null)
+        {
+            // Immediately stop robot process
+            if (IMStopRequest == null) throw new Exception("No subscribers to IM Stop request");
+            IMStopRequest?.Invoke(sender, args);
+
+
         }
 
     }

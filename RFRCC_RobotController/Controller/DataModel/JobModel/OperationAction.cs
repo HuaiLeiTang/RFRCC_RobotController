@@ -42,8 +42,12 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Event when Action is Coninued
         /// </summary>
         public event EventHandler ActionContinued;
-        
-        
+        /// <summary>
+        /// Event when Action is Canceled
+        /// </summary>
+        public event EventHandler ActionCanceled;
+
+
 
 
         /// <summary>
@@ -133,8 +137,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void Pause()
         {
-            _paused = true;
-            OnActionPaused();
+            if (!_paused)
+            {
+                _paused = true;
+                OnActionPaused();
+            }
         }
         /// <summary>
         /// Action Continued from pause and all subscribed objects notified
@@ -152,6 +159,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             _processing = false;
             Completed = success;
+            OnActionCompleted();
         }
         public object Clone()
         {
@@ -176,7 +184,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         protected virtual void OnActionCompleted()
         {
-            ActionCompleted?.Invoke(this, new EventArgs());
+            if (Completed) ActionCompleted?.Invoke(this, new EventArgs());
+            else ActionCanceled?.Invoke(this, new EventArgs());
         }
         /// <summary>
         /// Raise event ActionSkipUpdated
