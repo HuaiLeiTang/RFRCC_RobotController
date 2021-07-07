@@ -14,6 +14,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _ReadOnly;
         private int _index;
 
+        public event EventHandler OperationActionRequestPause;
         /// <summary>
         /// The List of OperationActions has changed
         /// </summary>
@@ -56,11 +57,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Initialise object with a list of Operation Actions
         /// </summary>
         /// <param name="operationActions">list of Operation Actions</param>
-        public OperationActionList(List<OperationAction> operationActions)
+        public OperationActionList(List<OperationAction> operationActions) : this()
         {
-            _ReadOnly = false;
-            _index = 0;
-            _operationActions = new List<OperationAction>();
             _operationActions.AddRange(operationActions);
             foreach (OperationAction Action in _operationActions)
             {
@@ -182,7 +180,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             }
             
             _index++;
-            while (Current.Skip)
+            while (!Current.PauseOn && Current.Skip)
             {
                 if (Current == _operationActions.Last())
                 {
@@ -190,6 +188,15 @@ namespace RFRCC_RobotController.Controller.DataModel
                     return false;
                 }
                 _index++;
+            }
+
+            if (Current.PauseOn)
+            {
+                //machine pause
+                OnOperationActionRequestPause(this, new EventArgs());
+
+                Current.PauseOn = false;
+                return true;
             }
 
             if (Current is OperationPLCProcess)
@@ -202,6 +209,18 @@ namespace RFRCC_RobotController.Controller.DataModel
             }
             return true;
         }
+        /// <summary>
+        /// NOT IMPLEMENTED YET
+        /// move action to index of actionlist
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public bool SetCurrentActionTo(int index)
+        {
+            throw new NotImplementedException();
+            // if machine pause, pause action before set to current
+        }
+
         /// <summary>
         /// Reset index lacation back to 0
         /// </summary>
@@ -285,6 +304,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
 
         // Internal Event Handlers
+        protected virtual void OnOperationActionRequestPause(object sender, EventArgs args)
+        {
+            OperationActionRequestPause?.Invoke(sender, args);
+        }
         protected virtual void OnOperationActionsListChanged(object sender, EventArgs args)
         {
             OperationActionsListChanged?.Invoke(sender, args);

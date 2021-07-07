@@ -17,6 +17,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     public class DataModel
     {
         private RobotController _parentController;
+        public RobotProcesses RobotProcess;
 
         // RAPID Data to be sorted
         internal RapidData SQLMessageRecieve;
@@ -111,11 +112,12 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RAPID_CutChart BottomCutChart = new RAPID_CutChart();
         public RAPID_CutChart FrontCutChart = new RAPID_CutChart();
         public RAPID_CutChart BackCutChart = new RAPID_CutChart();
-
         /// <summary>
         /// Tool data relevant to plasma cutting torch
         /// </summary>
         public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
+
+
         /// <summary>
         /// Data Model Constructor, securing parent controller and intitialising operations
         /// </summary>

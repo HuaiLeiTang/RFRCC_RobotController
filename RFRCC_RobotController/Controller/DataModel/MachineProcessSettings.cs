@@ -7,9 +7,9 @@ namespace RFRCC_RobotController.Controller.DataModel
     {
         //TODO: load default speeds
         internal DataModel _parentMachine;
-        internal bool _autoProgressJob = false;
-        internal bool _forcePauseBeforeAbort = false;
-        internal bool _robotIMStopOnPause = true;
+        internal bool _autoProgressJob;
+        internal bool _forcePauseBeforeAbort;
+        internal bool _robotIMStopOnPause;
         internal CS_speeddata _MoveSpeed;
         internal CS_speeddata _SafeMoveSpeed;
 
@@ -44,6 +44,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         public MachineProcessSettings(DataModel ParentDataModel)
         {
             _parentMachine = ParentDataModel;
+            AutoProgressJob = false;
+            ForcePauseBeforeAbort = false;
+            RobotIMStopOnPause = true;
         }
 
         /// <summary>

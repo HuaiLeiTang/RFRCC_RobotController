@@ -14,12 +14,54 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _complete = false;
         private bool _skip = false;
         private bool _processing = false;
+        private bool _paused = false;
+        private bool _pauseOn = false;
+        private bool _currentAction = false;
+
+        /// <summary>
+        /// Event when Action is completed
+        /// </summary>
+        public event EventHandler ActionCompleted;
+        /// <summary>
+        /// Event when Action is started
+        /// </summary>
+        public event EventHandler ActionStarted;
+        /// <summary>
+        /// Event when skip status of this action is changed
+        /// </summary>
+        public event EventHandler ActionSkipUpdated;
+        /// <summary>
+        /// Event when PauseOn status of this action is changed
+        /// </summary>
+        public event EventHandler ActionPauseOnUpdated;
+        /// <summary>
+        /// Event when Action is Paused
+        /// </summary>
+        public event EventHandler ActionPaused;
+        /// <summary>
+        /// Event when Action is Coninued
+        /// </summary>
+        public event EventHandler ActionContinued;
         
         
+
+
         /// <summary>
         /// Key text of the operation action
         /// </summary>
         public string Name { get; set; }
+        public bool CurrentAction
+        {
+            get
+            {
+                return _currentAction;
+            }
+            set
+            {
+                _currentAction = value;
+                if (!PauseOn) Start();
+            }
+        }
         /// <summary>
         /// Status if Action has been completed
         /// </summary>
@@ -49,7 +91,21 @@ namespace RFRCC_RobotController.Controller.DataModel
             } 
         }
         /// <summary>
-        /// Status of Actions execution
+        /// Action Will force a system pause when it becomes the Current Action
+        /// </summary>
+        public bool PauseOn
+        {
+            get
+            {
+                return _pauseOn;
+            }
+            set
+            {
+                _pauseOn = value;
+            }
+        }
+        /// <summary>
+        /// Status of Actions execution, if process has been started successfully
         /// </summary>
         public bool Processing 
         { 
@@ -59,35 +115,35 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Attributes of the Operation sorted by key and string value
         /// </summary>
         public Dictionary<string,string> Attributes { get; set; }
-        /// <summary>
-        /// Event when Action is completed
-        /// </summary>
-        public event EventHandler ActionCompleted;
-        /// <summary>
-        /// Event when Action is started
-        /// </summary>
-        public event EventHandler ActionStarted;
-        /// <summary>
-        /// Event when skip status of this action is changed
-        /// </summary>
-        public event EventHandler ActionSkipUpdated;
+
+
+
         /// <summary>
         /// Begins Actions Processing and raises start event
         /// </summary>
         public void Start()
         {
+            if (_skip) throw new Exception("Current Action has been skipped, please change status of skip on current action, or move to next action");
+            if (_paused) throw new Exception("Process cannont be restarted with Start(), please use Continue()");
             _processing = true;
             OnActionStart();
         }
+        /// <summary>
+        /// Action Paused and all subscribed objects notified
+        /// </summary>
         public void Pause()
         {
-            _processing = false;
-            throw new NotImplementedException();
+            _paused = true;
+            OnActionPaused();
         }
+        /// <summary>
+        /// Action Continued from pause and all subscribed objects notified
+        /// </summary>
         public void Continue()
         {
-            _processing = true;
-            throw new NotImplementedException();
+            if (!_paused) throw new Exception("Process cannont be started with Continue(), please use Start()");
+            _paused = false;
+            OnActionContinued();
         }
         /// <summary>
         /// Stops processing of Action marks complete if action was successful
@@ -129,6 +185,19 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             ActionSkipUpdated?.Invoke(this, new EventArgs());
         }
+        protected virtual void OnActionPauseOnUpdated()
+        {
+            ActionPauseOnUpdated?.Invoke(this, new EventArgs());
+        }
+        protected virtual void OnActionPaused()
+        {
+            ActionPaused?.Invoke(this, new EventArgs());
+        }
+        protected virtual void OnActionContinued()
+        {
+            ActionContinued?.Invoke(this, new EventArgs());
+        }
+
 
     }
 }
