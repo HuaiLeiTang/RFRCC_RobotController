@@ -34,7 +34,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <returns></returns>
         public void ImmediateStop(object sender = null, EventArgs args = null)
         {
-            return ImmediateStop();
+            ImmediateStop();
         }
         public bool RecoverFromIMStop()
         {

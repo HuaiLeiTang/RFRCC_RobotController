@@ -136,6 +136,8 @@ namespace RFRCC_RobotController.Controller
             //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
             _parentController.dataModel.CurrentJob.Status.RobotConnected();
+            _parentController.dataModel.PCConnected.Subscribe(OnControllerConnectedChange, EventPriority.High);
+            //_parentController.dataModel.PCConnected.ValueChanged += OnControllerConnectedChange; // change to sub!!!
         }
         /// <summary>
         /// Connect controller object to desired controller using ABB classes
@@ -156,7 +158,7 @@ namespace RFRCC_RobotController.Controller
         /// <summary>
         /// controller connection connected or disconnected
         /// </summary>
-        public event EventHandler<ControllerConnectedEventArgs> OnControllerConnectedChange;
+        public event EventHandler<ControllerConnectedEventArgs> ControllerConnectedChange;
         /// <summary>
         /// Custom Event Args with controller connection status
         /// </summary>
@@ -177,11 +179,34 @@ namespace RFRCC_RobotController.Controller
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void ControllerConnectedChange(object sender, ControllerConnectedEventArgs e)
+        protected virtual void OnControllerConnectedChange(object sender, ControllerConnectedEventArgs args)
         {
-            EventHandler<ControllerConnectedEventArgs> handler = OnControllerConnectedChange;
-            if (handler != null)
-                handler(sender, e);
+            ControllerConnectedChange?.Invoke(sender, args);
+        }
+        protected virtual void OnControllerConnectedChange(object sender, ABB.Robotics.Controllers.RapidDomain.DataValueChangedEventArgs args)
+        {
+            bool complete = false;
+            if (_parentController.ControllerConnected)
+            {
+                while (!complete)
+                {
+                    try
+                    {
+                        using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
+                        {
+                            _parentController.dataModel.PCConnected.Value = RapidBool.Parse("TRUE");
+                        }
+                    }
+                    catch
+                    {
+                        complete = false;
+                    }
+                    finally
+                    {
+                        complete = true;
+                    }
+                }
+            }
         }
         // TODO: change this to a close data stream of robot controller? 
         /// <summary>

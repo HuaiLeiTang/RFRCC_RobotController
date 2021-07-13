@@ -68,9 +68,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <param name="args"></param>
         public void ConnectToController(object sender, ControllerConnectionEventArgs args)
         {
-            _RobotProgramVer = _ParentController.tRob1.GetRapidData("CalidData", "RobotProgVer");
-            _RobotProgramSubCVer = _ParentController.tRob1.GetRapidData("CalidData", "RobotProgSubVer");
-            _RobotProgramRevision = _ParentController.tRob1.GetRapidData("CalidData", "RobotProgRevision");
+            _RobotProgramVer = _ParentController.tRob1.GetRapidData("CalibData", "RobotProgVer");
+            _RobotProgramSubCVer = _ParentController.tRob1.GetRapidData("CalibData", "RobotProgSubVer");
+            _RobotProgramRevision = _ParentController.tRob1.GetRapidData("CalibData", "RobotProgRevision");
             _connected = true;
 
             _ProgVersion = int.Parse(_RobotProgramVer.StringValue);

@@ -11,18 +11,26 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
     // RAPID Data connection to Operation Buffer for PC generation of paths for manoeuvres
     public class RAPID_OperationBuffer
     {
+        // --- PRIVATE PROPERTIES ---- 
         private RobotController _ParentController;
         private int _SizeOfManBuffer;
         private RapidData _ManBufferRD;
         private RapidData _HeadBufferRD;
+        private RapidData _RobSystemData;
         private PC_RobotMove_Register _Operations = new PC_RobotMove_Register();
         private bool _sortAscending = false;
         private string _OpManModule;
         private string _OpManVARName;
         private string _OpHeadModule;
         private string _OpHeadVARName;
+        private string _RobSysDataModule = "Module1";
+        private string _RobSysDataVARName = "Sys_RobData";
         private bool _connected = false;
         private bool _currentJob = false;
+
+        // --- EVENTS ---
+
+        // --- PROPERTIES ---
         /// <summary>
         /// Operation
         /// </summary>
@@ -88,6 +96,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 _sortAscending = !value;
             }
         }
+
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// initialise empty object
         /// </summary>
@@ -121,6 +131,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+        
+        // --- METHODS ---
         /// <summary>
         /// Connect network controller to this object
         /// </summary>
@@ -173,6 +185,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         {
             _ManBufferRD = _ParentController.tRob1.GetRapidData(_OpManModule, _OpManVARName);
             _HeadBufferRD = _ParentController.tRob1.GetRapidData(_OpHeadModule, _OpHeadVARName);
+            _RobSystemData = _ParentController.tRob1.GetRapidData(_RobSysDataModule, _RobSysDataVARName);
+            _RobSystemData.Subscribe(OnRobSystemDataUpdate, EventPriority.High);
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
             _connected = true; // TODO: add this bool to other issues as a stop if required
         }
@@ -181,6 +195,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _connected = false;
             _ManBufferRD.Dispose();
             _HeadBufferRD.Dispose();
+            _RobSystemData.Dispose();
         }
         /// <summary>
         /// removes all items contained in Operation List
@@ -488,6 +503,17 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             FromString(input);
         }
         */
+
+
+        // --- INTERNAL EVENTS AND AUTOMATION ---
+        protected virtual void OnRobSystemDataUpdate(object sender = null, EventArgs args = null)
+        {
+            // TODO: update Current Operation
+            string CurrentOp = _RobSystemData.StringValue.Split(',')[0]; // <-- SET CURRENT OP 
+
+            // TODO: update processed Operations?
+            string ProcessedOps = _RobSystemData.StringValue.Split(',')[0];
+        }
 
     }
 }

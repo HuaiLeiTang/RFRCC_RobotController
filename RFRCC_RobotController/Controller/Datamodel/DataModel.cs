@@ -22,7 +22,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         // RAPID Data to be sorted
         internal RapidData SQLMessageRecieve;
         internal RapidData SQLMessageError;
-        internal RapidData PCConnected;
+        internal RapidData PCConnected { get; set; }
         internal RapidData RapidJobData;
         internal RapidData RapidFeatureData;
         internal RapidData PCSDK_Complete;

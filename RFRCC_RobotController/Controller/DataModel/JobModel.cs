@@ -221,6 +221,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             ConnectAllJobEvents();
             return true; // return false if failed to connect
         }
+        // TODO: discriptive summary comment
         public bool ConnectAllJobEvents()
         {
             if (_controllerPresent)
@@ -233,6 +234,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 throw new Exception("No Controller present to connect all events to");
             }
         }
+        // TODO: discriptive summary comment
         public bool DisconnectAllJobEvents()
         {
             if (_controllerPresent)
@@ -245,12 +247,14 @@ namespace RFRCC_RobotController.Controller.DataModel
                 throw new Exception("No Controller present to disconnect all events from");
             }
         }
+        // TODO: discriptive summary comment
         public bool ConnectToController()
         {
             OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
             OperationRobotMoveData.CurrentJob = true;
             return true;
         }
+        // TODO: discriptive summary comment
         public void DisconnectFromController()
         {
             OperationRobotMoveData.DisconnectFromController(this, new ControllerConnectionEventArgs());
@@ -340,7 +344,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             Status.JobDataPopulated(); 
         }
 
-        // Internal Events
+        // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void OnJobCompleted(object sender, EventArgs args)
         {
             Status.JobEnd(_aborted);

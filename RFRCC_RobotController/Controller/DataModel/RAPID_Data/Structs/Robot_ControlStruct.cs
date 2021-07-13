@@ -29,10 +29,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
     /// </summary>
     public class Robot_ControlStruct
     {
-        /// <summary>
-        /// RAPIDData on connect Network Controller
-        /// </summary>
-        public RapidData Robot_Control_RAPID { get; set; }
+        // --- INTERNAL PROPERTIES ---
         private bool _JobInProgress;
         private string _JobID;
         private bool _TorchEnable;
@@ -42,6 +39,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private bool _Park_Req;
         private string _PC_Message;
         private ABB.Robotics.Controllers.Controller ControllerConnection;
+
+        // -- EVENTS ---
         /// <summary>
         /// Event raised when an object value is updated
         /// </summary>
@@ -50,38 +49,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// Event raised when RAPID Data structure value is updated
         /// </summary>
         public event EventHandler<ControlStrucEventArgs> PC_MessageUpdate;
+
+        // --- PROPERTIES ---
         /// <summary>
-        /// Method to raise ValueUpdate Event
+        /// RAPIDData on connect Network Controller
         /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnValueUpdate(ControlStrucEventArgs e)
-        {
-            EventHandler<ControlStrucEventArgs> handler = ValueUpdate;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-            else // null
-            {
-                Debug.WriteLine("struct OnValueUpdate fired if handler == null");
-            }
-        }
-        /// <summary>
-        /// Method to raise PC_MessageUpdate event
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnPC_MessageUpdate(ControlStrucEventArgs e)
-        {
-            EventHandler<ControlStrucEventArgs> handler = PC_MessageUpdate;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-            else // null
-            {
-                Debug.WriteLine("struct OnValueUpdate handler not assigned");
-            }
-        }
+        public RapidData Robot_Control_RAPID { get; set; }
         /// <summary>
         /// Current Job In progress
         /// </summary>
@@ -211,6 +184,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 }
             }
         }
+
+        // --- CONSTRUCTORS ---
+
+        // --- METHODS ---
         /// <summary>
         /// Initialise object with connection to controller
         /// </summary>
@@ -224,61 +201,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             Robot_Control_RAPID = RobotTask.GetRapidData(Module, RAPID_Name);
             ToString();
             InitialUpdateStruct();
-            Robot_Control_RAPID.ValueChanged += Update_Struct;
-        }
-        /// <summary>
-        /// Initialise object with network controller data
-        /// </summary>
-        private void InitialUpdateStruct()
-        {
-            DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
-            if (JobInProgress != bool.Parse(RapidStruct[0].Value)) _JobInProgress = bool.Parse(RapidStruct[0].Value);
-            if (JobID != "\"" + RapidStruct[1].Value + "\"") _JobID = RapidStruct[1].Value[1..^1];
-            if (TorchEnable != bool.Parse(RapidStruct[2].Value)) _TorchEnable = bool.Parse(RapidStruct[2].Value);
-            if (ManualControl_Req != bool.Parse(RapidStruct[3].Value)) _ManualControl_Req = bool.Parse(RapidStruct[3].Value);
-            if (StockXDisplacement != float.Parse(RapidStruct[4].Value)) _StockXDisplacement = float.Parse(RapidStruct[4].Value);
-            if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) _RobotEnabled = bool.Parse(RapidStruct[5].Value);
-            if (Park_Req != bool.Parse(RapidStruct[6].Value)) _Park_Req = bool.Parse(RapidStruct[6].Value);
-            if (PC_Message != "\"" + RapidStruct[7].Value + "\"") _PC_Message = RapidStruct[7].Value[1..^1];
-        }
-        /// <summary>
-        /// Update Object from controller when data changed 
-        /// </summary>
-        /// <param name="sender">Network Controller</param>
-        /// <param name="e">Data Changed Specification</param>
-        private void Update_Struct(object sender, DataValueChangedEventArgs e)
-        {
-
-            GetFromRapidData();
-        }
-        /// <summary>
-        /// Update Network controller with object data
-        /// </summary>
-        private void Update_Rapid()
-        {
-            bool complete = false;
-
-            while (!complete)
-            {
-                try
-                {
-                    using (Mastership m = Mastership.Request(ControllerConnection.Rapid))
-                    {
-                        Robot_Control_RAPID.StringValue = ToString();
-                    }
-                }
-                catch
-                {
-                    Debug.Print("mastership failed while attempting to update control register");
-                    complete = false;
-                }
-                finally
-                {
-                    complete = true;
-                }
-            }
-            complete = false;
-
+            Robot_Control_RAPID.Subscribe(Update_Struct, EventPriority.High);
         }
         /// <summary>
         /// Object Information displayed in string
@@ -325,7 +248,92 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         }
 
 
+        // --- INTERNAL EVENTS AND AUTOMATION ---
+        /// <summary>
+        /// Update Object from controller when data changed 
+        /// </summary>
+        /// <param name="sender">Network Controller</param>
+        /// <param name="e">Data Changed Specification</param>
+        private void Update_Struct(object sender, DataValueChangedEventArgs e)
+        {
 
+            GetFromRapidData();
+        }
+        /// <summary>
+        /// Initialise object with network controller data
+        /// </summary>
+        private void InitialUpdateStruct()
+        {
+            DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
+            if (JobInProgress != bool.Parse(RapidStruct[0].Value)) _JobInProgress = bool.Parse(RapidStruct[0].Value);
+            if (JobID != "\"" + RapidStruct[1].Value + "\"") _JobID = RapidStruct[1].Value[1..^1];
+            if (TorchEnable != bool.Parse(RapidStruct[2].Value)) _TorchEnable = bool.Parse(RapidStruct[2].Value);
+            if (ManualControl_Req != bool.Parse(RapidStruct[3].Value)) _ManualControl_Req = bool.Parse(RapidStruct[3].Value);
+            if (StockXDisplacement != float.Parse(RapidStruct[4].Value)) _StockXDisplacement = float.Parse(RapidStruct[4].Value);
+            if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) _RobotEnabled = bool.Parse(RapidStruct[5].Value);
+            if (Park_Req != bool.Parse(RapidStruct[6].Value)) _Park_Req = bool.Parse(RapidStruct[6].Value);
+            if (PC_Message != "\"" + RapidStruct[7].Value + "\"") _PC_Message = RapidStruct[7].Value[1..^1];
+        }
+        /// <summary>
+        /// Update Network controller with object data
+        /// </summary>
+        private void Update_Rapid()
+        {
+            bool complete = false;
+
+            while (!complete)
+            {
+                try
+                {
+                    using (Mastership m = Mastership.Request(ControllerConnection.Rapid))
+                    {
+                        Robot_Control_RAPID.StringValue = ToString();
+                    }
+                }
+                catch
+                {
+                    Debug.Print("mastership failed while attempting to update control register");
+                    complete = false;
+                }
+                finally
+                {
+                    complete = true;
+                }
+            }
+            complete = false;
+
+        }
+        /// <summary>
+        /// Method to raise ValueUpdate Event
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnValueUpdate(object sender = null, ControlStrucEventArgs args = null)
+        {
+            if (ValueUpdate != null)
+            {
+                ValueUpdate?.Invoke(this, args);
+            }
+            else // null
+            {
+                Debug.WriteLine("No Listeners found for onvalueupdate on Robot Control structure");
+            }
+        }
+        /// <summary>
+        /// Method to raise PC_MessageUpdate event
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnPC_MessageUpdate(ControlStrucEventArgs e)
+        {
+            EventHandler<ControlStrucEventArgs> handler = PC_MessageUpdate;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+            else // null
+            {
+                Debug.WriteLine("struct OnValueUpdate handler not assigned");
+            }
+        }
     }
 
 }
