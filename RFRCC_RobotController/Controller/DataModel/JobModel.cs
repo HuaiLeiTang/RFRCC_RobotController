@@ -19,7 +19,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// </summary>
     public class JobModel
     {
-        // INTERNAL
+        // --- INTERNAL ---
         internal RobotController _parentController;
         private bool _controllerPresent = false;
         private string _filepath;
@@ -28,11 +28,12 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _aborted = false;
         private bool _CurrentJob = false;
 
-        // Events
+        // --- EVENTS ---
         public event EventHandler JobCompleted;
         public event EventHandler IMStopRequest;
+        public event EventHandler JobParsed;
 
-        // PARAMETERS
+        // --- PARAMETERS ---
         public OperationAction CurrentAction
         {
             get
@@ -82,7 +83,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public ToolData ToolData { get; set; } = new ToolData();
 
-        // CONSTRUCTORS
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// Initialised object with job process to follow
         /// if job process template not provided, default process will be used
@@ -284,10 +285,12 @@ namespace RFRCC_RobotController.Controller.DataModel
                 }
                 // update infomation from Parser
 
+                JobParsed?.Invoke(this, new EventArgs());
                 return true;
             }
             else
             {
+                JobParsed?.Invoke(this, new EventArgs());
                 return true;
             }
         }
@@ -309,17 +312,19 @@ namespace RFRCC_RobotController.Controller.DataModel
 
                 if (!Parser.Parse())
                 {
-                    throw new NotImplementedException(); // TODO: turn this into an error exception
+                    throw new Exception("Parser failed to parse file"); // TODO: turn this into an error exception
                     // or
                     return false;
                 }
-                
+
                 // update infomation from Parser
 
+                JobParsed?.Invoke(this, new EventArgs());
                 return true;
             }
             else
             {
+                JobParsed?.Invoke(this, new EventArgs());
                 return true;
             }
         }
@@ -350,9 +355,18 @@ namespace RFRCC_RobotController.Controller.DataModel
             Status.JobEnd(_aborted);
             JobCompleted?.Invoke(this, args);
         }
+        /// <summary>
+        /// This is where pause and auto progress will be completed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         protected virtual void OnOperationCompleted(object sender = null, EventArgs args = null)
         {
-            // OperationActionList Automatically cycles to next operation and commences
+            // OperationActionList Automatically cycles to next operation and commences if autoprogress active
+            if (ProcessSettings.MachineSettings.AutoProgressJob && !operationActions.Current.PauseOn)
+            {
+                operationActions.Current.Start();
+            }
         }
         protected virtual void OnOperationActionRequestPause(object sender = null, EventArgs args = null)
         {

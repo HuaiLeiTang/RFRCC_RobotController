@@ -33,7 +33,12 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         /// <summary>
         /// current computed feature indicated
         /// </summary>
-        public object Current => _ComputedFeatures[_current];
+        public RobotComputedFeatures Current => _ComputedFeatures[_current];
+        /// <summary>
+        /// Current Feature to be processed by machine
+        /// </summary>
+        object IEnumerator.Current => _ComputedFeatures[_current];
+
         /// <summary>
         /// intialise object with list of computed features
         /// </summary>

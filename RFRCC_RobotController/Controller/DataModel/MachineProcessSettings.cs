@@ -5,6 +5,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 {
     public class MachineProcessSettings
     {
+        // --- INTERNAL FIELDS ---
         //TODO: load default speeds
         internal DataModel _parentMachine;
         internal bool _autoProgressJob;
@@ -15,6 +16,8 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         internal bool _updatedJobProcessSettings = true;
 
+
+        // --- EVENTS ---
         /// <summary>
         /// Event when AutoProgressJob has been changed
         /// </summary>
@@ -36,7 +39,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public event EventHandler SafeMoveSpeedChanged;
 
-
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// construct object with link to parent data model to be housed in
         /// </summary>
@@ -49,6 +52,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             RobotIMStopOnPause = true;
         }
 
+        // --- PROPERTIES ---
         /// <summary>
         /// Status if Object will automatically dispose of current job on completion and upload following job data if available
         /// If false, on completion of job object will wait for manual disposal and loading next job data
@@ -137,8 +141,10 @@ namespace RFRCC_RobotController.Controller.DataModel
             }
         }
 
+        // --- METHODS ---
 
-        // internal methods and events
+
+        // --- INTENAL EVENTS AND AUTOMATION ---
         virtual protected void OnMoveSpeedChange()
         {
             MoveSpeedChanged?.Invoke(this, new EventArgs());

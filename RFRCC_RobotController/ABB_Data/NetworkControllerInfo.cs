@@ -34,6 +34,21 @@ namespace RFRCC_RobotController.ABB_Data
             WebServicesPort = ABBControllerInfo.WebServicesPort;
             _ABBControllerInfo = ABBControllerInfo;
         }
+        public NetworkControllerInfo(ABB.Robotics.Controllers.Controller ABBController)
+        {
+            SystemId = ABBController.SystemId;
+            IsVirtual = ABBController.IsVirtual;
+            IPAddress = ABBController.IPAddress;
+            VersionName = ABBController.RobotWare.Name;
+            Version = ABBController.RobotWareVersion;
+            BaseDirectory = new DirectoryInfo(ABBController.FileSystem.LocalDirectory);
+            HostName = ABBController.Name;
+            MacAddress = ABBController.MacAddress;
+            SystemName = ABBController.SystemName;
+            RunLevel = ABBController.RunLevel;
+            Id = ABBController.Name;
+            ControllerName = ABBController.Name;
+        }
 
         internal ControllerInfo _ABBControllerInfo;
 

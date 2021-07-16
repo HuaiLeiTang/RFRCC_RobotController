@@ -108,7 +108,6 @@ namespace RFRCC_RobotController.Controller.Importers
         public bool Parse()
         {
             // TODO: Raise Exceptiong if importer filepath not present
-            // TODO: complete job 
 
             ImportEntityCollection filesToImport = new ImportEntityCollection();
             if (FilePath == "Not Provided")

@@ -5,6 +5,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 {
     public class JobProcessSettings
     {
+        // --- INTERNAL FIELDS ---
         //TODO: load default speeds
         internal JobModel _parentJob;
         internal CS_speeddata _MoveSpeed;
@@ -16,6 +17,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         internal bool _takeMachineSettings = true;
 
+        // --- EVENTS ---
         /// <summary>
         /// Event when MoveSpeed has been changed
         /// </summary>
@@ -45,6 +47,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public event EventHandler TakeMachineSettingsChanged;
 
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// Construct object with link to parent JobModel to be housed in
         /// </summary>
@@ -54,6 +57,28 @@ namespace RFRCC_RobotController.Controller.DataModel
             _parentJob = ParentJob;
         }
 
+
+        // --- PROPERTIES ---
+        public MachineProcessSettings MachineSettings 
+        {
+            get 
+            {
+                if (_parentJob._parentController != null)
+                {
+                    return _parentJob._parentController.dataModel.ProcessSettings;
+                }
+                else throw new Exception("No machine associated with Job");
+                
+            }
+            set
+            {
+                if (_parentJob._parentController != null)
+                {
+                    _parentJob._parentController.dataModel.ProcessSettings = value;
+                }
+                else throw new Exception("No machine associated with Job");
+            } 
+        }
         /// <summary>
         /// General Move speed of robot between points
         /// </summary>
@@ -61,15 +86,15 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             get 
             {
-                if (_takeMachineSettings) return _parentJob._parentController.dataModel.ProcessSettings._MoveSpeed;
+                if (_takeMachineSettings) return MachineSettings._MoveSpeed;
                 return _MoveSpeed; 
             }
             set 
             {
                 _MoveSpeed = value;
-                if (_takeMachineSettings) _parentJob._parentController.dataModel.ProcessSettings.MoveSpeedChanged -= UpdateMoveSpeed;
+                if (_takeMachineSettings) MachineSettings.MoveSpeedChanged -= UpdateMoveSpeed;
                 OnMoveSpeedChange();
-                if (_takeMachineSettings) _parentJob._parentController.dataModel.ProcessSettings.MoveSpeedChanged += UpdateMoveSpeed;
+                if (_takeMachineSettings) MachineSettings.MoveSpeedChanged += UpdateMoveSpeed;
             }
         }
         /// <summary>
@@ -84,9 +109,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             set
             {
                 _SafeMoveSpeed = value;
-                if (_takeMachineSettings) _parentJob._parentController.dataModel.ProcessSettings.SafeMoveSpeedChanged -= UpdateSafeMoveSpeed;
+                if (_takeMachineSettings) MachineSettings.SafeMoveSpeedChanged -= UpdateSafeMoveSpeed;
                 OnSafeMoveSpeedChange();
-                if (_takeMachineSettings) _parentJob._parentController.dataModel.ProcessSettings.SafeMoveSpeedChanged += UpdateSafeMoveSpeed;
+                if (_takeMachineSettings) MachineSettings.SafeMoveSpeedChanged += UpdateSafeMoveSpeed;
             }
         }
         /// <summary>
@@ -149,6 +174,8 @@ namespace RFRCC_RobotController.Controller.DataModel
                 OnBackMoveSpeedChange();
             }
         }
+
+        // --- METHODS ---
         /// <summary>
         /// setting to enable connection to enable connection of Move and Safemove to Machine held values
         /// </summary>
@@ -161,26 +188,26 @@ namespace RFRCC_RobotController.Controller.DataModel
             set 
             {
                 _takeMachineSettings = value;
-                _parentJob._parentController.dataModel.ProcessSettings._updatedJobProcessSettings = value;
+                MachineSettings._updatedJobProcessSettings = value;
                 if (value)
                 {
-                    _parentJob._parentController.dataModel.ProcessSettings.MoveSpeedChanged += UpdateMoveSpeed;
-                    _parentJob._parentController.dataModel.ProcessSettings.SafeMoveSpeedChanged += UpdateSafeMoveSpeed;
-                    this.MoveSpeedChanged += _parentJob._parentController.dataModel.ProcessSettings.UpdateMoveSpeed;
-                    this.SafeMoveSpeedChanged += _parentJob._parentController.dataModel.ProcessSettings.UpdateSafeMoveSpeed;
+                    MachineSettings.MoveSpeedChanged += UpdateMoveSpeed;
+                    MachineSettings.SafeMoveSpeedChanged += UpdateSafeMoveSpeed;
+                    this.MoveSpeedChanged += MachineSettings.UpdateMoveSpeed;
+                    this.SafeMoveSpeedChanged += MachineSettings.UpdateSafeMoveSpeed;
                 }
                 else
                 {
-                    _parentJob._parentController.dataModel.ProcessSettings.MoveSpeedChanged -= UpdateMoveSpeed;
-                    _parentJob._parentController.dataModel.ProcessSettings.SafeMoveSpeedChanged -= UpdateSafeMoveSpeed;
-                    this.MoveSpeedChanged += _parentJob._parentController.dataModel.ProcessSettings.UpdateMoveSpeed;
-                    this.SafeMoveSpeedChanged += _parentJob._parentController.dataModel.ProcessSettings.UpdateSafeMoveSpeed;
+                    MachineSettings.MoveSpeedChanged -= UpdateMoveSpeed;
+                    MachineSettings.SafeMoveSpeedChanged -= UpdateSafeMoveSpeed;
+                    this.MoveSpeedChanged += MachineSettings.UpdateMoveSpeed;
+                    this.SafeMoveSpeedChanged += MachineSettings.UpdateSafeMoveSpeed;
                 }
                 OnTakeMachineSettingsChange();
             } 
         }
 
-        // internal events
+        // --- INTERNAL EVENTS AND AUTOMATION ---
         virtual protected void OnMoveSpeedChange()
         {
             MoveSpeedChanged?.Invoke(this, new EventArgs());
@@ -216,9 +243,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (sender is MachineProcessSettings)
             {
                 _MoveSpeed = ((MachineProcessSettings)sender)._MoveSpeed;
-                this.MoveSpeedChanged -= _parentJob._parentController.dataModel.ProcessSettings.UpdateMoveSpeed;
+                this.MoveSpeedChanged -= MachineSettings.UpdateMoveSpeed;
                 OnMoveSpeedChange();
-                this.MoveSpeedChanged += _parentJob._parentController.dataModel.ProcessSettings.UpdateMoveSpeed;
+                this.MoveSpeedChanged += MachineSettings.UpdateMoveSpeed;
             }
             else
             {
@@ -230,9 +257,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (sender is MachineProcessSettings)
             {
                 _SafeMoveSpeed = ((MachineProcessSettings)sender)._SafeMoveSpeed;
-                this.SafeMoveSpeedChanged -= _parentJob._parentController.dataModel.ProcessSettings.UpdateSafeMoveSpeed;
+                this.SafeMoveSpeedChanged -= MachineSettings.UpdateSafeMoveSpeed;
                 OnSafeMoveSpeedChange();
-                this.SafeMoveSpeedChanged += _parentJob._parentController.dataModel.ProcessSettings.UpdateSafeMoveSpeed;
+                this.SafeMoveSpeedChanged += MachineSettings.UpdateSafeMoveSpeed;
             }
             else
             {

@@ -16,21 +16,43 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// </summary>
     public class DataModel
     {
+        // --- PRIVATE FIELDS ---
         private RobotController _parentController;
         public RobotProcesses RobotProcess;
 
         // RAPID Data to be sorted
         internal RapidData SQLMessageRecieve;
         internal RapidData SQLMessageError;
-        internal RapidData PCConnected { get; set; }
+        internal RapidData PCConnected;
+        internal JobHeader jobHeaderData = new JobHeader();
         internal RapidData RapidJobData;
         internal RapidData RapidFeatureData;
         internal RapidData PCSDK_Complete;
         internal RapidData Robot_Status;
+        internal RapidData _NextDX { get; set; }
+        internal List<JobFeature> jobFeatureData = new List<JobFeature>();
+
+
+        internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
+        internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
+
+        // --- EVENTS ---
+        public event EventHandler JobAdded;
+        public event EventHandler JobParsed;
+
+        // --- PUBLIC PROPERTIES
+        public PC_RobotMove_Register RobotInstuctionsRegister;
+        public RAPID_OM_List OperationManeouvres;
+        public RAPID_OH_List OperationHeaders;
+        public double NextDX 
+        {
+            get { return double.Parse(_NextDX.StringValue); }
+        }
+
         /// <summary>
         /// Next job x from datum required for PLC to get job to
         /// </summary>
-        public RapidData NextDX;
+
         /// <summary>
         /// list of job(s) to be completed
         /// </summary>
@@ -61,19 +83,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Version of program loaded onto the controller connected
         /// </summary>
         public RobotProgramVersion ProgramVersion { get; }
-
-
-        internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
-        internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
-        
-        // TODO: update and move the below
-
-        // Generated Path structures
-        public PC_RobotMove_Register RobotInstuctionsRegister;
-        public RAPID_OM_List OperationManeouvres;
-        public RAPID_OH_List OperationHeaders;
-        internal List<JobFeature> jobFeatureData = new List<JobFeature>();
-
         // Job Data Buffers
         // TODO: Update this and its use to RAPID connected register
         /// <summary>
@@ -83,7 +92,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RAPIDJob_Header jobHeader { get; set; } // Move to operation (JobModel) 
         // TODO: Add Machine Settings
         public MachineProcessSettings ProcessSettings;
-        internal JobHeader jobHeaderData = new JobHeader();
         /// <summary>
         /// RAPID Data entry on associated controller for Job Header Information
         /// </summary>
@@ -117,6 +125,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
 
+        // --- CONSTRUCTORS ---
 
         /// <summary>
         /// Data Model Constructor, securing parent controller and intitialising operations
@@ -125,7 +134,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public DataModel(RobotController ParentController)
         {
             _parentController = ParentController;
-            Jobs.Add( new JobModel(ParentController)); // add new job to job list ready for population
+            Jobs.Add(new JobModel(ParentController)); // add new job to job list ready for population
             CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
             CurrentJob.OperationRobotMoveData.CurrentJob = true;
 
@@ -134,6 +143,8 @@ namespace RFRCC_RobotController.Controller.DataModel
             ProcessSettings = new MachineProcessSettings(this);
 
         }
+
+        // --- METHODS ---
         // TODO: test that this function correctly identifies the robot program will work with this library
         /// <summary>
         /// Starts up data stream and checks that datamodel is in 
@@ -165,8 +176,8 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Robot_Control.ValueUpdate += _parentController.OnControlValueUpdate; // Maybe update to enable Interrupts
                 Robot_Control.PC_MessageUpdate += _parentController.RobotPC_MessageChanged;
 
-                NextDX = _parentController.tRob1.GetRapidData("Module1", "NextDX");
-                NextDX.ValueChanged += _parentController.NextDXChange;
+                _NextDX = _parentController.tRob1.GetRapidData("Module1", "NextDX");
+                _NextDX.ValueChanged += _parentController.NextDXChange;
 
                 _parentController.ControllerConnectedEvent();
 
@@ -350,6 +361,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public int LoadJobFromASCII(string filename, string ASCII_Content, bool Parse = true)
         {
             Jobs.Add(new JobModel(_parentController));
+            OnJobAdded(Jobs.Last());
 
             if (!CurrentJob.OperationRobotMoveData.CurrentJob)
             {
@@ -374,7 +386,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         public int LoadJobFromFile(string filepath, bool Parse = true)
         {
             Jobs.Add(new JobModel(_parentController));
-            
+            OnJobAdded(Jobs.Last());
+
             if (!CurrentJob.OperationRobotMoveData.CurrentJob)
             {
                 if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
@@ -419,6 +432,13 @@ namespace RFRCC_RobotController.Controller.DataModel
                 CurrentJob.ConnectToController();
                 if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
             }
+        }
+
+        // --- PRIVATE EVENTS AND AUTOMATION ---
+        protected virtual void OnJobAdded(object sender = null, EventArgs args = null)
+        {
+            object sendme = sender != null ? sender : this;
+            JobAdded?.Invoke(sendme, new EventArgs());
         }
     }
 

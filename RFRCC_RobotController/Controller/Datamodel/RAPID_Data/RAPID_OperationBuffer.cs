@@ -5,6 +5,7 @@ using System.Linq;
 using static RFRCC_RobotController.Controller.DataModel.OperationData.PC_RobotMove_Register;
 using RFRCC_RobotController.Controller.DataModel.OperationData;
 using System;
+using System.Diagnostics;
 
 namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 {
@@ -17,6 +18,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private RapidData _ManBufferRD;
         private RapidData _HeadBufferRD;
         private RapidData _RobSystemData;
+        private RapidData _OperationStarted;
+        private RapidData _OperationCompleted;
+        private RapidData _OperationWaitingForStart;
+
         private PC_RobotMove_Register _Operations = new PC_RobotMove_Register();
         private bool _sortAscending = false;
         private string _OpManModule;
@@ -25,10 +30,23 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _OpHeadVARName;
         private string _RobSysDataModule = "Module1";
         private string _RobSysDataVARName = "Sys_RobData";
+        private string _OpStartedModule = "PC_Manoeuvre_Register";
+        private string _OpStartedVARName = "OperationStarted";
+        private string _OpCompletedModule = "PC_Manoeuvre_Register";
+        private string _OpCompletedVARName = "OperationCompleted";
+        private string _OperationWaitingForStartModule = "PC_Manoeuvre_Register";
+        private string _OperationWaitingForStartVARName = "WaitingOnStart";
         private bool _connected = false;
         private bool _currentJob = false;
+        private bool _RobotWaiting = false;
 
         // --- EVENTS ---
+        public event EventHandler NewCurrentOperation;
+        public event EventHandler NewUploadedOperation;
+        public event EventHandler OperationStarted;
+        public event EventHandler OperationCompleted;
+        public event EventHandler OperationWaitingForStart;
+
 
         // --- PROPERTIES ---
         /// <summary>
@@ -186,7 +204,15 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _ManBufferRD = _ParentController.tRob1.GetRapidData(_OpManModule, _OpManVARName);
             _HeadBufferRD = _ParentController.tRob1.GetRapidData(_OpHeadModule, _OpHeadVARName);
             _RobSystemData = _ParentController.tRob1.GetRapidData(_RobSysDataModule, _RobSysDataVARName);
+            _OperationStarted = _ParentController.tRob1.GetRapidData(_OpStartedModule, _OpStartedVARName);
+            _OperationCompleted = _ParentController.tRob1.GetRapidData(_OpCompletedModule, _OpCompletedVARName);
+            _OperationWaitingForStart = _ParentController.tRob1.GetRapidData(_OperationWaitingForStartModule, _OperationWaitingForStartVARName);
+
             _RobSystemData.Subscribe(OnRobSystemDataUpdate, EventPriority.High);
+            _OperationStarted.Subscribe(OnOperationStartedChange, EventPriority.High);
+            _OperationCompleted.Subscribe(OnOperationCompletedChange, EventPriority.High);
+            _OperationWaitingForStart.Subscribe(OnOperationWaitingForStartChange, EventPriority.High);
+
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
             _connected = true; // TODO: add this bool to other issues as a stop if required
         }
@@ -196,6 +222,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _ManBufferRD.Dispose();
             _HeadBufferRD.Dispose();
             _RobSystemData.Dispose();
+            _OperationStarted.Dispose();
+            _OperationCompleted.Dispose();
+            _OperationWaitingForStart.Dispose();
         }
         /// <summary>
         /// removes all items contained in Operation List
@@ -494,6 +523,39 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             return true;
         }
+        /// <summary>
+        /// If Operation waiting for start, this function will allow Robot to proceed
+        /// </summary>
+        public void AllowOperationStart(object sender = null, EventArgs args = null)
+        {
+            if (_RobotWaiting)
+            {
+                if (_OperationWaitingForStart.StringValue == "FALSE") Debug.Print("Robot WaitingForStart register indicates robot isn't waiting: ATTEMPT VOID");
+                bool complete = false;
+
+                while (!complete)
+                {
+                    try
+                    {
+                        using (Mastership m = Mastership.Request(_ParentController.controller))
+                        {
+                            _OperationWaitingForStart.StringValue = "FALSE";
+                        }
+                    }
+                    catch
+                    {
+                        Debug.Print("mastership failed while attempting to update control register");
+                        complete = false;
+                    }
+                    finally
+                    {
+                        Debug.Print("successfully set Robot WaitingForStart register to continue with execution");
+                        complete = true;
+                    }
+                }
+            }
+        }
+        
 
         /* this shouldnt work so easily... (basically)
         public void DownloadData()
@@ -506,13 +568,74 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 
 
         // --- INTERNAL EVENTS AND AUTOMATION ---
+        /// <summary>
+        /// checks if new feature has been selected and connects feature ability (event) to connect to robot start
+        /// checks if new feature has been uploaded to robot and invokes event if the case
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         protected virtual void OnRobSystemDataUpdate(object sender = null, EventArgs args = null)
         {
-            // TODO: update Current Operation
-            string CurrentOp = _RobSystemData.StringValue.Split(',')[0]; // <-- SET CURRENT OP 
+            bool NewCurrentFeature = false;
+            bool NewuploadedFeature = false;
+            string[] stringVals = _RobSystemData.StringValue.Trim('[', ']').Split(',');
+
+            int CurrentOpCheck = int.Parse(stringVals[11]);
+            while (Operation.Current.FeatureHeader.FeatureNum != CurrentOpCheck)
+            {
+                NewCurrentFeature = true;
+                Operation.MoveNext();
+            }
 
             // TODO: update processed Operations?
-            string ProcessedOps = _RobSystemData.StringValue.Split(',')[0];
+            int ProcessedOps = int.Parse(stringVals[4]);
+
+            while (!Operation.Feature(ProcessedOps).UploadedToRobot)
+            {
+                NewuploadedFeature = true;
+                Operation.Feature(ProcessedOps).UploadedToRobot = true;
+                ProcessedOps--;
+                if (ProcessedOps == 0) break;
+            }
+
+            if (NewCurrentFeature)
+            {
+                NewCurrentOperation?.Invoke(this, new EventArgs());
+                Operation.Current.FeatureRequestRobotContinue += AllowOperationStart;
+            }
+            if (NewuploadedFeature) NewUploadedOperation?.Invoke(this, new EventArgs());
+        }
+        protected virtual void OnOperationStartedChange(object sender = null, EventArgs args = null)
+        {
+            int FeatureNum = int.Parse(_OperationStarted.StringValue);
+            Operation.Feature(FeatureNum).InProgress = true;
+
+            OperationStarted?.Invoke(Operation.Feature(FeatureNum), new EventArgs());
+        }
+        protected virtual void OnOperationCompletedChange(object sender = null, EventArgs args = null)
+        {
+            int FeatureNum = int.Parse(_OperationCompleted.StringValue);
+            Operation.Feature(FeatureNum).InProgress = false;
+            Operation.Feature(FeatureNum).CompletedByRobot = true;
+
+            OperationCompleted?.Invoke(Operation.Feature(FeatureNum), new EventArgs());
+        }
+        /// <summary>
+        /// Event triggered when robot changes register for start sequence
+        /// sets feature to waiting for start (if feature started on pc, feature will automatically begin process)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnOperationWaitingForStartChange(object sender = null, EventArgs args = null)
+        {
+            int FeatureNum = int.Parse(_RobSystemData.StringValue.Trim('[', ']').Split(',')[11]);
+            bool startReq = bool.Parse(_OperationWaitingForStart.StringValue);
+
+            if (startReq)
+            {
+                Operation.Feature(FeatureNum).WaitingForStart = true;
+                OperationWaitingForStart?.Invoke(Operation.Feature(FeatureNum), new EventArgs());
+            }
         }
 
     }

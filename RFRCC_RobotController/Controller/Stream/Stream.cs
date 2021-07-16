@@ -127,6 +127,7 @@ namespace RFRCC_RobotController.Controller
             if (_parentController._ControllerConnected)
                 Dispose();
             _parentController.controller = controller;
+            _parentController._controllerInfo = new NetworkControllerInfo(controller);
             _parentController.controller.Logon(UserInfo.DefaultUser);
             _parentController.tRob1 = controller.Rapid.GetTask("T_ROB1");
             _parentController.dataModel.InitDataStream();
@@ -146,6 +147,8 @@ namespace RFRCC_RobotController.Controller
         public void ConnectToABBController(ControllerInfo controllerInfo)
         {
             ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone));
+
+            _parentController._controllerInfo = new NetworkControllerInfo(controllerInfo);
         }
         /// <summary>
         /// Connect controller object to desired controller
@@ -154,6 +157,7 @@ namespace RFRCC_RobotController.Controller
         public void ConnectToController(NetworkControllerInfo controllerInfo)
         {
             ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo._ABBControllerInfo, ConnectionType.Standalone));
+            _parentController._controllerInfo = controllerInfo;
         }
         /// <summary>
         /// controller connection connected or disconnected

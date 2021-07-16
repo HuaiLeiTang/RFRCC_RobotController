@@ -11,6 +11,8 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// </summary>
     public class OperationAction : ICloneable
     {
+
+        // --- PRIVATE PROPERTIES ---
         private bool _complete = false;
         private bool _skip = false;
         private bool _processing = false;
@@ -18,6 +20,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _pauseOn = false;
         private bool _currentAction = false;
 
+
+        // --- EVENTS ---
         /// <summary>
         /// Event when Action is completed
         /// </summary>
@@ -49,7 +53,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
 
-
+        // --- PUBLIC PROPERTIES ---
         /// <summary>
         /// Key text of the operation action
         /// </summary>
@@ -63,7 +67,6 @@ namespace RFRCC_RobotController.Controller.DataModel
             set
             {
                 _currentAction = value;
-                if (!PauseOn) Start();
             }
         }
         /// <summary>
@@ -72,15 +75,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         public bool Completed 
         { 
             get => _complete;
-            set 
-            {
-                _complete = value;
-                if (_complete)
-                {
-                    _processing = false;
-                    OnActionCompleted();
-                }
-            } 
         }
         /// <summary>
         /// Status of Action is to be skipped
@@ -120,15 +114,22 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public Dictionary<string,string> Attributes { get; set; }
 
+        // --- CONSTRUCTORS ---
 
 
+        // --- METHODS ---
         /// <summary>
         /// Begins Actions Processing and raises start event
         /// </summary>
         public void Start()
         {
             if (_skip) throw new Exception("Current Action has been skipped, please change status of skip on current action, or move to next action");
-            if (_paused) throw new Exception("Process cannont be restarted with Start(), please use Continue()");
+            if (_paused)
+            {
+                OnActionPaused();
+                throw new Exception("Process cannont be restarted with Start(), please use Continue()");
+            }
+                
             _processing = true;
             OnActionStart();
         }
@@ -158,7 +159,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void Complete(bool success = true)
         {
             _processing = false;
-            Completed = success;
+            _complete = success;
             OnActionCompleted();
         }
         public object Clone()
@@ -168,7 +169,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
 
-        // Internal Event Handling
+        // --- Internal Event Handling ---
         /// <summary>
         /// raise event ActionStarted if Action.Processing == true
         /// </summary>

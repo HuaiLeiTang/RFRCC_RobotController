@@ -30,6 +30,7 @@ namespace RFRCC_RobotController
     /// </summary>
     public class RobotController
     {
+
         /// <summary>
         /// Network and stream related methods and parameters
         /// </summary>
@@ -40,6 +41,7 @@ namespace RFRCC_RobotController
         public DataModel dataModel;
 
         internal ABB.Robotics.Controllers.Controller controller = null;
+        internal NetworkControllerInfo _controllerInfo;
         internal ABB.Robotics.Controllers.RapidDomain.Task tRob1;
         internal bool _ControllerConnected = false;
 
@@ -266,6 +268,17 @@ namespace RFRCC_RobotController
         }
 
 
+        // --- PROPERTIES ---
+        /// <summary>
+        /// Controller information of the connected controller
+        /// </summary>
+        public NetworkControllerInfo ControllerInfo 
+        {
+            get => _controllerInfo;
+        }
+
+
+
         /*// ------------------------------------------------------------------------------------------------
                                             CONTROLLER EVENTS
         */// ------------------------------------------------------------------------------------------------
@@ -445,5 +458,8 @@ namespace RFRCC_RobotController
             }
             return true;
         }
+
+
+        
     }
 }
