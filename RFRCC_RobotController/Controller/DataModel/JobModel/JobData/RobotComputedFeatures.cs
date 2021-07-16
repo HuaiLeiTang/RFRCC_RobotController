@@ -92,6 +92,16 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 if (_StartWhenReady && WaitingForStart) AllowRobotToContinue();
             } 
         }
+        /// <summary>
+        /// X displacement of stock required for completion of operation
+        /// </summary>
+        public double IdealXDisplacement
+        {
+            get
+            {
+                return _FeatureHeader.IdealXDisplacement;
+            }
+        }
 
         // --- CONSTRUCTORS
         /// <summary>

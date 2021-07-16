@@ -9,8 +9,14 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
     /// </summary>
     public partial class PC_RobotMove_Register : IEnumerable, IEnumerator
     {
+        // --- INTERNAL FIELDS ---
         private List<RobotComputedFeatures> _ComputedFeatures = new List<RobotComputedFeatures>();
         private int _current;
+
+        // --- EVENTS ---
+        public event EventHandler CurrentStockDXUpdated;
+
+        // --- PROPERTIES ---
         /// <summary>
         /// Number of completed moves done by the robot
         /// </summary>
@@ -38,7 +44,18 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         /// Current Feature to be processed by machine
         /// </summary>
         object IEnumerator.Current => _ComputedFeatures[_current];
+        /// <summary>
+        /// Returns Computed feature at indexed location
+        /// </summary>
+        /// <param name="index">index</param>
+        /// <returns>Computer Feature</returns>
+        public RobotComputedFeatures this[int index]
+        {
+            get => _ComputedFeatures[index];
+            set => _ComputedFeatures[index] = value;
+        }
 
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// intialise object with list of computed features
         /// </summary>
@@ -53,6 +70,8 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         public PC_RobotMove_Register()
         {
         }
+
+        // --- METHODS ---
         /// <summary>
         /// retrieve object by index number
         /// </summary>
@@ -103,16 +122,6 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         public void Clear()
         {
             _ComputedFeatures.Clear();
-        }
-        /// <summary>
-        /// Returns Computed feature at indexed location
-        /// </summary>
-        /// <param name="index">index</param>
-        /// <returns>Computer Feature</returns>
-        public RobotComputedFeatures this[int index]
-        {
-            get => _ComputedFeatures[index];
-            set => _ComputedFeatures[index] = value;
         }
         /// <summary>
         /// Find index number of the feature with the feature number provided
@@ -169,6 +178,9 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _current--;
                 return false;
             }
+
+            Current.FeatureHeader.IdealXDisplacementUpdate += OnCurrentStockDXUpdated;
+            if (_ComputedFeatures[_current - 1].FeatureHeader.IdealXDisplacement != Current.FeatureHeader.IdealXDisplacement) OnCurrentStockDXUpdated();
             return true;
             
         }
@@ -179,5 +191,14 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         {
             _current = 0;
         }
+
+        // --- INTERNAL EVENTS AND AUTOMATION ---
+        protected virtual void OnCurrentStockDXUpdated(object sedner = null, EventArgs args = null)
+        {
+            object sendme = sedner != null ? sedner : this;
+            EventArgs sendargs = args != null ? args : new EventArgs();
+            CurrentStockDXUpdated?.Invoke(sendme, sendargs);
+        }
+
     }
 }

@@ -15,6 +15,7 @@ using RFRCC_RobotController.Controller;
 using RFRCC_RobotController.ABB_Data;
 using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using RFRCC_RobotController.Controller.DataModel;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace RFRCC_RobotController
 {
@@ -30,38 +31,14 @@ namespace RFRCC_RobotController
     /// </summary>
     public class RobotController
     {
-
-        /// <summary>
-        /// Network and stream related methods and parameters
-        /// </summary>
-        public Stream stream;
-        /// <summary>
-        /// associated network controller memory and data relations, along with job and funcationality specific methods and parameters
-        /// </summary>
-        public DataModel dataModel;
-
+        // --- INTERNAL FIELDS ---
         internal ABB.Robotics.Controllers.Controller controller = null;
         internal NetworkControllerInfo _controllerInfo;
         internal ABB.Robotics.Controllers.RapidDomain.Task tRob1;
         internal bool _ControllerConnected = false;
 
-        /// <summary>
-        /// Flag for collecting data from robot
-        /// </summary>
-        internal bool FetchedData { get; set; } = false;
-        /// <summary>
-        /// Event triggered when next X location of stock is updated
-        /// </summary>
-        public event EventHandler<EventArgs> OnNextDXChange;
-        /// <summary>
-        /// internal triggre for OnNextDXChange update
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        internal protected virtual void NextDXChange(object sender, EventArgs e)
-        {
-            OnNextDXChange?.Invoke(sender, e);
-        }
+        
+        
         /// <summary>
         /// messaging function from controller to outside
         /// i.e. error / status messaging / etc
@@ -91,14 +68,6 @@ namespace RFRCC_RobotController
                 handler(sender, e);
         }
         /// <summary>
-        /// Robot controller Class for control of Robofab Australia Coping Cell
-        /// </summary>
-        public RobotController()
-        {
-            stream = new Stream(this);
-            dataModel = new DataModel(this);
-        }
-        /// <summary>
         /// Returns ABB referenced controller
         /// </summary>
         ABB.Robotics.Controllers.Controller Controller
@@ -108,6 +77,48 @@ namespace RFRCC_RobotController
                 return controller;
             }
         }
+        
+        // --- EVENTS ---
+
+
+
+        // --- PROPERTIES ---
+        /// <summary>
+        /// Network and stream related methods and parameters
+        /// </summary>
+        public Stream stream;
+        /// <summary>
+        /// associated network controller memory and data relations, along with job and funcationality specific methods and parameters
+        /// </summary>
+        public DataModel dataModel;
+        /// <summary>
+        /// Controller information of the connected controller
+        /// </summary>
+        public NetworkControllerInfo ControllerInfo 
+        {
+            get => _controllerInfo;
+        }
+        /// <summary>
+        /// Flag for collecting data from robot
+        /// </summary>
+        internal bool FetchedData { get; set; } = false;
+        public RobotStatus robotStatus
+        {
+            get { return (RobotStatus)Enum.Parse(typeof(RobotStatus), tRob1.ExecutionStatus.ToString()); }
+        }
+
+        // --- CONSTRUCTORS ---
+        /// <summary>
+        /// Robot controller Class for control of Robofab Australia Coping Cell
+        /// </summary>
+        public RobotController()
+        {
+            stream = new Stream(this);
+            dataModel = new DataModel(this);
+        }
+
+
+        // --- METHODS ---
         /// <summary>
         /// If controller object is associated with a network controller, and connected to
         /// </summary>
@@ -266,16 +277,47 @@ namespace RFRCC_RobotController
                 }
             }
         }
-
-
-        // --- PROPERTIES ---
-        /// <summary>
-        /// Controller information of the connected controller
-        /// </summary>
-        public NetworkControllerInfo ControllerInfo 
+        internal bool SetProgramPointerAndStart()
         {
-            get => _controllerInfo;
+            bool complete = false;
+            int tries = 0;
+            while (!complete && tRob1.ExecutionStatus != TaskExecutionStatus.Running)
+            {
+                if (tries > 99) return false;
+                try
+                {
+                    using (Mastership m = Mastership.Request(controller.Rapid))
+                    {
+                        tRob1.ResetProgramPointer();
+                        tRob1.Start();
+                    }
+                }
+                catch
+                {
+                    complete = false;
+                    tries++;
+                }
+                finally
+                {
+                    complete = true;
+                }
+            }
+            return true;
         }
+
+
+
+        // --- INTERNAL EVENTS AND AUTOMATION ---
+        protected virtual void OnRobotOperatingModeChanged(object sender = null, EventArgs args = null)
+        {
+            StatusMesssageChange(this, new StatusMesssageEventArgs(controller.OperatingMode.ToString()));
+        }
+        protected virtual void OnRobotStateChanged(object sender = null, EventArgs args = null)
+        {
+            StatusMesssageChange(this, new StatusMesssageEventArgs(controller.State.ToString()));
+            
+        }
+
 
 
 
@@ -459,7 +501,15 @@ namespace RFRCC_RobotController
             return true;
         }
 
-
         
+    }
+
+    public enum RobotStatus
+    {
+        Ready,
+        Running,
+        Stopping,
+        Uninitiated,
+        Unknown
     }
 }

@@ -10,9 +10,13 @@ namespace RFRCC_RobotController.Controller.DataModel
     // List of Operation Actions taken during a Job Processing
     public class OperationActionList : IEnumerable<OperationAction>, IEnumerator<OperationAction>, IList<OperationAction>
     {
+        // --- INTERNAL FIELDS ---
         private List<OperationAction> _operationActions;
         private bool _ReadOnly;
         private int _index;
+        private double _rollingRequiredStockDX = 0;
+
+        // --- EVENTS ---
 
         public event EventHandler OperationActionRequestPause;
         /// <summary>
@@ -43,6 +47,30 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Final Operation has been completed or is skipped
         /// </summary>
         public event EventHandler OperationsAllComplete;
+        /// <summary>
+        /// RequiredStockDX has changed from previous value 
+        /// </summary>
+        public event EventHandler OperationRequiredStockDXChanged;
+
+        // --- PROPERTIES ---
+        public OperationAction this[int index] => _operationActions[index];
+        /// <summary>
+        /// Current set Operation Action 
+        /// </summary>
+        public OperationAction Current => _operationActions[_index];
+        /// <summary>
+        /// Number of operation actions
+        /// </summary>
+        public int Count => _operationActions.Count;
+        /// <summary>
+        /// if list is editable
+        /// </summary>
+        public bool IsReadOnly
+        {
+            get { return _ReadOnly; }
+        }
+
+        // --- CONSTRUCTORS ---
 
         /// <summary>
         /// Initialise object with empty list
@@ -72,22 +100,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="index">index of operation action</param>
         /// <returns>operation action</returns>
-        public OperationAction this[int index] => _operationActions[index];
-        /// <summary>
-        /// Current set Operation Action 
-        /// </summary>
-        public OperationAction Current => _operationActions[_index];
-        /// <summary>
-        /// Number of operation actions
-        /// </summary>
-        public int Count => _operationActions.Count;
-        /// <summary>
-        /// if list is editable
-        /// </summary>
-        public bool IsReadOnly 
-        {
-            get { return _ReadOnly; }
-        }
+        
+        // --- METHODS ---
         // TODO: Implement ReadOnly properly
         /// <summary>
         /// Edit read only status
@@ -199,6 +213,14 @@ namespace RFRCC_RobotController.Controller.DataModel
                 return true;
             }
 
+            if (Current.GetType().GetProperty("RequiredStockDX") != null)
+            {
+                if (_rollingRequiredStockDX != double.Parse(Current.GetType().GetProperty("RequiredStockDX").ToString()))
+                {
+                    _rollingRequiredStockDX = double.Parse(Current.GetType().GetProperty("RequiredStockDX").ToString());
+                    OperationRequiredStockDXChanged?.Invoke(Current, new EventArgs());
+                }
+            }
             if (Current is OperationPLCProcess)
             {
                 OnPLCProcessRequired(Current, new EventArgs());
@@ -303,7 +325,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             return ((IEnumerable)_operationActions).GetEnumerator();
         }
 
-        // Internal Event Handlers
+        // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void OnOperationActionRequestPause(object sender, EventArgs args)
         {
             OperationActionRequestPause?.Invoke(sender, args);

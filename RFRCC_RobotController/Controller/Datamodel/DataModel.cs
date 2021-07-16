@@ -29,7 +29,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal RapidData RapidFeatureData;
         internal RapidData PCSDK_Complete;
         internal RapidData Robot_Status;
-        internal RapidData _NextDX { get; set; }
+        internal double _RequiredStockDX;
         internal List<JobFeature> jobFeatureData = new List<JobFeature>();
 
 
@@ -39,20 +39,19 @@ namespace RFRCC_RobotController.Controller.DataModel
         // --- EVENTS ---
         public event EventHandler JobAdded;
         public event EventHandler JobParsed;
+        public event EventHandler NextDXChange;
 
         // --- PUBLIC PROPERTIES
         public PC_RobotMove_Register RobotInstuctionsRegister;
         public RAPID_OM_List OperationManeouvres;
         public RAPID_OH_List OperationHeaders;
-        public double NextDX 
-        {
-            get { return double.Parse(_NextDX.StringValue); }
-        }
-
         /// <summary>
         /// Next job x from datum required for PLC to get job to
         /// </summary>
-
+        public double NextDX 
+        {
+            get { return _RequiredStockDX; }
+        }
         /// <summary>
         /// list of job(s) to be completed
         /// </summary>
@@ -175,9 +174,6 @@ namespace RFRCC_RobotController.Controller.DataModel
 
                 Robot_Control.ValueUpdate += _parentController.OnControlValueUpdate; // Maybe update to enable Interrupts
                 Robot_Control.PC_MessageUpdate += _parentController.RobotPC_MessageChanged;
-
-                _NextDX = _parentController.tRob1.GetRapidData("Module1", "NextDX");
-                _NextDX.ValueChanged += _parentController.NextDXChange;
 
                 _parentController.ControllerConnectedEvent();
 
@@ -438,7 +434,18 @@ namespace RFRCC_RobotController.Controller.DataModel
         protected virtual void OnJobAdded(object sender = null, EventArgs args = null)
         {
             object sendme = sender != null ? sender : this;
-            JobAdded?.Invoke(sendme, new EventArgs());
+            EventArgs sendargs = args != null ? args : new EventArgs();
+            JobAdded?.Invoke(sendme, sendargs);
+        }
+        protected virtual void OnStockRequiredDXUpdate(object sender = null, EventArgs args = null)
+        {
+            double? check = double.Parse(CurrentJob.operationActions.Current.GetType().GetProperty("RequiredStockDX").ToString());
+            if (_RequiredStockDX != check)
+            {
+                _RequiredStockDX = check is null ? _RequiredStockDX : (double)check;
+                NextDXChange?.Invoke(this, new EventArgs());
+            }
+            
         }
     }
 

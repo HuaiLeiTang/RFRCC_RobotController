@@ -31,7 +31,10 @@ namespace RFRCC_RobotController.Controller.DataModel
                 _featureData = value;
             }
         }
-        public int RequiredStockDX { get;}
+        public double RequiredStockDX 
+        {
+            get { return featureData.FeatureHeader.IdealXDisplacement; }
+        }
 
 
         // --- CONSTRUCTORS ---

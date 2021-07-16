@@ -155,6 +155,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
             // TODO: check process for getting data onto robot
             Status.Started();
+            if (!_parentController.SetProgramPointerAndStart()) new Exception("Robot failed to start");
             operationActions.Current.Start();
             return true;
         }

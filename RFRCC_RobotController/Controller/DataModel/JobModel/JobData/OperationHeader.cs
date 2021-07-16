@@ -14,6 +14,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
     /// </summary>
     public class OperationHeader
     {
+        // --- INTERNAL FIELDS ---
         private int _FeatureNum;
         private double _IdealXDisplacement;
         private string _TaskCode;
@@ -27,6 +28,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         private bool _Ready;
         private bool _LeadInstruction;
         private bool _Complete;
+
+        // --- EVENTS ---
+        public event EventHandler IdealXDisplacementUpdate;
+
+        // --- PROPERTIES ---
         /// <summary>
         /// name of operation
         /// </summary>
@@ -198,6 +204,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             set
             {
                 _IdealXDisplacement = value;
+                IdealXDisplacementUpdate?.Invoke(this, new EventArgs());
             }
         }
         /// <summary>
@@ -214,6 +221,8 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
                 _FeatureNum = value;
             }
         }
+
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// intiialise feature with 0's
         /// </summary>
@@ -265,6 +274,8 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             _LeadInstruction = false;
             _Complete = false;
         }
+
+        // --- METHODS ---
         /// <summary>
         /// update object from information in string representation of robot data
         /// string format: "[featurenum, idealXDisplacement, TaskCode, Face, LocationMin, LocationMax, NumInstructions, NumManoeuvres, MonoeuvreIndex, PathComplete, Ready, LeadInstruction, Complete]
