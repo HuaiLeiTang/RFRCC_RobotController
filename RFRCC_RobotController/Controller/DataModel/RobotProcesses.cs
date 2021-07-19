@@ -5,13 +5,19 @@ namespace RFRCC_RobotController.Controller.DataModel
     public class RobotProcesses
     {
         // --- INTERNAL ---
-
+        internal RobotController _parentController;
 
         // --- EVENTS ---
 
 
         // --- PARAMETERS ---
 
+
+        // --- CONSTRUCTORS ---
+        public RobotProcesses(RobotController ParentController)
+        {
+            _parentController = ParentController;
+        }
 
         // --- METHODS ---
 

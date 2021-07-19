@@ -72,6 +72,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (!_isReadOnly)
             {
                 _InternalCollection.Add(item);
+                if (Current == null) RemoveAt(0);
                 JobAdded?.Invoke(_InternalCollection.Last(), new EventArgs());
             }
             else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
@@ -79,6 +80,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void AddRange(IEnumerable<JobModel> items)
         {
             _InternalCollection.AddRange(items);
+            if (Current == null) _InternalCollection.RemoveAt(0);
             JobAdded?.Invoke(items, new EventArgs());
         }
         /// <summary>
@@ -90,6 +92,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 Current.DisconnectFromController();
                 _InternalCollection.Clear();
+                _InternalCollection.Add(null);
             }
             else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
         }
@@ -119,8 +122,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         public bool MoveNext()
         {
-            
-            Current.DisconnectFromController();
+            if (Current != null) Current.DisconnectFromController();
             _InternalCollection.RemoveAt(0);
 
             if (Current != null)
@@ -129,6 +131,10 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Current.ConnectToController();
                 CurrentJobUpdated?.Invoke(Current, new EventArgs());
                 return true;
+            }
+            else if (_InternalCollection.Count < 1)
+            {
+                _InternalCollection.Add(null);
             }
 
             return false; // no more jobs left in register
@@ -171,7 +177,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void CheckCurrentJob(object sender = null, EventArgs args = null)
         {
-            if (!Current.CurrentJob)
+            if (Current != null && !(Current.CurrentJob))
             {
                 Current.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
                 Current.ConnectToController();

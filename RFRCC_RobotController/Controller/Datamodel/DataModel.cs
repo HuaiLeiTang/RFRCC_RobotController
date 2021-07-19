@@ -18,9 +18,6 @@ namespace RFRCC_RobotController.Controller.DataModel
     {
         // --- PRIVATE FIELDS ---
         private RobotController _parentController;
-        public RobotProcesses RobotProcess;
-
-        // RAPID Data to be sorted
         internal RapidData SQLMessageRecieve;
         internal RapidData SQLMessageError;
         internal RapidData PCConnected;
@@ -53,6 +50,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public event EventHandler NextDXChange;
 
         // --- PUBLIC PROPERTIES
+        public RobotProcesses RobotProcess;
         public PC_RobotMove_Register RobotInstuctionsRegister;
         public RAPID_OM_List OperationManeouvres;
         public RAPID_OH_List OperationHeaders;
@@ -150,7 +148,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             Jobs = new JobModelCollection(_parentController);
             Jobs.JobAdded += JobAdded;
             Jobs.CurrentJobUpdated += OnCurrentJobUpdated;
-
+            RobotProcess = new RobotProcesses(_parentController);
 
             // Init variables
             ProgramVersion = new RobotProgramVersion(_parentController);

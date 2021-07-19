@@ -102,8 +102,6 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.OperationActionRequestPause += OnOperationActionRequestPause;
             operationActions.OperationsAllComplete += OnJobCompleted;
             operationActions.OperationActionCompleted += OnOperationCompleted;
-            _parentController.stream.ControllerConnectedChange += OnControllerConnectionChange;
-            OnControllerConnectionChange(); // run first time to check if can connect
 
         }
         /// <summary>
@@ -117,6 +115,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             _parentController = ParentController;
             _controllerPresent = true;
+            ConnectAllJobEvents();
+            OnControllerConnectionChange(); // run first time to check if can connect
         }
 
         // --- METHODS ---
@@ -231,6 +231,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (_controllerPresent)
             {
                 IMStopRequest += _parentController.dataModel.RobotProcess.ImmediateStop;
+                _parentController.stream.ControllerConnectedChange += OnControllerConnectionChange;
                 return true;
             }
             else
@@ -244,6 +245,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (_controllerPresent)
             {
                 IMStopRequest -= _parentController.dataModel.RobotProcess.ImmediateStop;
+                _parentController.stream.ControllerConnectedChange -= OnControllerConnectionChange;
                 return true;
             }
             else
