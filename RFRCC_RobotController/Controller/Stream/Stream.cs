@@ -15,14 +15,30 @@ namespace RFRCC_RobotController.Controller
     /// </summary>
     public class Stream
     {
+        // --- INTERNAL ---
         private RobotController _parentController;
-        // Housekeeping and networking  
         private NetworkScanner scanner = null;
         private NetworkWatcher networkwatcher = null;
         private ControllerCollection _AvailableControllers = null;
-        private bool FetchedData;
         private bool _ControllerTaskRunning;
 
+        // --- EVENTS ---
+        /// <summary>
+        /// Update if any controllers are discovered or lost on the network
+        /// </summary>
+        public event EventHandler<AvailableControllersEventArgs> OnAvailableControllersChange;
+        /// <summary>
+        /// controller connection connected or disconnected
+        /// </summary>
+        public event EventHandler ControllerConnectedChange;
+
+        // --- PARAMETERS ---
+        /// <summary>
+        /// Provide list of Controllers available on the network
+        /// </summary>
+        public ControllerCollection AvailableControllers => _AvailableControllers;
+
+        // --- CONSTRUCTORS ---
         /// <summary>
         /// Initialise stream functionality with a parent controller class
         /// </summary>
@@ -41,47 +57,104 @@ namespace RFRCC_RobotController.Controller
             networkwatcher.Lost += new EventHandler<NetworkWatcherEventArgs>(HandleNWCChangeEvent);
             networkwatcher.EnableRaisingEvents = true;
         }
+
+        // --- METHODS ---
         /// <summary>
-        /// Update if any controllers are discovered or lost on the network
+        /// Connect controller object to desired controller using ABB classes
         /// </summary>
-        public event EventHandler<AvailableControllersEventArgs> OnAvailableControllersChange;
-        /// <summary>
-        /// Contains updated list of controllers available on the network
-        /// </summary>
-        public class AvailableControllersEventArgs : EventArgs
+        /// <param name="controller">Controller to be connected to</param>
+        public void ConnectToABBController(ABB.Robotics.Controllers.Controller controller)
         {
-            /// <summary>
-            /// generate new AvailableControllersEventArgs with list of controlers
-            /// </summary>
-            /// <param name="AvalableList">Collection of controllers available on the network</param>
-            public AvailableControllersEventArgs(ControllerCollection AvalableList)
-            {
-                AvailableControllers = AvalableList;
-            }
-            /// <summary>
-            /// Collection of controllers available on the network
-            /// </summary>
-            public ControllerCollection AvailableControllers { get; set; }
+            if (_parentController._ControllerConnected)
+                Dispose();
+            _parentController.controller = controller;
+            _parentController._controllerInfo = new NetworkControllerInfo(controller);
+            _parentController.controller.Logon(UserInfo.DefaultUser);
+            _parentController.tRob1 = controller.Rapid.GetTask("T_ROB1");
+            _parentController.dataModel.InitDataStream();
+            _parentController._ControllerConnected = true;
+
+            _parentController.ControllerConnectedEvent();
+            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
+            _parentController.dataModel.PCConnected.Subscribe(OnControllerConnectedChange, EventPriority.High);
+            //_parentController.dataModel.PCConnected.ValueChanged += OnControllerConnectedChange; // change to sub!!!
+
+            // start robot running task
+            if (!_ControllerTaskRunning && _parentController.tRob1.ExecutionStatus != ABB.Robotics.Controllers.RapidDomain.TaskExecutionStatus.Running) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
+            else if (_parentController.StopRobotTask()) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
+            
+            if (!_ControllerTaskRunning) new Exception("failed to start robot automatically, user intervention required");
         }
         /// <summary>
-        /// Event raising method used to trigger when any network controllers change status
+        /// Connect controller object to desired controller using ABB classes
+        /// </summary>
+        /// <param name="controllerInfo">Controller Info collected by ABB net scanner</param>
+        public void ConnectToABBController(ControllerInfo controllerInfo)
+        {
+            ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone));
+
+            _parentController._controllerInfo = new NetworkControllerInfo(controllerInfo);
+        }
+        /// <summary>
+        /// Connect controller object to desired controller
+        /// </summary>
+        /// <param name="controllerInfo">Controller info collected by stream.AvailableControllers</param>
+        public void ConnectToController(NetworkControllerInfo controllerInfo)
+        {
+            ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo._ABBControllerInfo, ConnectionType.Standalone));
+            _parentController._controllerInfo = controllerInfo;
+        }
+        // TODO: change this to a close data stream of robot controller? 
+        /// <summary>
+        /// Logs off network controller and disposes of all connections and memory holds regarding this object 
+        /// </summary>
+        public void Dispose()
+        {
+            // TODO Stop current task on disconnect?
+            _parentController.controller.Logoff();
+            _parentController.controller.Dispose();
+            _parentController.controller = null;
+            _parentController._ControllerConnected = false;
+
+            _parentController.ControllerConnectedEvent();
+            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Disconnected from controller"));
+        }
+
+        // --- INTERNAL EVENTS AND AUTOMATION ---
+        /// <summary>
+        /// Event executing method for raising event when Controllers connection status changes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void AvailableControllersChange(object sender, AvailableControllersEventArgs e)
+        protected virtual void OnControllerConnectedChange(object sender, EventArgs args)
         {
-            EventHandler<AvailableControllersEventArgs> handler = OnAvailableControllersChange;
-            if (handler != null)
-                handler(sender, e);
+            ControllerConnectedChange?.Invoke(sender, args);
         }
-        /// <summary>
-        /// Provide list of Controllers available on the network
-        /// </summary>
-        public ControllerCollection AvailableControllers
+        protected virtual void OnControllerConnectedChange(object sender, ABB.Robotics.Controllers.RapidDomain.DataValueChangedEventArgs args)
         {
-            get
+            bool complete = false;
+            if (_parentController.ControllerConnected)
             {
-                return _AvailableControllers;
+                while (!complete)
+                {
+                    try
+                    {
+                        using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
+                        {
+                            _parentController.dataModel.PCConnected.Value = RapidBool.Parse("TRUE");
+                        }
+                    }
+                    catch
+                    {
+                        complete = false;
+                    }
+                    finally
+                    {
+                        complete = true;
+                    }
+                }
             }
         }
         /// <summary>
@@ -116,125 +189,39 @@ namespace RFRCC_RobotController.Controller
                     _AvailableControllers.Add(check);
                 }
             }
-            
+
             OnAvailableControllersChange(this, new AvailableControllersEventArgs(_AvailableControllers));
         }
         /// <summary>
-        /// Connect controller object to desired controller using ABB classes
-        /// </summary>
-        /// <param name="controller">Controller to be connected to</param>
-        public void ConnectToABBController(ABB.Robotics.Controllers.Controller controller)
-        {
-            if (_parentController._ControllerConnected)
-                Dispose();
-            _parentController.controller = controller;
-            _parentController._controllerInfo = new NetworkControllerInfo(controller);
-            _parentController.controller.Logon(UserInfo.DefaultUser);
-            _parentController.tRob1 = controller.Rapid.GetTask("T_ROB1");
-            _parentController.dataModel.InitDataStream();
-            _parentController._ControllerConnected = true;
-
-            _parentController.ControllerConnectedEvent();
-            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
-            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
-            _parentController.dataModel.CurrentJob.Status.RobotConnected();
-            _parentController.dataModel.PCConnected.Subscribe(OnControllerConnectedChange, EventPriority.High);
-            //_parentController.dataModel.PCConnected.ValueChanged += OnControllerConnectedChange; // change to sub!!!
-
-            // start robot running task
-            if (!_ControllerTaskRunning && _parentController.tRob1.ExecutionStatus != ABB.Robotics.Controllers.RapidDomain.TaskExecutionStatus.Running) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
-            else if (_parentController.StopRobotTask()) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
-            
-            if (!_ControllerTaskRunning) new Exception("failed to start robot automatically, user intervention required");
-        }
-        /// <summary>
-        /// Connect controller object to desired controller using ABB classes
-        /// </summary>
-        /// <param name="controllerInfo">Controller Info collected by ABB net scanner</param>
-        public void ConnectToABBController(ControllerInfo controllerInfo)
-        {
-            ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo, ConnectionType.Standalone));
-
-            _parentController._controllerInfo = new NetworkControllerInfo(controllerInfo);
-        }
-        /// <summary>
-        /// Connect controller object to desired controller
-        /// </summary>
-        /// <param name="controllerInfo">Controller info collected by stream.AvailableControllers</param>
-        public void ConnectToController(NetworkControllerInfo controllerInfo)
-        {
-            ConnectToABBController(ABB.Robotics.Controllers.Controller.Connect(controllerInfo._ABBControllerInfo, ConnectionType.Standalone));
-            _parentController._controllerInfo = controllerInfo;
-        }
-        /// <summary>
-        /// controller connection connected or disconnected
-        /// </summary>
-        public event EventHandler<ControllerConnectedEventArgs> ControllerConnectedChange;
-        /// <summary>
-        /// Custom Event Args with controller connection status
-        /// </summary>
-        public class ControllerConnectedEventArgs : EventArgs
-        {
-            public ControllerConnectedEventArgs(bool Connected)
-            {
-                ControllerConnected = Connected;
-            }
-
-            /// <summary>
-            /// Controller successfully connected to controller class via network
-            /// </summary>
-            public bool ControllerConnected { get; set; }
-        }
-        /// <summary>
-        /// Event executing method for raising event when Controllers connection status changes
+        /// Event raising method used to trigger when any network controllers change status
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void OnControllerConnectedChange(object sender, ControllerConnectedEventArgs args)
+        protected virtual void AvailableControllersChange(object sender, AvailableControllersEventArgs e)
         {
-            ControllerConnectedChange?.Invoke(sender, args);
+            EventHandler<AvailableControllersEventArgs> handler = OnAvailableControllersChange;
+            if (handler != null)
+                handler(sender, e);
         }
-        protected virtual void OnControllerConnectedChange(object sender, ABB.Robotics.Controllers.RapidDomain.DataValueChangedEventArgs args)
-        {
-            bool complete = false;
-            if (_parentController.ControllerConnected)
-            {
-                while (!complete)
-                {
-                    try
-                    {
-                        using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
-                        {
-                            _parentController.dataModel.PCConnected.Value = RapidBool.Parse("TRUE");
-                        }
-                    }
-                    catch
-                    {
-                        complete = false;
-                    }
-                    finally
-                    {
-                        complete = true;
-                    }
-                }
-            }
-        }
-        // TODO: change this to a close data stream of robot controller? 
+
+    }
+
+    /// <summary>
+    /// Contains updated list of controllers available on the network
+    /// </summary>
+    public class AvailableControllersEventArgs : EventArgs
+    {
         /// <summary>
-        /// Logs off network controller and disposes of all connections and memory holds regarding this object 
+        /// generate new AvailableControllersEventArgs with list of controlers
         /// </summary>
-        public void Dispose()
+        /// <param name="AvalableList">Collection of controllers available on the network</param>
+        public AvailableControllersEventArgs(ControllerCollection AvalableList)
         {
-            // TODO Stop current task on disconnect?
-            _parentController.controller.Logoff();
-            _parentController.controller.Dispose();
-            _parentController.controller = null;
-            _parentController._ControllerConnected = false;
-
-            _parentController.ControllerConnectedEvent();
-            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
-            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Disconnected from controller"));
+            AvailableControllers = AvalableList;
         }
-
+        /// <summary>
+        /// Collection of controllers available on the network
+        /// </summary>
+        public ControllerCollection AvailableControllers { get; set; }
     }
 }

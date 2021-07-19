@@ -102,6 +102,8 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.OperationActionRequestPause += OnOperationActionRequestPause;
             operationActions.OperationsAllComplete += OnJobCompleted;
             operationActions.OperationActionCompleted += OnOperationCompleted;
+            _parentController.stream.ControllerConnectedChange += OnControllerConnectionChange;
+            OnControllerConnectionChange(); // run first time to check if can connect
 
         }
         /// <summary>
@@ -111,7 +113,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <param name="ParentController">Network controller Job is associated with</param>
         /// <param name="index">index of job on Network controller list</param>
         /// <param name="template">Template of job process to be used</param>
-        public JobModel(RobotController ParentController, int index = -1, JobModelTemplate template = null) : this(template)
+        public JobModel(RobotController ParentController, JobModelTemplate template = null) : this(template)
         {
             _parentController = ParentController;
             _controllerPresent = true;
@@ -386,7 +388,18 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
         }
-
+        protected virtual void OnControllerConnectionChange(object sender = null, EventArgs args = null)
+        {
+            if (_parentController.ControllerConnected && CurrentJob)
+            {
+                ConnectToController();
+                Status.RobotConnected();
+            }
+            else
+            {
+                DisconnectAllJobEvents();
+            }
+        }
     }
 
 }

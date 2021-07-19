@@ -66,29 +66,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <summary>
         /// list of job(s) to be completed
         /// </summary>
-        public List<JobModel> Jobs = new List<JobModel>();
+        public JobModelCollection Jobs;
         /// <summary>
         /// Current Job loaded into memory and onboard connected network Controller
         /// </summary>
-        public JobModel CurrentJob
-        {
-            get
-            {
-                if (Jobs.Count == 0)
-                {
-                    return null;
-                }
-                return Jobs[0];
-            }
-            set
-            {
-                if (Jobs.Count != 0)
-                {
-                    Jobs[0] = value;
-                }
-                // maybe a throw if no operations available
-            }
-        }
+        public JobModel CurrentJob => Jobs.Current;
         /// <summary>
         /// Version of program loaded onto the controller connected
         /// </summary>
@@ -165,9 +147,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         public DataModel(RobotController ParentController)
         {
             _parentController = ParentController;
-            Jobs.Add(new JobModel(ParentController)); // add new job to job list ready for population
-            CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
-            CurrentJob.OperationRobotMoveData.CurrentJob = true;
+            Jobs = new JobModelCollection(_parentController);
+            Jobs.JobAdded += JobAdded;
+            Jobs.CurrentJobUpdated += OnCurrentJobUpdated;
+
 
             // Init variables
             ProgramVersion = new RobotProgramVersion(_parentController);
@@ -368,18 +351,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public int LoadJobFromASCII(string filename, string ASCII_Content, bool Parse = true)
         {
             Jobs.Add(new JobModel(_parentController));
-            OnJobAdded(Jobs.Last());
-
-            if (!CurrentJob.OperationRobotMoveData.CurrentJob)
-            {
-                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
-                CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
-                CurrentJob.OperationRobotMoveData.CurrentJob = true;
-                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
-            }
-
             if (!Jobs.Last().LoadJobFromASCII(filename, ASCII_Content, Parse)) return -1;
-
             return Jobs.Count - 1;
         }
         // TODO: Implement load additional Jobs onto 
@@ -393,18 +365,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public int LoadJobFromFile(string filepath, bool Parse = true)
         {
             Jobs.Add(new JobModel(_parentController));
-            OnJobAdded(Jobs.Last());
-
-            if (!CurrentJob.OperationRobotMoveData.CurrentJob)
-            {
-                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
-                CurrentJob.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
-                CurrentJob.OperationRobotMoveData.CurrentJob = true;
-                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
-            }
-
             if (!Jobs.Last().LoadJobFromFile(filepath, Parse)) return -1;
-
             return Jobs.Count - 1;
         }
         /// <summary>
@@ -420,7 +381,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void ClearJobData()
         {
-            if (CurrentJob != null) CurrentJob.DisconnectFromController();
             Jobs.Clear();
         }
         // TODO: add subscribe if auto pull next job
@@ -431,14 +391,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <param name="args"></param>
         public void NextJob(object sender = null, EventArgs args = null)
         {
-            CurrentJob.DisconnectFromController();
             CurrentJob.JobCompleted -= NextJob;
-            Jobs.RemoveAt(0);
-            if (CurrentJob != null)
-            {
-                CurrentJob.ConnectToController();
-                if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
-            }
+            Jobs.MoveNext();
         }
 
         // --- PRIVATE EVENTS AND AUTOMATION ---
@@ -457,6 +411,10 @@ namespace RFRCC_RobotController.Controller.DataModel
                 NextDXChange?.Invoke(this, new EventArgs());
             }
             
+        }
+        protected virtual void OnCurrentJobUpdated(object sender = null, EventArgs args = null)
+        {
+            if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
         }
     }
 

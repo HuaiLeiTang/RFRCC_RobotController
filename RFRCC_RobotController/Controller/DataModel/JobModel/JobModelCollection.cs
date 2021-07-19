@@ -8,17 +8,17 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Collection of JobModels to be stored and accessed 
     /// </summary>
-    public class JobModelCollection : IOrderedEnumerable<JobModel>, IEnumerable<JobModel>, IEnumerator<JobModel>, IList<JobModel>
+    public class JobModelCollection : IOrderedEnumerable<JobModel>, IEnumerable<JobModel>, IEnumerator<JobModel>, IList<JobModel>, ICollection<JobModel>
     {
         // --- INTERNAL FIELDS ---
-        List<JobModel> _InternalCollection = new List<JobModel>();
-        int _current = 0;
-        bool _isReadOnly = false;
+        internal RobotController _parentController;
+        internal List<JobModel> _InternalCollection = new List<JobModel>();
+        internal bool _isReadOnly = false;
 
         // --- EVENTS ---
 
-        // TODO: Event of Job about to be unloaded from Robot
-        // TODO: Event on Job Being ready for Load to Robot
+        public event EventHandler JobAdded;
+        public event EventHandler CurrentJobUpdated;
 
         // --- PROPERTIES ---
         public JobModel this[int index]
@@ -26,16 +26,16 @@ namespace RFRCC_RobotController.Controller.DataModel
             get => _InternalCollection[index];
             set
             {
-                if (!_isReadOnly) _InternalCollection[_current] = value;
+                if (!_isReadOnly) _InternalCollection[index] = value;
                 else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
             }
         }
         public JobModel Current
         {
-            get => _InternalCollection[_current];
+            get => _InternalCollection[0];
             set
             {
-                if (!_isReadOnly) _InternalCollection[_current] = value;
+                if (!_isReadOnly) _InternalCollection[0] = value;
                 else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
             }
         }
@@ -50,7 +50,16 @@ namespace RFRCC_RobotController.Controller.DataModel
         object IEnumerator.Current => Current;
 
         // --- CONSTRUCTORS ---
-
+        public JobModelCollection(RobotController ParentController)
+        {
+            _parentController = ParentController;
+            JobAdded += CheckCurrentJob;
+            _InternalCollection.Add(null);
+        }
+        public JobModelCollection(RobotController ParentController, List<JobModel> Jobs) : this(ParentController)
+        {
+            _InternalCollection.AddRange(Jobs);
+        }
 
 
         // --- METHODS ---
@@ -60,15 +69,28 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <param name="item">The object to be added to the end of the list<T>. Object can be null for reference types</param>
         public void Add(JobModel item)
         {
-            if (!_isReadOnly) _InternalCollection.Add(item);
+            if (!_isReadOnly)
+            {
+                _InternalCollection.Add(item);
+                JobAdded?.Invoke(_InternalCollection.Last(), new EventArgs());
+            }
             else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
+        }
+        public void AddRange(IEnumerable<JobModel> items)
+        {
+            _InternalCollection.AddRange(items);
+            JobAdded?.Invoke(items, new EventArgs());
         }
         /// <summary>
         /// Removes all elements from the list
         /// </summary>
         public void Clear()
         {
-            if (!_isReadOnly) _InternalCollection.Clear();
+            if (!_isReadOnly)
+            {
+                Current.DisconnectFromController();
+                _InternalCollection.Clear();
+            }
             else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
         }
         public bool Contains(JobModel item) => _InternalCollection.Contains(item);
@@ -81,6 +103,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         public void Dispose()
         {
+            Current.DisconnectFromController();
             _InternalCollection.Clear();
             // Disponse Managed Resources
 
@@ -96,17 +119,31 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         public bool MoveNext()
         {
-            _current++;
-            if (_current == _InternalCollection.Count)
+            
+            Current.DisconnectFromController();
+            _InternalCollection.RemoveAt(0);
+
+            if (Current != null)
             {
-                _current--;
-                return false;
+                Current.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+                Current.ConnectToController();
+                CurrentJobUpdated?.Invoke(Current, new EventArgs());
+                return true;
             }
-            else return true;
+
+            return false; // no more jobs left in register
         }
         public bool Remove(JobModel item)
         {
-            if (!_isReadOnly) return _InternalCollection.Remove(item);
+            if (!_isReadOnly)
+            {
+                if (_InternalCollection.IndexOf(item) == 0)
+                {
+                    MoveNext();
+                    return true;
+                }
+                else return _InternalCollection.Remove(item);
+            }
             else
             {
                 new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
@@ -115,30 +152,33 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         public void RemoveAt(int index)
         {
-            if (!_isReadOnly) _InternalCollection.RemoveAt(index);
+            if (!_isReadOnly)
+            {
+                if (index == 0) MoveNext();
+                else _InternalCollection.RemoveAt(index);
+            }   
             else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
         }
+        /// <summary>
+        /// Function only placeholder, as current is always the leading job, there is no reset function
+        /// </summary>
         public void Reset()
         {
-            _current = 0;
+            
         }
         IEnumerator IEnumerable.GetEnumerator() => _InternalCollection.GetEnumerator();
 
         // --- INTERNAL EVENTS AND AUTOMATION ---
+        protected virtual void CheckCurrentJob(object sender = null, EventArgs args = null)
+        {
+            if (!Current.CurrentJob)
+            {
+                Current.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
+                Current.ConnectToController();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+                CurrentJobUpdated?.Invoke(Current, new EventArgs());
+            }
+        }
 
     }
 

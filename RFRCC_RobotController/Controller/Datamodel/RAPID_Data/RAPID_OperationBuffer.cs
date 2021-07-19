@@ -215,9 +215,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
             _connected = true; // TODO: add this bool to other issues as a stop if required
+            SetJobInProgress(true);
         }
         public void DisconnectFromController(object sender, ControllerConnectionEventArgs args)
         {
+            SetJobInProgress(false);
             _connected = false;
             _ManBufferRD.Dispose();
             _HeadBufferRD.Dispose();
@@ -636,6 +638,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 Operation.Feature(FeatureNum).WaitingForStart = true;
                 OperationWaitingForStart?.Invoke(Operation.Feature(FeatureNum), new EventArgs());
             }
+        }
+        protected virtual void SetJobInProgress(bool connected)
+        {
+            _ParentController.dataModel.Robot_Control.JobInProgress = connected;
         }
 
     }
