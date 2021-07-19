@@ -10,7 +10,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 {
     /* TODO: list for operation models
      *      X add 'job header' to encapsulate job information
-     *      o add method to input data obtained from import process
+     *      o RE - add method to input data obtained from import process
      *      o add template of job execution (including PLC requirements and such)
      *      o 
      */
@@ -155,7 +155,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
             // TODO: check process for getting data onto robot
             Status.Started();
-            if (!_parentController.SetProgramPointerAndStart()) new Exception("Robot failed to start");
+            if (!_parentController.SetProgramPointerAndStartRobotTask()) new Exception("Robot failed to start");
             operationActions.Current.Start();
             return true;
         }
@@ -388,4 +388,5 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
 
     }
+
 }

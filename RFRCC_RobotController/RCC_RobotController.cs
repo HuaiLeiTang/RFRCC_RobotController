@@ -277,7 +277,7 @@ namespace RFRCC_RobotController
                 }
             }
         }
-        internal bool SetProgramPointerAndStart()
+        internal bool SetProgramPointerAndStartRobotTask()
         {
             bool complete = false;
             int tries = 0;
@@ -304,7 +304,32 @@ namespace RFRCC_RobotController
             }
             return true;
         }
-
+        internal bool StopRobotTask()
+        {
+            bool complete = false;
+            int tries = 0;
+            while (!complete && tRob1.ExecutionStatus != TaskExecutionStatus.Running)
+            {
+                if (tries > 99) return false;
+                try
+                {
+                    using (Mastership m = Mastership.Request(controller.Rapid))
+                    {
+                        tRob1.Stop();
+                    }
+                }
+                catch
+                {
+                    complete = false;
+                    tries++;
+                }
+                finally
+                {
+                    complete = true;
+                }
+            }
+            return true;
+        }
 
 
         // --- INTERNAL EVENTS AND AUTOMATION ---

@@ -24,17 +24,28 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal RapidData SQLMessageRecieve;
         internal RapidData SQLMessageError;
         internal RapidData PCConnected;
-        internal JobHeader jobHeaderData = new JobHeader();
         internal RapidData RapidJobData;
         internal RapidData RapidFeatureData;
         internal RapidData PCSDK_Complete;
         internal RapidData Robot_Status;
         internal double _RequiredStockDX;
-        internal List<JobFeature> jobFeatureData = new List<JobFeature>();
-
+        
 
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
         internal bool ClearJobDataOnComplete = true; // deletes operation information from operation list as soon as completed
+
+        // TODO: ---> Move to JobData
+        /// <summary>
+        /// RAPID Data entry on associated controller for Job Header Information
+        /// </summary>
+        internal RAPIDJobHeader Header_JobData_RapidBuffer { get; set; } = new RAPIDJobHeader();
+        /// <summary>
+        /// RAPID Data entry on associated controller for Featrue Data Information
+        /// </summary>
+        internal RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
+        internal JobHeader jobHeaderData = new JobHeader();
+        internal List<JobFeature> jobFeatureData = new List<JobFeature>();
+        // TODO: ---> Move to JobData
 
         // --- EVENTS ---
         public event EventHandler JobAdded;
@@ -84,21 +95,25 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RobotProgramVersion ProgramVersion { get; }
         // Job Data Buffers
         // TODO: Update this and its use to RAPID connected register
+                // TODO: Add Machine Settings
+        public MachineProcessSettings ProcessSettings;
+        
         /// <summary>
         /// NOT FOR USE?
         /// To be updated to RAPID memory associated class
         /// </summary>
-        public RAPIDJob_Header jobHeader { get; set; } // Move to operation (JobModel) 
-        // TODO: Add Machine Settings
-        public MachineProcessSettings ProcessSettings;
+        public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
         /// <summary>
-        /// RAPID Data entry on associated controller for Job Header Information
+        /// Tool data relevant to plasma cutting torch
         /// </summary>
-        internal RAPIDJobHeader Header_JobData_RapidBuffer { get; set; } = new RAPIDJobHeader();
-        /// <summary>
-        /// RAPID Data entry on associated controller for Featrue Data Information
-        /// </summary>
-        internal RAPIDJobFeature Header_FeatureData_RapidBuffer = new RAPIDJobFeature();
+        public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
+
+        // TODO: ---> Move to JobData
+        //public RAPID_OperationBuffer OperationBuffer; //  --> has been moved to JobModel
+        public RAPID_CutChart TopCutChart { get; set; } = new RAPID_CutChart();
+        public RAPID_CutChart BottomCutChart { get; set; } = new RAPID_CutChart();
+        public RAPID_CutChart FrontCutChart { get; set; } = new RAPID_CutChart();
+        public RAPID_CutChart BackCutChart { get; set; } = new RAPID_CutChart();
         /// <summary>
         /// NOT FOR USE?
         /// To be updated to RAPID memory associated class
@@ -113,16 +128,33 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// NOT FOR USE?
         /// To be updated to RAPID memory associated class
         /// </summary>
-        public Robot_ControlStruct Robot_Control = new Robot_ControlStruct();
-        //public RAPID_OperationBuffer OperationBuffer; //  --> has been moved to JobModel
-        public RAPID_CutChart TopCutChart { get; set; } = new RAPID_CutChart();
-        public RAPID_CutChart BottomCutChart { get; set; } = new RAPID_CutChart();
-        public RAPID_CutChart FrontCutChart { get; set; } = new RAPID_CutChart();
-        public RAPID_CutChart BackCutChart { get; set; } = new RAPID_CutChart();
+        public RAPIDJob_Header jobHeader { get; set; } // Move to operation (JobModel) 
         /// <summary>
-        /// Tool data relevant to plasma cutting torch
+        /// Entire Job feature list
         /// </summary>
-        public ReplaceRSConnection.Robotics.ToolInfo.ToolData ToolData;
+        public List<JobFeature> FeatureDataList
+        {
+            get { return jobFeatureData; }
+            set { jobFeatureData = value; }
+        }
+        /// <summary>
+        /// Job feature data
+        /// </summary>
+        /// <param name="index">index</param>
+        /// <returns></returns>
+        public JobFeature FeatureData(int index)
+        {
+            return jobFeatureData[index];
+        }
+        /// <summary>
+        /// Current Job Header Data
+        /// </summary>
+        public JobHeader HeaderData
+        {
+            get { return jobHeaderData; }
+            set { jobHeaderData = value; }
+        }
+        // TODO: ---> Move to JobData
 
         // --- CONSTRUCTORS ---
 
@@ -168,9 +200,12 @@ namespace RFRCC_RobotController.Controller.DataModel
                 BackCutChart.ConnectToRAPID(_parentController.controller, _parentController.tRob1, "Module1", "Back_CutChart");
 
                 Robot_Control.ConnectToRAPID(_parentController.controller, _parentController.tRob1, "Module1", "Rob_Control");
+
+                // ---> move these to job model
                 OperationManeouvres = new RAPID_OM_List(99, _parentController.controller, _parentController.tRob1, "Module1", "OperationManoeuvres");
                 OperationHeaders = new RAPID_OH_List(20, _parentController.controller, _parentController.tRob1, "Module1", "OperationHeaders");
                 jobHeader = new RAPIDJob_Header(_parentController.controller, _parentController.tRob1, "Module1", "Sys_JobData");
+                // ---> move these to job model
 
                 Robot_Control.ValueUpdate += _parentController.OnControlValueUpdate; // Maybe update to enable Interrupts
                 Robot_Control.PC_MessageUpdate += _parentController.RobotPC_MessageChanged;
@@ -213,31 +248,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             // TODO: implement this function and update summary
             return true;
         }
-        /// <summary>
-        /// Entire Job feature list
-        /// </summary>
-        public List<JobFeature> FeatureDataList
-        {
-            get { return jobFeatureData; }
-            set { jobFeatureData = value; }
-        }
-        /// <summary>
-        /// Job feature data
-        /// </summary>
-        /// <param name="index">index</param>
-        /// <returns></returns>
-        public JobFeature FeatureData(int index)
-        {
-            return jobFeatureData[index];
-        }
-        /// <summary>
-        /// Current Job Header Data
-        /// </summary>
-        public JobHeader HeaderData
-        {
-            get { return jobHeaderData; }
-            set { jobHeaderData = value; }
-        }
+        
         /// <summary>
         /// Calls event to update Header or Manoeuvre information onto the robot
         /// </summary>

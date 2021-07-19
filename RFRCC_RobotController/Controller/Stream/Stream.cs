@@ -21,6 +21,7 @@ namespace RFRCC_RobotController.Controller
         private NetworkWatcher networkwatcher = null;
         private ControllerCollection _AvailableControllers = null;
         private bool FetchedData;
+        private bool _ControllerTaskRunning;
 
         /// <summary>
         /// Initialise stream functionality with a parent controller class
@@ -139,6 +140,12 @@ namespace RFRCC_RobotController.Controller
             _parentController.dataModel.CurrentJob.Status.RobotConnected();
             _parentController.dataModel.PCConnected.Subscribe(OnControllerConnectedChange, EventPriority.High);
             //_parentController.dataModel.PCConnected.ValueChanged += OnControllerConnectedChange; // change to sub!!!
+
+            // start robot running task
+            if (!_ControllerTaskRunning && _parentController.tRob1.ExecutionStatus != ABB.Robotics.Controllers.RapidDomain.TaskExecutionStatus.Running) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
+            else if (_parentController.StopRobotTask()) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
+            
+            if (!_ControllerTaskRunning) new Exception("failed to start robot automatically, user intervention required");
         }
         /// <summary>
         /// Connect controller object to desired controller using ABB classes
