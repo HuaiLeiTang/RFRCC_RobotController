@@ -190,9 +190,6 @@ namespace RFRCC_RobotController.Controller.DataModel
 
                 Robot_Control.ValueUpdate += _parentController.OnControlValueUpdate; // Maybe update to enable Interrupts
                 Robot_Control.PC_MessageUpdate += _parentController.RobotPC_MessageChanged;
-
-                _parentController.ControllerConnectedEvent();
-
                 while (!complete)
                 {
                     try

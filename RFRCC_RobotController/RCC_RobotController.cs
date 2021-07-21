@@ -36,9 +36,10 @@ namespace RFRCC_RobotController
         internal NetworkControllerInfo _controllerInfo;
         internal ABB.Robotics.Controllers.RapidDomain.Task tRob1;
         internal bool _ControllerConnected = false;
+        private bool _ControllerTaskRunning;
 
-        
-        
+
+
         /// <summary>
         /// messaging function from controller to outside
         /// i.e. error / status messaging / etc
@@ -77,9 +78,17 @@ namespace RFRCC_RobotController
                 return controller;
             }
         }
-        
-        // --- EVENTS ---
 
+        // --- EVENTS ---
+        public event EventHandler RobotControllerRunningStatusChanged;
+        /// <summary>
+        /// Event triggered when Controller connection secured
+        /// </summary>
+        public event EventHandler<ControllerConnectionEventArgs> ControllerConnectionChange;
+        public event EventHandler RobotOperatingModeChanged;
+        public event EventHandler RobotStateChanged;
+        public event EventHandler<ProgramStartEventArgs> RobotProgramStartResults;
+        public event EventHandler<string> RobotRequiresOperatorIntervention; 
 
 
         // --- PROPERTIES ---
@@ -99,12 +108,62 @@ namespace RFRCC_RobotController
             get => _controllerInfo;
         }
         /// <summary>
+        /// If controller object is associated with a network controller, and connected to
+        /// </summary>
+        public bool ControllerConnected
+        {
+            get
+            {
+                return _ControllerConnected;
+            }
+        }
+        /// <summary>
         /// Flag for collecting data from robot
         /// </summary>
         internal bool FetchedData { get; set; } = false;
-        public RobotStatus robotStatus
+        /// <summary>
+        /// Status of Task (program) running on Robot Controller, when connected and job loaded, this should be in running.
+        /// If robot is not connected will return Unknown
+        /// </summary>
+        public RobotStatus TaskStatus
         {
-            get { return (RobotStatus)Enum.Parse(typeof(RobotStatus), tRob1.ExecutionStatus.ToString()); }
+            get 
+            {
+                if (controller != null) return (RobotStatus)tRob1.ExecutionStatus;
+                else return RobotStatus.Unknown;
+            }
+        }
+        /// <summary>
+        /// Operating mode of the controller, this should be in auto, and can only be manually changed by the operator
+        /// If robot is not connected will return NotApplicable
+        /// </summary>
+        public RobotControllerOperatingMode ControllerOperatingMode
+        {
+            get 
+            {
+                if (controller != null) return (RobotControllerOperatingMode)controller.OperatingMode;
+                else return RobotControllerOperatingMode.NotApplicable;
+            }
+        }
+        /// <summary>
+        /// returns the control state of the robot controller, should return Motors On.
+        /// If robot is not connected will return Unknown
+        /// </summary>
+        public RobotControllerState ControllerState
+        {
+            get
+            {
+                if (controller != null) return (RobotControllerState)controller.State;
+                else return RobotControllerState.Unknown;
+            }
+        }
+        public bool RobotProgramEnabled
+        {
+            get
+            {
+                if (controller != null) return tRob1.Enabled;
+                else return false;
+            }
         }
 
         // --- CONSTRUCTORS ---
@@ -119,16 +178,7 @@ namespace RFRCC_RobotController
 
 
         // --- METHODS ---
-        /// <summary>
-        /// If controller object is associated with a network controller, and connected to
-        /// </summary>
-        public bool ControllerConnected
-        {
-            get
-            {
-                return _ControllerConnected;
-            }
-        }
+        
         /// <summary>
         /// For Communication to Robot that message is being parsed and actioned
         /// Soon to be outdated and unsupported from Controller Ver 2.0.0
@@ -281,15 +331,19 @@ namespace RFRCC_RobotController
         {
             bool complete = false;
             int tries = 0;
+            StartResult? startResult = null;
+
+            if (!RobotProgramEnabled) throw new Exception("Robot not able to start");
+            if (Controller.State != ABB.Robotics.Controllers.ControllerState.MotorsOn) Controller.State = ABB.Robotics.Controllers.ControllerState.MotorsOn;
             while (!complete && tRob1.ExecutionStatus != TaskExecutionStatus.Running)
             {
                 if (tries > 99) return false;
                 try
                 {
-                    using (Mastership m = Mastership.Request(controller.Rapid))
+                    using (Mastership m = Mastership.Request(controller))
                     {
                         tRob1.ResetProgramPointer();
-                        tRob1.Start();
+                        startResult = tRob1.Start();
                     }
                 }
                 catch
@@ -300,22 +354,36 @@ namespace RFRCC_RobotController
                 finally
                 {
                     complete = true;
+                    RobotControllerRunningStatusChanged?.Invoke(this, new EventArgs());
                 }
             }
+
+            if (startResult == null)
+            {
+                RobotProgramStartResults?.Invoke(this, new ProgramStartEventArgs(RobotProgramStartResult.FailedToAttempt));
+            }
+            else RobotProgramStartResults?.Invoke(this, new ProgramStartEventArgs((RobotProgramStartResult)startResult));
             return true;
         }
         internal bool StopRobotTask()
         {
             bool complete = false;
             int tries = 0;
+
+            if (!controller.IsMaster)
+            {
+                OnRobotRequiresOperatorIntervention("Another user has mastery of the controller, check flexpendant and retry resetting current task / program ");
+                return false;
+            }
+
             while (!complete && tRob1.ExecutionStatus != TaskExecutionStatus.Running)
             {
                 if (tries > 99) return false;
                 try
                 {
-                    using (Mastership m = Mastership.Request(controller.Rapid))
+                    using (Mastership m = Mastership.Request(controller))
                     {
-                        tRob1.Stop();
+                        tRob1.Stop(StopMode.Immediate);
                     }
                 }
                 catch
@@ -326,9 +394,10 @@ namespace RFRCC_RobotController
                 finally
                 {
                     complete = true;
+                    RobotControllerRunningStatusChanged?.Invoke(this, new EventArgs());
                 }
             }
-            return true;
+            return complete;
         }
 
 
@@ -336,32 +405,55 @@ namespace RFRCC_RobotController
         protected virtual void OnRobotOperatingModeChanged(object sender = null, EventArgs args = null)
         {
             StatusMesssageChange(this, new StatusMesssageEventArgs(controller.OperatingMode.ToString()));
+            RobotOperatingModeChanged?.Invoke(this, new EventArgs());
         }
         protected virtual void OnRobotStateChanged(object sender = null, EventArgs args = null)
         {
             StatusMesssageChange(this, new StatusMesssageEventArgs(controller.State.ToString()));
-            
+            RobotStateChanged?.Invoke(this, new EventArgs());
+        }
+        internal void ConnectedToController()
+        {
+            _ControllerConnected = true;
+            OnControllerConnectionChange();
+        }
+        internal void DisconnectedFromController()
+        {
+            _ControllerConnected = false;
+            OnControllerConnectionChange();
+        }
+        protected virtual void OnControllerConnectionChange(object sender = null, EventArgs args = null)
+        {
+            if (controller != null)
+            {
+                StatusMesssageChange(this, new StatusMesssageEventArgs("Connected to controller"));
+                controller.OperatingModeChanged += OnRobotOperatingModeChanged;
+                controller.StateChanged += OnRobotStateChanged;
+                // start running task
+                if (!_ControllerTaskRunning && tRob1.ExecutionStatus != ABB.Robotics.Controllers.RapidDomain.TaskExecutionStatus.Running) _ControllerTaskRunning = SetProgramPointerAndStartRobotTask();
+                else if (StopRobotTask()) _ControllerTaskRunning = SetProgramPointerAndStartRobotTask();
+
+                if (!_ControllerTaskRunning) new Exception("failed to start robot automatically, user intervention required");
+            }
+            else
+            {
+                StatusMesssageChange(this, new StatusMesssageEventArgs("Connection to controller LOST"));
+            }
+            ControllerConnectionChange?.Invoke(this, new ControllerConnectionEventArgs(controller, tRob1));
+        }
+        protected virtual void OnRobotRequiresOperatorIntervention(string message)
+        {
+            RobotRequiresOperatorIntervention?.Invoke(this, message);
         }
 
 
+        // ------------------------------------------------------------------------------------------------
 
 
-        /*// ------------------------------------------------------------------------------------------------
-                                            CONTROLLER EVENTS
-        */// ------------------------------------------------------------------------------------------------
-
-        /// <summary>
-        /// Event triggered when Controller connection secured
-        /// </summary>
-        public event EventHandler<ControllerConnectionEventArgs> OnControllerConnection;
         /// <summary>
         /// Controller Connection Event Invoke
         /// </summary>
-        internal void ControllerConnectedEvent()
-        {
-            OnControllerConnection?.Invoke(this, new ControllerConnectionEventArgs());
-            _ControllerConnected = true;
-        }
+
         /// <summary>
         /// Delegte for when Control Memory struct Updated on network controller
         /// </summary>
@@ -526,15 +618,81 @@ namespace RFRCC_RobotController
             return true;
         }
 
-        
+        public class ProgramStartEventArgs : EventArgs
+        {
+            public RobotProgramStartResult Result;
+
+            public ProgramStartEventArgs(RobotProgramStartResult result)
+            {
+                Result = result;
+            }
+        }
+
+
     }
 
     public enum RobotStatus
     {
-        Ready,
-        Running,
-        Stopping,
-        Uninitiated,
-        Unknown
+        Ready = 0,
+        Stopping = 1,
+        Running = 2,
+        Uninitiated = 3,
+        Unknown = 4
+    }
+
+    public enum RobotControllerOperatingMode
+    {
+        Auto = 0,
+        Init = 1,
+        ManualReducedSpeed = 2,
+        ManualFullSpeed = 3,
+        AutoChange = 4,
+        ManualFullSpeedChange = 5,
+        NotApplicable = 6
+    }
+
+    public enum RobotControllerState
+    {
+        Init = 0,
+        MotorsOff = 1,
+        MotorsOn = 2,
+        GuardStop = 3,
+        EmergencyStop = 4,
+        EmergencyStopReset = 5,
+        SystemFailure = 6,
+        Unknown = 99
+    }
+
+    public enum RobotProgramStartResult
+    {
+        //
+        // Summary:
+        //     Start ok.
+        Ok = 0,
+        //
+        // Summary:
+        //     Task not started, regain to path request.
+        RegainRequest = 1,
+        //
+        // Summary:
+        //     Task not started, unable to clear path.
+        RegainRequestNoClear = 2,
+        //
+        // Summary:
+        //     Error.
+        Error = 3,
+        //
+        // Summary:
+        //     Task not started, previous path remains.
+        PathRemain = 4,
+        //
+        // Summary:
+        //     Task not started, unable to find entry point.
+        IllegalEntryPoint = 5,
+        //
+        // Summary:
+        //     Unable to take mastery in order to try
+        FailedToAttempt = 6
+
     }
 }

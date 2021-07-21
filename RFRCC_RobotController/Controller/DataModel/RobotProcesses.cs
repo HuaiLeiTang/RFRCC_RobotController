@@ -59,10 +59,14 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Verify Stock Dimensions and returns measurements fit stock size
+        /// </summary>
+        /// <returns>If Robot takes stock for dimensions required</returns>
         public bool VerifyStockDimensions()
         {
-            throw new NotImplementedException();
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Robot performing dummy Verify Stock: Process to be implemented"));
+            return true;
         }
 
         // --- INTERNAL EVENT TRIGGERS AND AUTOMATION ---

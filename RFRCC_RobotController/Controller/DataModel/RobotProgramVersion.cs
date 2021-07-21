@@ -26,7 +26,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public RobotProgramVersion(RobotController ParentController)
         {
             _ParentController = ParentController;
-            _ParentController.OnControllerConnection += ConnectToController;
+            _ParentController.ControllerConnectionChange += ConnectToController;
 
             if (_ParentController.ControllerConnected)
             {

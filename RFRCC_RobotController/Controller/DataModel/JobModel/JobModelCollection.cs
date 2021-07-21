@@ -32,7 +32,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         public JobModel Current
         {
-            get => _InternalCollection[0];
+            get
+            {
+                return _InternalCollection[0];
+            }
             set
             {
                 if (!_isReadOnly) _InternalCollection[0] = value;
@@ -117,6 +120,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         public int IndexOf(JobModel item) => _InternalCollection.IndexOf(item);
         public void Insert(int index, JobModel item)
         {
+            if (index == 0)
+            {
+                throw new NotImplementedException();
+            }
             if (!_isReadOnly) _InternalCollection.Insert(index, item);
             else new Exception("JobModelCollection is set to readonly; edditting of parameters is not allowed");
         }
@@ -181,8 +188,11 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 Current.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
                 Current.ConnectToController();
-
-                CurrentJobUpdated?.Invoke(Current, new EventArgs());
+                Current.CurrentJob = true;
+            }
+            else if (Current == null && _InternalCollection.Count > 1)
+            {
+                MoveNext();
             }
         }
 

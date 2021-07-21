@@ -68,7 +68,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 if (_currentJob)
                 {
                     // If controller is already specified
-                    _ParentController.OnControllerConnection += ConnectToController;
+                    _ParentController.ControllerConnectionChange += ConnectToController;
                     if (_ParentController.ControllerConnected)
                     {
                         ConnectToController(_ParentController, new ControllerConnectionEventArgs());
@@ -142,7 +142,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (_currentJob)
             {
                 // If controller is already specified
-                _ParentController.OnControllerConnection += ConnectToController;
+                _ParentController.ControllerConnectionChange += ConnectToController;
                 if (_ParentController.ControllerConnected)
                 {
                     ConnectToController(_ParentController, new ControllerConnectionEventArgs());
@@ -170,7 +170,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (_currentJob)
             {
                 // If controller is already specified
-                _ParentController.OnControllerConnection += ConnectToController;
+                _ParentController.ControllerConnectionChange += ConnectToController;
                 if (_ParentController.ControllerConnected)
                 {
                     ConnectToController(_ParentController, new ControllerConnectionEventArgs());
@@ -187,7 +187,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (_currentJob)
             {
                 // If controller is already specified
-                _ParentController.OnControllerConnection += ConnectToController;
+                _ParentController.ControllerConnectionChange += ConnectToController;
                 if (_ParentController.ControllerConnected)
                 {
                     ConnectToController(_ParentController, new ControllerConnectionEventArgs());

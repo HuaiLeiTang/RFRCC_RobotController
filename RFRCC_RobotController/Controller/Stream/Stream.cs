@@ -20,7 +20,6 @@ namespace RFRCC_RobotController.Controller
         private NetworkScanner scanner = null;
         private NetworkWatcher networkwatcher = null;
         private ControllerCollection _AvailableControllers = null;
-        private bool _ControllerTaskRunning;
 
         // --- EVENTS ---
         /// <summary>
@@ -72,19 +71,8 @@ namespace RFRCC_RobotController.Controller
             _parentController.controller.Logon(UserInfo.DefaultUser);
             _parentController.tRob1 = controller.Rapid.GetTask("T_ROB1");
             _parentController.dataModel.InitDataStream();
-            _parentController._ControllerConnected = true;
-
-            _parentController.ControllerConnectedEvent();
-            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
-            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connected to controller"));
+            _parentController.ConnectedToController();
             _parentController.dataModel.PCConnected.Subscribe(OnControllerConnectedChange, EventPriority.High);
-            //_parentController.dataModel.PCConnected.ValueChanged += OnControllerConnectedChange; // change to sub!!!
-
-            // start robot running task
-            if (!_ControllerTaskRunning && _parentController.tRob1.ExecutionStatus != ABB.Robotics.Controllers.RapidDomain.TaskExecutionStatus.Running) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
-            else if (_parentController.StopRobotTask()) _ControllerTaskRunning = _parentController.SetProgramPointerAndStartRobotTask();
-            
-            if (!_ControllerTaskRunning) new Exception("failed to start robot automatically, user intervention required");
         }
         /// <summary>
         /// Connect controller object to desired controller using ABB classes
@@ -115,11 +103,7 @@ namespace RFRCC_RobotController.Controller
             _parentController.controller.Logoff();
             _parentController.controller.Dispose();
             _parentController.controller = null;
-            _parentController._ControllerConnected = false;
-
-            _parentController.ControllerConnectedEvent();
-            //ControllerConnectedChange(this, new ControllerConnectedEventArgs(_parentController._ControllerConnected));
-            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Disconnected from controller"));
+            _parentController.DisconnectedFromController();
         }
 
         // --- INTERNAL EVENTS AND AUTOMATION ---

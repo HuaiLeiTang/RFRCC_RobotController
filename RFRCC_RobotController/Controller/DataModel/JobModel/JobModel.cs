@@ -32,6 +32,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         public event EventHandler JobCompleted;
         public event EventHandler IMStopRequest;
         public event EventHandler JobParsed;
+        public event EventHandler ActionCompleted;
+        public event EventHandler ActionPaused;
 
         // --- PARAMETERS ---
         public OperationAction CurrentAction
@@ -169,6 +171,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             operationActions.Current.Pause();
             Status.Paused();
+            ActionPaused?.Invoke(this, new EventArgs());
         }
         /// <summary>
         /// Un-Pauses current Job
@@ -372,6 +375,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 operationActions.Current.Start();
             }
+            ActionCompleted?.Invoke(this, new EventArgs());
         }
         protected virtual void OnOperationActionRequestPause(object sender = null, EventArgs args = null)
         {
