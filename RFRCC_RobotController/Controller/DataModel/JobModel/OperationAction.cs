@@ -129,7 +129,12 @@ namespace RFRCC_RobotController.Controller.DataModel
                 OnActionPaused();
                 throw new Exception("Process cannont be restarted with Start(), please use Continue()");
             }
-                
+            if (_pauseOn)
+            {
+                Pause();
+                return;
+            }
+
             _processing = true;
             OnActionStart();
         }

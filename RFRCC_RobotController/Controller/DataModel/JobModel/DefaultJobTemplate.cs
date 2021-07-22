@@ -145,7 +145,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Name = "Start Job",
                 Attributes = new Dictionary<string, string>()
             }) ;
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Wait for Operator to place required stock on infeed conveyor and confirm ready to proceed");
@@ -154,7 +154,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Name = "Load Material onto Infeed",
                 Attributes = new Dictionary<string, string>()
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Drive stock up to X datum of cell entry to measure length of stock");
@@ -164,7 +164,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Name = "Drive Stock onto Conveyor to X Datum",
                 Attributes = new Dictionary<string, string>()
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Use displacement laser to measure end of stock");
@@ -174,7 +174,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Name = "Measure stock length",
                 Attributes = new Dictionary<string, string>()
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Move stock into cell position to check dimensions");
@@ -184,7 +184,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Name = "Drive stock into cell for checking",
                 Attributes = new Dictionary<string, string>()
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Infeed clamp will close on stock, and Encoder to zero");
@@ -194,33 +194,37 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Name = "Close Infeed Clamp",
                 Attributes = new Dictionary<string, string>()
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "Robot will probe stock to ensure that stock is correct dimensions. If Stock dimensions are unacceptable, stock will be rejected, job ended, and stock not suitable error logged");
             NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            NextAttributes.Add("RobotProcess", "VerifyStockDimensions");
+            NextAttributes.Add("RequiredStockDX", jobData.HeaderInfo.SawLength.ToString());
             operationActions.Add(new OperationRobotProcess()
             {
                 Name = "Measure stock dimensions",
                 Attributes = new Dictionary<string, string>()
                 //TODO: add robot execution process
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             foreach (RobotComputedFeatures Feature in jobData.OperationRobotMoveData.Operation)
             {
                 NextAttributes.Clear();
                 NextAttributes.Add("Description", "Stock to move to required location");
                 NextAttributes.Add("Note", "Robot will update required position of stock");
+                NextAttributes.Add("RequiredStockDX", jobData.HeaderInfo.SawLength.ToString());
                 operationActions.Add(new OperationPLCProcess()
                 {
                     Name = "Drive Stock to next position",
                     Attributes = new Dictionary<string, string>()
                 });
-                operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+                operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
                 NextAttributes.Clear();
                 NextAttributes.Add("Description", "Robot to cut feature");
+                NextAttributes.Add("RequiredStockDX", jobData.HeaderInfo.SawLength.ToString());
                 operationActions.Add(new OperationRobotManoeuvre()
                 {
                     Name = "Cut Feature",
@@ -228,7 +232,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                     featureData = Feature           // this needs to be a pointer 
                                                 
                 });
-                operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+                operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
             }
 
             NextAttributes.Clear();
@@ -240,7 +244,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Attributes = new Dictionary<string, string>()
                 //TODO: add robot execution process
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes); ;
 
             NextAttributes.Clear();
             NextAttributes.Add("Description", "save time, date and job identification information to log for reference of machine activity");
@@ -250,7 +254,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Attributes = new Dictionary<string, string>()
                 //TODO: add robot execution process
             });
-            operationActions[operationActions.Count - 1].Attributes = NextAttributes;
+            operationActions[operationActions.Count - 1].Attributes = new Dictionary<string, string>(NextAttributes);
         }
     }
 }

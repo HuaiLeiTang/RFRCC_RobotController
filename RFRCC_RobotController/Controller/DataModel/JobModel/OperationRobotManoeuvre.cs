@@ -11,10 +11,10 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         // --- INTERNAL PROPERTIES ---
         RobotComputedFeatures _featureData;
-        private int _RequiredStockDX;
 
         // --- EVENTS ---
         public event EventHandler RequiredStockDXUpdate;
+        // TODO: connect RequiredStockDXUpdate to something?
 
         // --- PUBLIC PROPERTIES ---
         /// <summary>
@@ -53,10 +53,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void OnRobotActionStarted(object sender = null, EventArgs args = null)
         {
-            if (!PauseOn)
-            {
-                featureData.StartWhenReady = true;
-            }
+            featureData.StartWhenReady = true;
         }
         protected virtual void OnRobotActionPaused(object sender = null, EventArgs args = null)
         {

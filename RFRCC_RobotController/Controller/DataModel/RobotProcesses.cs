@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace RFRCC_RobotController.Controller.DataModel
 {
@@ -67,6 +68,24 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Robot performing dummy Verify Stock: Process to be implemented"));
             return true;
+        }
+
+        public void CallForProcessHandler(object sender, CallForRobotProcessEventArgs args)
+        {
+            MethodInfo Process = this.GetType().GetMethod(args.ProcessName != null ? args.ProcessName : "");
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Robot Called for Process: " + (args.ProcessName != null? args.ProcessName : "NOT PROVIDED")));
+
+            if (Process != null)
+            {
+                _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Invoking process: " + Process.Name));
+                object response = Process.Invoke(this,null);
+                if (response != null) _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process responded: " + response.ToString()));
+                else _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process invoked with no response"));
+            }
+            else
+            {
+                _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("No Such Process Found"));
+            }
         }
 
         // --- INTERNAL EVENT TRIGGERS AND AUTOMATION ---

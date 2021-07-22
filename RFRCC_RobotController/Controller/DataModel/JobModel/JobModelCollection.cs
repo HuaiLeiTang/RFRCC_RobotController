@@ -18,7 +18,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         // --- EVENTS ---
 
         public event EventHandler JobAdded;
-        public event EventHandler CurrentJobUpdated;
+        public event EventHandler CurrentJobChange;
 
         // --- PROPERTIES ---
         public JobModel this[int index]
@@ -136,7 +136,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 Current.OperationRobotMoveData.ConnectParentController(_parentController, "PC_Manoeuvre_Register", "OpManPCBuffer", "PC_Manoeuvre_Register", "OpHeadPCBuffer");
                 Current.ConnectToController();
-                CurrentJobUpdated?.Invoke(Current, new EventArgs());
+                CurrentJobChange?.Invoke(Current, new EventArgs());
                 return true;
             }
             else if (_InternalCollection.Count < 1)

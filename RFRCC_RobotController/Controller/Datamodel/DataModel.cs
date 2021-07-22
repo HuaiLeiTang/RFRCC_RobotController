@@ -26,6 +26,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal RapidData PCSDK_Complete;
         internal RapidData Robot_Status;
         internal double _RequiredStockDX;
+        internal double _StockCurrentDX;
         
 
         internal bool SaveJobDataOnComplete = false; // if true, save job information from robot into something...
@@ -48,9 +49,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         public event EventHandler JobAdded;
         public event EventHandler JobParsed;
         public event EventHandler NextDXChange;
+        public event EventHandler StockCurrentDXChange;
 
         // --- PUBLIC PROPERTIES
-        public RobotProcesses RobotProcess;
         public PC_RobotMove_Register RobotInstuctionsRegister;
         public RAPID_OM_List OperationManeouvres;
         public RAPID_OH_List OperationHeaders;
@@ -60,6 +61,22 @@ namespace RFRCC_RobotController.Controller.DataModel
         public double NextDX 
         {
             get { return _RequiredStockDX; }
+        }
+        /// <summary>
+        /// Current X location of stock origin point
+        /// </summary>
+        public double CurrentDX 
+        {
+            get
+            {
+                return _StockCurrentDX;
+            }
+
+            set
+            {
+                _StockCurrentDX = value;
+                OnStockCurrentDXChange();
+            }
         }
         /// <summary>
         /// list of job(s) to be completed
@@ -147,8 +164,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             _parentController = ParentController;
             Jobs = new JobModelCollection(_parentController);
             Jobs.JobAdded += JobAdded;
-            Jobs.CurrentJobUpdated += OnCurrentJobUpdated;
-            RobotProcess = new RobotProcesses(_parentController);
+            Jobs.CurrentJobChange += OnCurrentJobChange;
 
             // Init variables
             ProgramVersion = new RobotProgramVersion(_parentController);
@@ -407,9 +423,25 @@ namespace RFRCC_RobotController.Controller.DataModel
             }
             
         }
-        protected virtual void OnCurrentJobUpdated(object sender = null, EventArgs args = null)
+        protected virtual void OnCurrentJobChange(object sender = null, EventArgs args = null)
         {
             if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
+            // TODO: check if this is changed on set method of ProcessSettings.AutoProgressJob
+            CurrentJob.operationActions.OperationRequiredStockDXChanged += OnStockCurrentDXChange;
+        }
+        /// <summary>
+        /// Fetches required stock DX from robot action, and informs any subscribers of change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnStockCurrentDXChange(object sender = null, EventArgs args = null)
+        {
+            double update = CurrentJob.CurrentAction.GetType().GetProperty("IdealXDisplacement") != null ? double.Parse(CurrentJob.CurrentAction.GetType().GetProperty("IdealXDisplacement").GetValue(CurrentJob.CurrentAction, null).ToString()) : _RequiredStockDX;
+            if (update != _RequiredStockDX)
+            {
+                _RequiredStockDX = update;
+                StockCurrentDXChange?.Invoke(this, new EventArgs());
+            }
         }
     }
 

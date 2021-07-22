@@ -107,6 +107,7 @@ namespace RFRCC_RobotController
         {
             get => _controllerInfo;
         }
+        public RobotProcesses RobotProcess;
         /// <summary>
         /// If controller object is associated with a network controller, and connected to
         /// </summary>
@@ -174,6 +175,7 @@ namespace RFRCC_RobotController
         {
             stream = new Stream(this);
             dataModel = new DataModel(this);
+            RobotProcess = new RobotProcesses(this);
         }
 
 

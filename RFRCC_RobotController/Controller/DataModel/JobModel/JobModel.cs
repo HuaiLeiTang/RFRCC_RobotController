@@ -104,7 +104,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.OperationActionRequestPause += OnOperationActionRequestPause;
             operationActions.OperationsAllComplete += OnJobCompleted;
             operationActions.OperationActionCompleted += OnOperationCompleted;
-
+            operationActions.RobotProcessRequired += OnRobotProcessRequired;
         }
         /// <summary>
         /// Initialise object with specified network controller, Job index on relevant network contoller, and template for job initialisation
@@ -233,7 +233,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             if (_controllerPresent)
             {
-                IMStopRequest += _parentController.dataModel.RobotProcess.ImmediateStop;
+                IMStopRequest += _parentController.RobotProcess.ImmediateStop;
                 _parentController.stream.ControllerConnectedChange += OnControllerConnectionChange;
                 return true;
             }
@@ -247,7 +247,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             if (_controllerPresent)
             {
-                IMStopRequest -= _parentController.dataModel.RobotProcess.ImmediateStop;
+                IMStopRequest -= _parentController.RobotProcess.ImmediateStop;
                 _parentController.stream.ControllerConnectedChange -= OnControllerConnectionChange;
                 return true;
             }
@@ -404,6 +404,13 @@ namespace RFRCC_RobotController.Controller.DataModel
             else
             {
                 DisconnectAllJobEvents();
+            }
+        }
+        protected virtual void OnRobotProcessRequired(object sender = null, EventArgs args = null)
+        {
+            if (CurrentAction is OperationRobotProcess)
+            {
+                ((OperationRobotProcess)CurrentAction).CallForRobotProcess += _parentController.RobotProcess.CallForProcessHandler;
             }
         }
     }

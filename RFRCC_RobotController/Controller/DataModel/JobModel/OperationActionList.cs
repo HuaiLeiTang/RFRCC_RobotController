@@ -213,11 +213,13 @@ namespace RFRCC_RobotController.Controller.DataModel
                 return true;
             }
 
-            if (Current.GetType().GetProperty("RequiredStockDX") != null)
+            
+            if (Current.GetType().GetProperty("RequiredStockDX") != null && _rollingRequiredStockDX != double.Parse((Current.GetType().GetProperty("RequiredStockDX").GetValue(Current, null)).ToString()))
             {
-                if (_rollingRequiredStockDX != double.Parse(Current.GetType().GetProperty("RequiredStockDX").ToString()))
+                double check = double.Parse((Current.GetType().GetProperty("RequiredStockDX").GetValue(Current, null)).ToString());
+                if (check != 9999)
                 {
-                    _rollingRequiredStockDX = double.Parse(Current.GetType().GetProperty("RequiredStockDX").ToString());
+                    _rollingRequiredStockDX = check;
                     OperationRequiredStockDXChanged?.Invoke(Current, new EventArgs());
                 }
             }
