@@ -6,22 +6,22 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Action step involving Robot process
     /// </summary>
-    public class OperationRobotProcess : OperationAction
+    public class OperationRobotProcess : OperationAction, ICallForProcess
     {
         // --- INTERNAL PROPERTIES ---
 
         // --- EVENTS ---
         public event EventHandler RequiredStockDXUpdate;
         // TODO: connect RequiredStockDXUpdate to something?
-        public event EventHandler<CallForRobotProcessEventArgs> CallForRobotProcess;
+        public event CallForProcessEventHandler CallForRobotProcess;
         // TODO: connect CallForProcess to RobotProcess
 
-        
+
 
         // --- PUBLIC PROPERTIES ---
         public double RequiredStockDX
         {
-            get 
+            get
             {
                 if (Attributes.ContainsKey("RequiredStockDX"))
                 {
@@ -41,17 +41,27 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
         // --- METHODS ---
-
+        public void CallForProcessResponse(bool success, object response = null)
+        {
+            if (success && response != null)
+            {
+                this.Complete(bool.Parse(response.ToString()));
+            }
+            else
+            {
+                // TODO: some failure handling process
+            }
+        }
 
         // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void OnRobotProcessStarted(object sender = null, EventArgs args = null)
         {
             if (CallForRobotProcess != null)
             {
-                CallForRobotProcess?.Invoke(this, new CallForRobotProcessEventArgs(Attributes.Where(stockDX => stockDX.Key == "RobotProcess").FirstOrDefault().Value, true));
+                CallForRobotProcess?.Invoke(this, new CallForProcessEventArgs(Attributes.Where(stockDX => stockDX.Key == "RobotProcess").FirstOrDefault().Value, true));
             }
             else throw new Exception("No listeners subscribed to Robot Process request");
-             
+
         }
         protected virtual void OnRobotProcessPaused(object sender = null, EventArgs args = null)
         {
@@ -61,5 +71,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
 
         }
+
+
     }
+
+    public delegate void CallForProcessEventHandler(ICallForProcess sender, CallForProcessEventArgs args);
 }

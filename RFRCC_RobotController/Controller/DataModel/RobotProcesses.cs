@@ -70,7 +70,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             return true;
         }
 
-        public void CallForProcessHandler(object sender, CallForRobotProcessEventArgs args)
+        public void CallForProcessHandler(ICallForProcess sender, CallForProcessEventArgs args)
         {
             MethodInfo Process = this.GetType().GetMethod(args.ProcessName != null ? args.ProcessName : "");
             _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Robot Called for Process: " + (args.ProcessName != null? args.ProcessName : "NOT PROVIDED")));
@@ -79,12 +79,24 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Invoking process: " + Process.Name));
                 object response = Process.Invoke(this,null);
-                if (response != null) _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process responded: " + response.ToString()));
-                else _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process invoked with no response"));
+                if (response != null)
+                {
+                    _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process responded: " + response.ToString()));
+                    // TODO: respond to sender of response
+                    sender.CallForProcessResponse(true, response);
+                }
+                else
+                {
+                    _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process invoked with no response"));
+                    //TODO: respond to sender of completion (success)
+                    sender.CallForProcessResponse(true, response);
+                }
             }
             else
             {
                 _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("No Such Process Found"));
+                // TODO: respond to sender of failure
+                sender.CallForProcessResponse(false);
             }
         }
 

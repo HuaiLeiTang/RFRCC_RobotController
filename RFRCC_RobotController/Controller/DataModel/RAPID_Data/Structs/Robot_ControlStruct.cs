@@ -34,7 +34,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _JobID;
         private bool _TorchEnable;
         private bool _ManualControl_Req;
-        private float _StockXDisplacement;
+        private double _StockXDisplacement;
         private bool _RobotEnabled;
         private bool _Park_Req;
         private string _PC_Message;
@@ -123,7 +123,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// Current Stock X Displacement
         /// to be populated from PLC
         /// </summary>
-        public float StockXDisplacement
+        public double StockXDisplacement
         {
             get { return _StockXDisplacement; }
             set
@@ -222,7 +222,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (JobID != "\"" + RapidStruct[1].Value + "\"") JobID = RapidStruct[1].Value[1..^1];
             if (TorchEnable != bool.Parse(RapidStruct[2].Value)) TorchEnable = bool.Parse(RapidStruct[2].Value);
             if (ManualControl_Req != bool.Parse(RapidStruct[3].Value)) ManualControl_Req = bool.Parse(RapidStruct[3].Value);
-            if (StockXDisplacement != float.Parse(RapidStruct[4].Value)) StockXDisplacement = float.Parse(RapidStruct[4].Value);
+            if (StockXDisplacement != double.Parse(RapidStruct[4].Value)) StockXDisplacement = double.Parse(RapidStruct[4].Value);
             if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) RobotEnabled = bool.Parse(RapidStruct[5].Value);
             if (Park_Req != bool.Parse(RapidStruct[6].Value)) Park_Req = bool.Parse(RapidStruct[6].Value);
             if (PC_Message != "\"" + RapidStruct[7].Value + "\"") PC_Message = RapidStruct[7].Value[1..^1];

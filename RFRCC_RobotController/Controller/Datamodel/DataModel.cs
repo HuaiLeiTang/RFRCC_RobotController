@@ -69,12 +69,12 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             get
             {
-                return _StockCurrentDX;
+                return Robot_Control.StockXDisplacement;
             }
 
             set
             {
-                _StockCurrentDX = value;
+                Robot_Control.StockXDisplacement = value;
                 OnStockCurrentDXChange();
             }
         }
@@ -94,7 +94,6 @@ namespace RFRCC_RobotController.Controller.DataModel
         // TODO: Update this and its use to RAPID connected register
                 // TODO: Add Machine Settings
         public MachineProcessSettings ProcessSettings;
-        
         /// <summary>
         /// NOT FOR USE?
         /// To be updated to RAPID memory associated class
@@ -415,7 +414,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
         protected virtual void OnStockRequiredDXUpdate(object sender = null, EventArgs args = null)
         {
-            double? check = double.Parse(CurrentJob.operationActions.Current.GetType().GetProperty("RequiredStockDX").ToString());
+            double? check = double.Parse(CurrentJob.operationActions.Current.GetType().GetProperty("RequiredStockDX").GetValue(CurrentJob.operationActions.Current,null).ToString());
             if (_RequiredStockDX != check)
             {
                 _RequiredStockDX = check is null ? _RequiredStockDX : (double)check;
@@ -427,7 +426,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
             // TODO: check if this is changed on set method of ProcessSettings.AutoProgressJob
-            CurrentJob.operationActions.OperationRequiredStockDXChanged += OnStockCurrentDXChange;
+            CurrentJob.operationActions.OperationRequiredStockDXChanged += OnStockRequiredDXUpdate;
         }
         /// <summary>
         /// Fetches required stock DX from robot action, and informs any subscribers of change
