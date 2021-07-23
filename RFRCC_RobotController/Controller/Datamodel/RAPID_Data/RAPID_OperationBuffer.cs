@@ -21,6 +21,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private RapidData _OperationStarted;
         private RapidData _OperationCompleted;
         private RapidData _OperationWaitingForStart;
+        private RapidData _OperationWaitingKey;
+        private RapidData _OperationWaitingTrigger;
+        private RapidData _OperationStartPermission;
 
         private PC_RobotMove_Register _Operations = new PC_RobotMove_Register();
         private bool _sortAscending = false;
@@ -36,16 +39,23 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _OpCompletedVARName = "OperationCompleted";
         private string _OperationWaitingForStartModule = "PC_Manoeuvre_Register";
         private string _OperationWaitingForStartVARName = "WaitingOnStart";
+        private string _OperationWaitingKeyModule = "PC_Manoeuvre_Register";
+        private string _OperationWaitingKeyVARName = "WaitingOnStartKey";
+        private string _OperationWaitingTriggerModule = "PC_Manoeuvre_Register";
+        private string _OperationWaitingTriggerVARName = "TriggerWaitingOnStart";
+        private string _OperationStartPermissionModule = "PC_Manoeuvre_Register";
+        private string _OperationStartPermissionVARName = "StartPermission";
         private bool _connected = false;
         private bool _currentJob = false;
         private bool _RobotWaiting = false;
+        private string _RobotWaitingKey = "";
 
         // --- EVENTS ---
         public event EventHandler NewCurrentOperation;
         public event EventHandler NewUploadedOperation;
         public event EventHandler OperationStarted;
         public event EventHandler OperationCompleted;
-        public event EventHandler OperationWaitingForStart;
+        public event ActionStartRequestEventHandler OperationWaitingForStart;
 
 
         // --- PROPERTIES ---
@@ -112,6 +122,43 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             set
             {
                 _sortAscending = !value;
+            }
+        }
+        public int CurrentFeatureNum 
+        { 
+            get
+            {
+                return int.Parse(_RobSystemData.StringValue.Trim('[', ']').Split(',')[11]);
+            } 
+        }
+        public bool StartPermission
+        {
+            get
+            {
+                return bool.Parse(_OperationStartPermission.StringValue);
+            }
+            set
+            {
+                bool complete = false;
+                while (!complete)
+                {
+                    try
+                    {
+                        using (Mastership m = Mastership.Request(_ParentController.controller))
+                        {
+                            _OperationStartPermission.StringValue = value.ToString().ToUpper();
+                            _OperationWaitingForStart.StringValue = "FALSE";
+                        }
+                    }
+                    catch
+                    {
+                        complete = false;
+                    }
+                    finally
+                    {
+                        complete = true;
+                    }
+                }
             }
         }
 
@@ -207,11 +254,15 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _OperationStarted = _ParentController.tRob1.GetRapidData(_OpStartedModule, _OpStartedVARName);
             _OperationCompleted = _ParentController.tRob1.GetRapidData(_OpCompletedModule, _OpCompletedVARName);
             _OperationWaitingForStart = _ParentController.tRob1.GetRapidData(_OperationWaitingForStartModule, _OperationWaitingForStartVARName);
+            _OperationWaitingKey = _ParentController.tRob1.GetRapidData(_OperationWaitingKeyModule, _OperationWaitingKeyVARName);
+            _OperationWaitingTrigger = _ParentController.tRob1.GetRapidData(_OperationWaitingTriggerModule, _OperationWaitingTriggerVARName);
+            _OperationStartPermission = _ParentController.tRob1.GetRapidData(_OperationStartPermissionModule, _OperationStartPermissionVARName);
 
             _RobSystemData.Subscribe(OnRobSystemDataUpdate, EventPriority.High);
             _OperationStarted.Subscribe(OnOperationStartedChange, EventPriority.High);
             _OperationCompleted.Subscribe(OnOperationCompletedChange, EventPriority.High);
-            _OperationWaitingForStart.Subscribe(OnOperationWaitingForStartChange, EventPriority.High);
+            _OperationWaitingTrigger.Subscribe(OnOperationWaitingForStartChange, EventPriority.High);
+            //_OperationWaitingForStart.ValueChanged += OnOperationWaitingForStartChange;
 
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
             _connected = true; // TODO: add this bool to other issues as a stop if required
@@ -227,6 +278,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _OperationStarted.Dispose();
             _OperationCompleted.Dispose();
             _OperationWaitingForStart.Dispose();
+            _OperationWaitingKey.Dispose();
+            _OperationWaitingTrigger.Dispose();
+            _OperationStartPermission.Dispose();
         }
         /// <summary>
         /// removes all items contained in Operation List
@@ -443,7 +497,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(_ParentController.controller.Rapid))
+                    using (Mastership m = Mastership.Request(_ParentController.controller))
                     {
                         _HeadBufferRD.StringValue = OpHeaderStringToUpload;
                         _ManBufferRD.StringValue = OpManStringToUpload;
@@ -532,7 +586,10 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         {
             if (_RobotWaiting)
             {
-                if (_OperationWaitingForStart.StringValue == "FALSE") Debug.Print("Robot WaitingForStart register indicates robot isn't waiting: ATTEMPT VOID");
+                if (_OperationWaitingForStart.StringValue == "FALSE") _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Robot WaitingForStart register indicates robot isn't waiting: ATTEMPT VOID"));
+                // TODO: check if correct feature wanting to proceed
+
+                
                 bool complete = false;
 
                 while (!complete)
@@ -630,13 +687,29 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// <param name="args"></param>
         protected virtual void OnOperationWaitingForStartChange(object sender = null, EventArgs args = null)
         {
-            int FeatureNum = int.Parse(_RobSystemData.StringValue.Trim('[', ']').Split(',')[11]);
-            bool startReq = bool.Parse(_OperationWaitingForStart.StringValue);
-
-            if (startReq)
+            _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Wait for start checking"));
+            if (_RobotWaitingKey != _OperationWaitingKey.StringValue && _OperationWaitingForStart.StringValue.ToLower() == "true")
             {
-                Operation.Feature(FeatureNum).WaitingForStart = true;
-                OperationWaitingForStart?.Invoke(Operation.Feature(FeatureNum), new EventArgs());
+                // set key so that no other process will double complete
+                _RobotWaitingKey = _OperationWaitingKey.StringValue;
+
+                _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Wait for start triggered, updating now"));
+
+                int FeatureNum = int.Parse(_RobSystemData.StringValue.Trim('[', ']').Split(',')[11]);
+                bool startReq = bool.Parse(_OperationWaitingForStart.StringValue);
+
+                if (startReq)
+                {
+                    _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Invoking OperationWaitingForStart event"));
+                    Operation.Feature(FeatureNum).WaitingForStart = true;
+                    List<OperationRobotManoeuvre> RobMans = new List<OperationRobotManoeuvre>();
+                    foreach (IOperationAction operation in _ParentController.dataModel.CurrentJob.operationActions.Where(op => op is OperationRobotManoeuvre))
+                    {
+                        RobMans.Add((OperationRobotManoeuvre)operation);
+                    }
+                    OperationRobotManoeuvre RobMan = RobMans.Where(op => op.featureData.FeatureHeader.FeatureNum == FeatureNum).FirstOrDefault();
+                    OperationWaitingForStart?.Invoke(RobMan, new EventArgs());
+                }
             }
         }
         protected virtual void SetJobInProgress(bool connected)

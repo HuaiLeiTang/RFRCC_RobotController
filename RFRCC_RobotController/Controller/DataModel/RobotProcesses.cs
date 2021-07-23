@@ -55,7 +55,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             throw new NotImplementedException();
         }
-
+        public bool StartManoeuvre()
+        {
+            _parentController.dataModel.Robot_Control.RobotEnabled = true;
+            return _parentController.dataModel.Robot_Control.RobotEnabled;
+        }
         public bool PauseProcess()
         {
             throw new NotImplementedException();
@@ -83,13 +87,13 @@ namespace RFRCC_RobotController.Controller.DataModel
                 {
                     _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process responded: " + response.ToString()));
                     // TODO: respond to sender of response
-                    sender.CallForProcessResponse(true, response);
+                    sender.CallForProcessResponse(true, Process, response);
                 }
                 else
                 {
                     _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("process invoked with no response"));
                     //TODO: respond to sender of completion (success)
-                    sender.CallForProcessResponse(true, response);
+                    sender.CallForProcessResponse(true, Process, response);
                 }
             }
             else

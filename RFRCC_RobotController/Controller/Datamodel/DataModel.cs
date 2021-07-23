@@ -250,6 +250,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// <param name="Carriage">Carriage index for chunking manoeuvre information</param>
         public void UpdateRobot(string Table, int FeatureNum = 0, int Carriage = 0)
         {
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("MARKER 1 : Datamode.UpdateRobot Run for {0}", Table)));
             bool complete = false;
             switch (Table.ToLower())
             {
@@ -427,6 +428,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (ProcessSettings.AutoProgressJob) CurrentJob.JobCompleted += NextJob;
             // TODO: check if this is changed on set method of ProcessSettings.AutoProgressJob
             CurrentJob.operationActions.OperationRequiredStockDXChanged += OnStockRequiredDXUpdate;
+
         }
         /// <summary>
         /// Fetches required stock DX from robot action, and informs any subscribers of change

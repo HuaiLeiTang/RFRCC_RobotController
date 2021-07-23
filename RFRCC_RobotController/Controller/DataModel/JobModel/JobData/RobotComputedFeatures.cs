@@ -62,7 +62,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         public bool WaitingForStart 
         { 
             get { return _WaitingForStart; } 
-            set 
+            internal set 
             { 
                 _WaitingForStart = value; 
                 if (value && _StartWhenReady) AllowRobotToContinue();
@@ -100,6 +100,10 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             get
             {
                 return _FeatureHeader.IdealXDisplacement;
+            }
+            internal set
+            {
+                _FeatureHeader.IdealXDisplacement = value;
             }
         }
 

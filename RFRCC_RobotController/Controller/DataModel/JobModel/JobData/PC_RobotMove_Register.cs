@@ -156,7 +156,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         }
         public IEnumerator GetEnumerator()
         {
-            return this;
+            return _ComputedFeatures.GetEnumerator();
         }
         /// <summary>
         /// returns list Robot Computed features

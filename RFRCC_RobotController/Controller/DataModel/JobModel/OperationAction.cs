@@ -9,7 +9,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Action step during processing
     /// </summary>
-    public class OperationAction : ICloneable
+    public class OperationAction : ICloneable, IOperationAction
     {
 
         // --- PRIVATE PROPERTIES ---

@@ -16,7 +16,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public bool Start;
 
-        public CallForProcessEventArgs(string processName, bool start)
+        public CallForProcessEventArgs(string processName, bool start = true, object[] processParams = null)
         {
             ProcessName = processName;
             Start = start;

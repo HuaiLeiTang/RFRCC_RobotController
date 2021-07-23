@@ -8,10 +8,10 @@ namespace RFRCC_RobotController.Controller.DataModel
     // TODO: Current action is action worked on by robot
 
     // List of Operation Actions taken during a Job Processing
-    public class OperationActionList : IEnumerable<OperationAction>, IEnumerator<OperationAction>, IList<OperationAction>
+    public class OperationActionList : IEnumerable<IOperationAction>, IEnumerator<IOperationAction>, IList<IOperationAction>
     {
         // --- INTERNAL FIELDS ---
-        private List<OperationAction> _operationActions;
+        private List<IOperationAction> _operationActions;
         private bool _ReadOnly;
         private int _index;
         private double _rollingRequiredStockDX = 0;
@@ -53,11 +53,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         public event EventHandler OperationRequiredStockDXChanged;
 
         // --- PROPERTIES ---
-        public OperationAction this[int index] => _operationActions[index];
+        public IOperationAction this[int index] => _operationActions[index];
         /// <summary>
         /// Current set Operation Action 
         /// </summary>
-        public OperationAction Current => _operationActions[_index];
+        public IOperationAction Current => _operationActions[_index];
         /// <summary>
         /// Number of operation actions
         /// </summary>
@@ -79,13 +79,13 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             _ReadOnly = false;
             _index = 0;
-            _operationActions = new List<OperationAction>();
+            _operationActions = new List<IOperationAction>();
         }
         /// <summary>
         /// Initialise object with a list of Operation Actions
         /// </summary>
         /// <param name="operationActions">list of Operation Actions</param>
-        public OperationActionList(List<OperationAction> operationActions) : this()
+        public OperationActionList(List<IOperationAction> operationActions) : this()
         {
             _operationActions.AddRange(operationActions);
             foreach (OperationAction Action in _operationActions)
@@ -121,7 +121,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="index">index location in list</param>
         /// <returns>Operation Action</returns>
-        OperationAction IList<OperationAction>.this[int index] 
+        IOperationAction IList<IOperationAction>.this[int index] 
         { 
             get => _operationActions[index]; 
             set
@@ -133,7 +133,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Add item to list of Operation Actions
         /// </summary>
         /// <param name="item"></param>
-        public void Add(OperationAction item)
+        public void Add(IOperationAction item)
         {
             _operationActions.Add(item);
             _operationActions.Last().ActionCompleted += OnOperationActionCompleted;
@@ -145,7 +145,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Add multiple items to list of operation actions
         /// </summary>
         /// <param name="items">List of items to be added</param>
-        public void Add(List<OperationAction> items)
+        public void Add(List<IOperationAction> items)
         {
             foreach (OperationAction item in items)
             {
@@ -169,7 +169,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="item">Operation actiong to check</param>
         /// <returns>If Contains Item checked</returns>
-        public bool Contains(OperationAction item)
+        public bool Contains(IOperationAction item)
         {
             return _operationActions.Contains(item);
         }
@@ -177,7 +177,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Get enumerator of operation actions list
         /// </summary>
         /// <returns>Enumorator</returns>
-        public IEnumerator<OperationAction> GetEnumerator()
+        public IEnumerator<IOperationAction> GetEnumerator()
         {
             return _operationActions.GetEnumerator();
         }
@@ -217,7 +217,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (Current.GetType().GetProperty("RequiredStockDX") != null && _rollingRequiredStockDX != double.Parse((Current.GetType().GetProperty("RequiredStockDX").GetValue(Current, null)).ToString()))
             {
                 double check = double.Parse((Current.GetType().GetProperty("RequiredStockDX").GetValue(Current, null)).ToString());
-                if (check != 9999)
+                if (check != 99999)
                 {
                     _rollingRequiredStockDX = check;
                     OperationRequiredStockDXChanged?.Invoke(Current, new EventArgs());
@@ -264,7 +264,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="item">Item to be indexed</param>
         /// <returns>index of item</returns>
-        public int IndexOf(OperationAction item)
+        public int IndexOf(IOperationAction item)
         {
             return _operationActions.IndexOf(item);
         }
@@ -273,7 +273,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="index">Index at which to be inserted</param>
         /// <param name="item">Operation Action to be inserted</param>
-        public void Insert(int index, OperationAction item)
+        public void Insert(int index, IOperationAction item)
         {
             _operationActions.Insert(index, item);
             _operationActions[index].ActionCompleted += OnOperationActionCompleted;
@@ -299,7 +299,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="array">Array for item to be added to</param>
         /// <param name="arrayIndex">Index of item to be copied</param>
-        public void CopyTo(OperationAction[] array, int arrayIndex)
+        public void CopyTo(IOperationAction[] array, int arrayIndex)
         {
             _operationActions.CopyTo(array, arrayIndex);
         }
@@ -308,7 +308,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         /// <param name="item">Item to be removed</param>
         /// <returns>if found and removed</returns>
-        public bool Remove(OperationAction item)
+        public bool Remove(IOperationAction item)
         {
             _operationActions[_operationActions.IndexOf(item)].ActionCompleted += OnOperationActionCompleted;
             _operationActions[_operationActions.IndexOf(item)].ActionSkipUpdated += OnOperationSkipUpdated;

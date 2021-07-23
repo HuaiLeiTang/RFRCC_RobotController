@@ -510,27 +510,23 @@ namespace RFRCC_RobotController
             public decimal FeatureOptimalX_OptimalX { get; set; }
         }
         /// <summary>
-        /// Custom Delegate for UpdateFeatureOptimalX so that the relevant network controller may be updated pased to event
-        /// </summary>
-        /// <param name="sender">relevant network controller to event</param>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        public delegate bool UpdateFeatureEventHandler(RobotController sender, UpdateFeatureOptimalXEventArgs e);
-        /// <summary>
         /// Event triggered when feature optimal X is updated on the network controller
         /// </summary>
-        public event UpdateFeatureEventHandler UpdateFeatureOptimalX;
+        public event EventHandler<UpdateFeatureOptimalXEventArgs> UpdateFeatureOptimalX;
         /// <summary>
         /// Triggering method to call event when network controller has updated optimal x for a feature
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <returns></returns>
-        internal protected virtual bool OnUpdateFeatureOptimalX(object sender, UpdateFeatureOptimalXEventArgs e)
+        internal protected virtual void OnUpdateFeatureOptimalX(object sender, UpdateFeatureOptimalXEventArgs e)
         {
+            dataModel.CurrentJob.OperationRobotMoveData.Operation[e.FeatureOptimalX_FeatureNum].IdealXDisplacement = (float)e.FeatureOptimalX_OptimalX;
+            dataModel.CurrentJob.OperationRobotMoveData.Operation[e.FeatureOptimalX_FeatureNum].WaitingForStart = true;
+
+
             dataModel.FeatureDataList[e.FeatureOptimalX_FeatureNum].Dim1Optimal = (float)e.FeatureOptimalX_OptimalX;
-            return (UpdateFeatureOptimalX != null) ? UpdateFeatureOptimalX(this, e)
-                : throw new ArgumentException("No listeners logged to handle UpdateJobData event");
+            UpdateFeatureOptimalX?.Invoke(this, e);
         }
         /// <summary>
         /// custom event args for network controller request for updated job data

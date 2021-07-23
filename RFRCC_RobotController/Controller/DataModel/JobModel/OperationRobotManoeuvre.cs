@@ -6,7 +6,7 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Action step involving Robot cutting process
     /// </summary>
-    public class OperationRobotManoeuvre : OperationAction
+    public class OperationRobotManoeuvre : OperationAction, ICallForProcess, IRobotOperation, IOperationAction
     {
 
         // --- INTERNAL PROPERTIES ---
@@ -14,6 +14,8 @@ namespace RFRCC_RobotController.Controller.DataModel
 
         // --- EVENTS ---
         public event EventHandler RequiredStockDXUpdate;
+        public event CallForProcessEventHandler CallForRobotProcess;
+
         // TODO: connect RequiredStockDXUpdate to something?
 
         // --- PUBLIC PROPERTIES ---
@@ -38,8 +40,9 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
         // --- CONSTRUCTORS ---
-        public OperationRobotManoeuvre()
+        public OperationRobotManoeuvre(RobotComputedFeatures featureData)
         {
+            _featureData = featureData;
             this.ActionStarted += OnRobotActionStarted;
             this.ActionPaused += OnRobotActionPaused;
             this.ActionCanceled += OnRobotActionCanceled;
@@ -47,24 +50,52 @@ namespace RFRCC_RobotController.Controller.DataModel
         }
 
         // --- METHODS ---
-
+        
+        public void CallForProcessResponse(bool success, object process = null, object response = null)
+        {
+            switch (process.GetType().Name)
+            {
+                case "EnableRobotCut":
+                    if (success && response != null)
+                    {
+                        // TODO: indicate processing
+                    }
+                    else
+                    {
+                        // TODO: some failure handling process
+                    }
+                    break;
+                case "RobotCompleteCut":
+                    if (success && response != null)
+                    {
+                        this.Complete(bool.Parse(response.ToString()));
+                    }
+                    else
+                    {
+                        // TODO: some failure handling process
+                    }
+                    break;
+                default:
+                    break;
+            }
+            
+        }
 
 
         // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void OnRobotActionStarted(object sender = null, EventArgs args = null)
         {
             featureData.StartWhenReady = true;
+
         }
         protected virtual void OnRobotActionPaused(object sender = null, EventArgs args = null)
         {
-
+            CallForRobotProcess(this, new CallForProcessEventArgs("StartManoeuvre"));
         }
         protected virtual void OnRobotActionCanceled(object sender = null, EventArgs args = null)
         {
 
         }
-
-
 
     }
 }

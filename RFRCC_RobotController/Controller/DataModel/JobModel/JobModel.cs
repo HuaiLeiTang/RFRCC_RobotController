@@ -36,7 +36,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public event EventHandler ActionPaused;
 
         // --- PARAMETERS ---
-        public OperationAction CurrentAction
+        public IOperationAction CurrentAction
         {
             get
             {
@@ -105,6 +105,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             operationActions.OperationsAllComplete += OnJobCompleted;
             operationActions.OperationActionCompleted += OnOperationCompleted;
             operationActions.RobotProcessRequired += OnRobotProcessRequired;
+            OperationRobotMoveData.OperationWaitingForStart += OnOperationManoeuvreWaitingForStart;
         }
         /// <summary>
         /// Initialise object with specified network controller, Job index on relevant network contoller, and template for job initialisation
@@ -412,7 +413,22 @@ namespace RFRCC_RobotController.Controller.DataModel
             {
                 ((OperationRobotProcess)CurrentAction).CallForRobotProcess += _parentController.RobotProcess.CallForProcessHandler;
             }
+            else if (CurrentAction is OperationRobotManoeuvre)
+            {
+                ((OperationRobotManoeuvre)CurrentAction).CallForRobotProcess += _parentController.RobotProcess.CallForProcessHandler;
+            }
+        }
+        protected virtual void OnOperationManoeuvreWaitingForStart(IOperationAction sender, EventArgs args)
+        {
+            _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("OperationRobotMoveData.StartPermission = {0}", (sender == CurrentAction) && ((OperationRobotManoeuvre)CurrentAction).featureData.StartWhenReady)));
+            OperationRobotMoveData.StartPermission = (sender == CurrentAction) && ((OperationRobotManoeuvre)CurrentAction).featureData.StartWhenReady ;
+            if (sender != null && sender.Skip)
+            {
+                // handle skip
+            }
         }
     }
+
+    public delegate void ActionStartRequestEventHandler(IOperationAction sender, EventArgs args); 
 
 }

@@ -6,15 +6,14 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Action step involving Robot process
     /// </summary>
-    public class OperationRobotProcess : OperationAction, ICallForProcess
+    public class OperationRobotProcess : OperationAction, ICallForProcess, IRobotOperation, IOperationAction
     {
         // --- INTERNAL PROPERTIES ---
 
         // --- EVENTS ---
         public event EventHandler RequiredStockDXUpdate;
-        // TODO: connect RequiredStockDXUpdate to something?
         public event CallForProcessEventHandler CallForRobotProcess;
-        // TODO: connect CallForProcess to RobotProcess
+        
 
 
 
@@ -27,7 +26,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 {
                     return int.Parse(Attributes.Where(stockDX => stockDX.Key == "RequiredStockDX").FirstOrDefault().Value);
                 }
-                else return 9999;
+                else return 99999;
             }
         }
 
@@ -41,7 +40,7 @@ namespace RFRCC_RobotController.Controller.DataModel
 
 
         // --- METHODS ---
-        public void CallForProcessResponse(bool success, object response = null)
+        public void CallForProcessResponse(bool success, object process = null, object response = null)
         {
             if (success && response != null)
             {
@@ -58,7 +57,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             if (CallForRobotProcess != null)
             {
-                CallForRobotProcess?.Invoke(this, new CallForProcessEventArgs(Attributes.Where(stockDX => stockDX.Key == "RobotProcess").FirstOrDefault().Value, true));
+                CallForRobotProcess?.Invoke(this, new CallForProcessEventArgs("StartManoeuvre"));
             }
             else throw new Exception("No listeners subscribed to Robot Process request");
 
