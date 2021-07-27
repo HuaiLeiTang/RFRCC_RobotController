@@ -14,10 +14,17 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         private List<OperationManoeuvre> _FeatureManoeuvres = new List<OperationManoeuvre>();
         private bool _StartWhenReady = false;
         private bool _WaitingForStart = false;
+        private bool _UploadedToRobot = false;
+        private bool _CompletedByRobot = false;
+        private bool _ProcessingInProgress = false;
+        private bool _PathParsedByRobot = false;
 
         // --- EVENTS ---
-        public event EventHandler FeatureRequestRobotContinue;
-
+        public event RobotComputedFeatureEventHandler FeatureRequestRobotContinue;
+        public event RobotComputedFeatureEventHandler FeatureInProgressChange;
+        public event RobotComputedFeatureEventHandler FeatureCompletedChange;
+        public event RobotComputedFeatureEventHandler FeatureUploadedChange;
+        public event RobotComputedFeatureEventHandler FeaturePathParsedChange;
 
         // --- PUBLIC PROPERTIES ---
         /// <summary>
@@ -59,38 +66,92 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         /// <summary>
         /// If robot is waiting for permission to start
         /// </summary>
-        public bool WaitingForStart 
-        { 
-            get { return _WaitingForStart; } 
-            internal set 
-            { 
-                _WaitingForStart = value; 
+        public bool WaitingForStart
+        {
+            get { return _WaitingForStart; }
+            internal set
+            {
+                _WaitingForStart = value;
                 if (value && _StartWhenReady) AllowRobotToContinue();
-            } 
+            }
         }
         /// <summary>
         /// if the job data has been uploadeded to robot for parsing yet
         /// </summary>
-        public bool UploadedToRobot { get; set; } = false;
+        public bool UploadedToRobot
+        {
+            get
+            {
+                return _UploadedToRobot;
+            }
+            internal set
+            {
+                if (_UploadedToRobot != value)
+                {
+                    _UploadedToRobot = value;
+                    FeatureUploadedChange?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+        /// <summary>
+        /// Indication if connected robot has parsed the path information with Robot configurations and placement
+        /// </summary>
+        public bool PathParsed
+        {
+            get
+            {
+                return _PathParsedByRobot;
+            }
+            internal set
+            {
+                if (_PathParsedByRobot != value)
+                {
+                    value = _PathParsedByRobot;
+                    FeaturePathParsedChange?.Invoke(this, new EventArgs());
+                }
+            }
+        }
         /// <summary>
         /// if the robot has indicated it has completed this operation
         /// </summary>
-        public bool CompletedByRobot { get; set; } = false;
+        public bool CompletedByRobot
+        {
+            get
+            {
+                return _CompletedByRobot;
+            }
+            internal set
+            {
+                _CompletedByRobot = value;
+                FeatureCompletedChange?.Invoke(this, new EventArgs());
+            }
+        }
         /// <summary>
         /// If robot is currently processing this operation
         /// </summary>
-        public bool InProgress { get; set; } = false;
+        public bool InProgress
+        {
+            get
+            {
+                return _ProcessingInProgress;
+            }
+            internal set
+            {
+                _ProcessingInProgress = value;
+                FeatureInProgressChange?.Invoke(this, new EventArgs());
+            }
+        }
         /// <summary>
         ///  status of autocontinue
         /// </summary>
-        public bool StartWhenReady 
+        public bool StartWhenReady
         {
-            get { return _StartWhenReady; } 
-            set 
+            get { return _StartWhenReady; }
+            set
             {
                 _StartWhenReady = value;
                 if (_StartWhenReady && WaitingForStart) AllowRobotToContinue();
-            } 
+            }
         }
         /// <summary>
         /// X displacement of stock required for completion of operation
@@ -146,4 +207,6 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
 
         // --- INTERNAL EVENTS & AUTOMATION ---
     }
+
+    public delegate void RobotComputedFeatureEventHandler(RobotComputedFeatures sender, EventArgs args);
 }

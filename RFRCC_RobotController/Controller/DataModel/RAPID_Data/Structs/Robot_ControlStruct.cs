@@ -39,6 +39,17 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private bool _Park_Req;
         private string _PC_Message;
         private ABB.Robotics.Controllers.Controller ControllerConnection;
+        // Robot Message Function
+        private RapidData _RobotMessageTrigger;
+        private RapidData _RobotMessageKey;
+        private RapidData _RobotMessageRelease;
+        private string _RobotMessageTriggerModule = "SQL_Comm";
+        private string _RobotMessageTriggerVARName = "TriggerMessagePC";
+        private string _RobotMessageKeyModule = "SQL_Comm";
+        private string _RobotMessageKeyVARName = "MessagePCKey";
+        private string _RobotMessageReleaseModule = "SQL_Comm";
+        private string _RobotMessageReleaseVARName = "MessagePCRelease";
+        private string _MessageKey = "";
 
         // -- EVENTS ---
         /// <summary>
@@ -180,9 +191,16 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 {
                     _PC_Message = value;
                     Update_Rapid();
-                    OnPC_MessageUpdate(new ControlStrucEventArgs(value));
                 }
             }
+        }
+        /// <summary>
+        /// Object Information displayed in string
+        /// </summary>
+        public string DisplayInfo
+        {
+            get { return $"{JobInProgress}, { JobID }, { TorchEnable }, { ManualControl_Req }, { StockXDisplacement }, { RobotEnabled }, {Park_Req}, { PC_Message } "; }
+
         }
 
         // --- CONSTRUCTORS ---
@@ -199,16 +217,13 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         {
             ControllerConnection = controller;
             Robot_Control_RAPID = RobotTask.GetRapidData(Module, RAPID_Name);
+            _RobotMessageTrigger = RobotTask.GetRapidData(_RobotMessageTriggerModule, _RobotMessageTriggerVARName);
+            _RobotMessageKey = RobotTask.GetRapidData(_RobotMessageKeyModule, _RobotMessageKeyVARName);
+            _RobotMessageRelease = RobotTask.GetRapidData(_RobotMessageReleaseModule, _RobotMessageReleaseVARName);
             ToString();
             InitialUpdateStruct();
             Robot_Control_RAPID.Subscribe(Update_Struct, EventPriority.High);
-        }
-        /// <summary>
-        /// Object Information displayed in string
-        /// </summary>
-        public string DisplayInfo
-        {
-            get { return $"{JobInProgress}, { JobID }, { TorchEnable }, { ManualControl_Req }, { StockXDisplacement }, { RobotEnabled }, {Park_Req}, { PC_Message } "; }
+            _RobotMessageTrigger.Subscribe(_RobotMessageTrigger_ValueChanged,EventPriority.High);
 
         }
         /// <summary>
@@ -218,6 +233,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         {
             DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
 
+            if (PC_Message != "\"" + RapidStruct[7].Value + "\"")
+            {
+                _PC_Message = RapidStruct[7].Value[1..^1];
+                OnPC_MessageUpdate();
+                ReleaseMessageRelease(false);
+            }
             if (JobInProgress != bool.Parse(RapidStruct[0].Value)) JobInProgress = bool.Parse(RapidStruct[0].Value);
             if (JobID != "\"" + RapidStruct[1].Value + "\"") JobID = RapidStruct[1].Value[1..^1];
             if (TorchEnable != bool.Parse(RapidStruct[2].Value)) TorchEnable = bool.Parse(RapidStruct[2].Value);
@@ -225,7 +246,6 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (StockXDisplacement != double.Parse(RapidStruct[4].Value)) StockXDisplacement = double.Parse(RapidStruct[4].Value);
             if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) RobotEnabled = bool.Parse(RapidStruct[5].Value);
             if (Park_Req != bool.Parse(RapidStruct[6].Value)) Park_Req = bool.Parse(RapidStruct[6].Value);
-            if (PC_Message != "\"" + RapidStruct[7].Value + "\"") PC_Message = RapidStruct[7].Value[1..^1];
         }
         /// <summary>
         /// Output Structure in string representation 
@@ -254,9 +274,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// </summary>
         /// <param name="sender">Network Controller</param>
         /// <param name="e">Data Changed Specification</param>
-        private void Update_Struct(object sender, DataValueChangedEventArgs e)
+        private void Update_Struct(object sender = null, DataValueChangedEventArgs e = null)
         {
-
             GetFromRapidData();
         }
         /// <summary>
@@ -285,7 +304,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(ControllerConnection.Rapid))
+                    using (Mastership m = Mastership.Request(ControllerConnection))
                     {
                         Robot_Control_RAPID.StringValue = ToString();
                     }
@@ -322,17 +341,53 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// Method to raise PC_MessageUpdate event
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnPC_MessageUpdate(ControlStrucEventArgs e)
+        protected virtual void OnPC_MessageUpdate(ControlStrucEventArgs e = null)
         {
-            EventHandler<ControlStrucEventArgs> handler = PC_MessageUpdate;
-            if (handler != null)
+            if (PC_MessageUpdate != null)
             {
-                handler(this, e);
+                PC_MessageUpdate.Invoke(this, new ControlStrucEventArgs(_PC_Message));
             }
             else // null
             {
                 Debug.WriteLine("struct OnValueUpdate handler not assigned");
             }
+        }
+        private void _RobotMessageTrigger_ValueChanged(object sender = null, DataValueChangedEventArgs e = null)
+        {
+            bool complete = false;
+            if (_MessageKey != _RobotMessageKey.StringValue)
+            {
+                _MessageKey = _RobotMessageKey.StringValue;
+
+                complete = ReleaseMessageRelease(complete);
+
+                Update_Struct();
+            }
+            ReleaseMessageRelease(complete);
+        }
+        /// <summary>
+        /// internal function to set release message variable on robot true, so that the robot knows the computer has responded
+        /// </summary>
+        /// <param name="complete"></param>
+        /// <returns></returns>
+        private bool ReleaseMessageRelease(bool complete)
+        {
+            while (!complete)
+            {
+                try
+                {
+                    using (Mastership m = Mastership.Request(ControllerConnection))
+                    {
+                        _RobotMessageRelease.StringValue = "TRUE";
+                    }
+                }
+                finally
+                {
+
+                    complete = true;
+                }
+            }
+            return complete;
         }
     }
 

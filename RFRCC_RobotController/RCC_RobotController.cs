@@ -180,36 +180,6 @@ namespace RFRCC_RobotController
 
 
         // --- METHODS ---
-        
-        /// <summary>
-        /// For Communication to Robot that message is being parsed and actioned
-        /// Soon to be outdated and unsupported from Controller Ver 2.0.0
-        /// </summary>
-        internal void MessageRecieved()
-        {
-            bool complete = false;
-            while (!complete)
-            {
-                try
-                {
-                    using (Mastership m = Mastership.Request(controller.Rapid))
-                    {
-                        dataModel.SQLMessageRecieve.Value = Bool.Parse("TRUE");
-                    }
-                    StatusMesssageChange(this, new StatusMesssageEventArgs("PC acknowledged message"));
-                    Debug.WriteLine("Acknoledged Controller Message");
-                }
-                catch
-                {
-                    StatusMesssageChange(this, new StatusMesssageEventArgs("Internal Error: failed to get mastership while acknowleging reciept of message"));
-                    complete = false;
-                }
-                finally
-                {
-                    complete = true;
-                }
-            }
-        }
         /// <summary>
         /// To react to Network Controller messages, triggering related events 
         /// to be outdated and unsupported from Controller Ver 2.0.0
@@ -313,7 +283,7 @@ namespace RFRCC_RobotController
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(controller.Rapid))
+                    using (Mastership m = Mastership.Request(controller))
                     {
                         dataModel.PCSDK_Complete.Value = Bool.Parse("TRUE");
                     }
@@ -487,7 +457,6 @@ namespace RFRCC_RobotController
 
             if (e.ValueName != "<CLEAR>" && e.ValueName != "")
             {
-                MessageRecieved();
                 StatusMesssageChange(this, new StatusMesssageEventArgs("RAPID Data Change: PC Message"));
                 StatusMesssageChange(this, new StatusMesssageEventArgs(ParseMessage(e.ValueName)));
             }

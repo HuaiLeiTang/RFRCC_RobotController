@@ -46,11 +46,11 @@ namespace RFRCC_RobotController.Controller.DataModel
             this.ActionStarted += OnRobotActionStarted;
             this.ActionPaused += OnRobotActionPaused;
             this.ActionCanceled += OnRobotActionCanceled;
-            
+            _featureData.FeatureCompletedChange += _featureData_FeatureCompletedChange;
         }
 
         // --- METHODS ---
-        
+
         public void CallForProcessResponse(bool success, object process = null, object response = null)
         {
             switch (process.GetType().Name)
@@ -95,6 +95,13 @@ namespace RFRCC_RobotController.Controller.DataModel
         protected virtual void OnRobotActionCanceled(object sender = null, EventArgs args = null)
         {
 
+        }
+        private void _featureData_FeatureCompletedChange(RobotComputedFeatures sender, EventArgs args)
+        {
+            if (_featureData.CompletedByRobot)
+            {
+                this.Complete(true);
+            }
         }
 
     }

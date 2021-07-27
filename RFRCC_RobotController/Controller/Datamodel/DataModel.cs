@@ -18,7 +18,6 @@ namespace RFRCC_RobotController.Controller.DataModel
     {
         // --- PRIVATE FIELDS ---
         private RobotController _parentController;
-        internal RapidData SQLMessageRecieve;
         internal RapidData SQLMessageError;
         internal RapidData PCConnected;
         internal RapidData RapidJobData;
@@ -182,7 +181,6 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (_parentController.tRob1 != null)
             {
                 _parentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Connecting to controller"));
-                SQLMessageRecieve = _parentController.tRob1.GetRapidData("SQL_Comm", "SQLMessageRecieve");
                 RapidJobData = _parentController.tRob1.GetRapidData("Module1", "Sys_JobData");
                 RapidFeatureData = _parentController.tRob1.GetRapidData("Module1", "Sys_FeatureData");
                 PCSDK_Complete = _parentController.tRob1.GetRapidData("SQL_Comm", "PCSDK_Complete");

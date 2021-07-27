@@ -7,11 +7,12 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
     /// <summary>
     /// Register of robot moves relating to a feature to be cut
     /// </summary>
-    public partial class PC_RobotMove_Register : IEnumerable, IEnumerator
+    public partial class PC_RobotMove_Register : IEnumerable<RobotComputedFeatures>, IEnumerator, IList<RobotComputedFeatures>
     {
         // --- INTERNAL FIELDS ---
         private List<RobotComputedFeatures> _ComputedFeatures = new List<RobotComputedFeatures>();
         private int _current;
+        private bool _readOnly = false;
 
         // --- EVENTS ---
         public event EventHandler CurrentStockDXUpdated;
@@ -44,6 +45,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         /// Current Feature to be processed by machine
         /// </summary>
         object IEnumerator.Current => _ComputedFeatures[_current];
+        /// <summary>
+        /// Not Correctly implemented
+        /// </summary>
+        public bool IsReadOnly => _readOnly;
+
         /// <summary>
         /// Returns Computed feature at indexed location
         /// </summary>
@@ -191,6 +197,16 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         {
             _current = 0;
         }
+        IEnumerator<RobotComputedFeatures> IEnumerable<RobotComputedFeatures>.GetEnumerator()
+        {
+            return _ComputedFeatures.GetEnumerator();
+        }
+        public int IndexOf(RobotComputedFeatures item) => _ComputedFeatures.IndexOf(item);
+        public void Insert(int index, RobotComputedFeatures item) => _ComputedFeatures.Insert(index, item);
+        public void RemoveAt(int index) => _ComputedFeatures.RemoveAt(index);
+        public bool Contains(RobotComputedFeatures item) => _ComputedFeatures.Contains(item);
+        public void CopyTo(RobotComputedFeatures[] array, int arrayIndex) => _ComputedFeatures.CopyTo(array, arrayIndex);
+        public bool Remove(RobotComputedFeatures item) => _ComputedFeatures.Remove(item);
 
         // --- INTERNAL EVENTS AND AUTOMATION ---
         protected virtual void OnCurrentStockDXUpdated(object sedner = null, EventArgs args = null)
@@ -200,5 +216,6 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             CurrentStockDXUpdated?.Invoke(sendme, sendargs);
         }
 
+        
     }
 }
