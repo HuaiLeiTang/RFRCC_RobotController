@@ -13,7 +13,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         RobotComputedFeatures _featureData;
 
         // --- EVENTS ---
-        public event EventHandler RequiredStockDXUpdate;
+        public event OperationRobotManoeuvreEventHandler RequiredStockDXUpdate;
         public event CallForProcessEventHandler CallForRobotProcess;
 
         // TODO: connect RequiredStockDXUpdate to something?
@@ -46,8 +46,11 @@ namespace RFRCC_RobotController.Controller.DataModel
             this.ActionStarted += OnRobotActionStarted;
             this.ActionPaused += OnRobotActionPaused;
             this.ActionCanceled += OnRobotActionCanceled;
+            _featureData.FeatureIdealXDisplacementChange += _featureData_FeatureIdealXDisplacementChange; ;
             _featureData.FeatureCompletedChange += _featureData_FeatureCompletedChange;
         }
+
+        
 
         // --- METHODS ---
 
@@ -103,6 +106,12 @@ namespace RFRCC_RobotController.Controller.DataModel
                 this.Complete(true);
             }
         }
-
+        private void _featureData_FeatureIdealXDisplacementChange(RobotComputedFeatures sender, EventArgs args)
+        {
+            this.Attributes["RequiredStockDX"] = RequiredStockDX.ToString();
+            RequiredStockDXUpdate?.Invoke(this, new EventArgs());
+        }
     }
+
+    public delegate void OperationRobotManoeuvreEventHandler(OperationRobotManoeuvre sender, EventArgs args);
 }

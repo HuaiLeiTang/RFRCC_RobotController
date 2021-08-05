@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RFRCC_RobotController.Controller.DataModel.OperationData;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Action.ActionCompleted += OnOperationActionCompleted;
                 Action.ActionSkipUpdated += OnOperationSkipUpdated;
                 Action.ActionStarted += OnOperationStarted;
+                if (Action is OperationRobotManoeuvre) ((OperationRobotManoeuvre)Action).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
             }
         }
         /// <summary>
@@ -139,6 +141,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             _operationActions.Last().ActionCompleted += OnOperationActionCompleted;
             _operationActions.Last().ActionSkipUpdated += OnOperationSkipUpdated;
             _operationActions.Last().ActionStarted += OnOperationStarted;
+            if (_operationActions.Last() is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions.Last()).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
             OnOperationActionsListChanged(this, new EventArgs());
         }
         /// <summary>
@@ -153,6 +156,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 _operationActions.Last().ActionCompleted += OnOperationActionCompleted;
                 _operationActions.Last().ActionSkipUpdated += OnOperationSkipUpdated;
                 _operationActions.Last().ActionStarted += OnOperationStarted;
+                if (_operationActions.Last() is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions.Last()).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
             }
             OnOperationActionsListChanged(this, new EventArgs());
         }
@@ -279,6 +283,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             _operationActions[index].ActionCompleted += OnOperationActionCompleted;
             _operationActions[index].ActionSkipUpdated += OnOperationSkipUpdated;
             _operationActions[index].ActionStarted += OnOperationStarted;
+            
             OnOperationActionsListChanged(this, new EventArgs());
 
         }
@@ -291,6 +296,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             _operationActions[index].ActionCompleted -= OnOperationActionCompleted;
             _operationActions[index].ActionSkipUpdated -= OnOperationSkipUpdated;
             _operationActions[index].ActionStarted -= OnOperationStarted;
+            if (_operationActions[index] is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions[index]).RequiredStockDXUpdate -= OnRobotManoeuvreIdealDXUpdate;
             _operationActions.RemoveAt(index);
             OnOperationActionsListChanged(this, new EventArgs());
         }
@@ -363,6 +369,19 @@ namespace RFRCC_RobotController.Controller.DataModel
         protected virtual void OnOperationsAllComplete()
         {
             OperationsAllComplete?.Invoke(this, new EventArgs());
+        }
+        /// <summary>
+        /// This will fire when an OperationRobotManoeuvre updates the required DX, and thus, the previous PLC process must be updated to reflect this requirement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnRobotManoeuvreIdealDXUpdate(OperationRobotManoeuvre sender, EventArgs args)
+        {
+            int i = 0;
+            if (_operationActions[_operationActions.IndexOf(sender) - 1] is OperationPLCProcess && _operationActions[_operationActions.IndexOf(sender) - 1].Name == "Drive Stock to next position")
+            {
+                _operationActions[_operationActions.IndexOf(sender) - 1].Attributes["RequiredStockDX"] = sender.RequiredStockDX.ToString();
+            }
         }
     }
 }
