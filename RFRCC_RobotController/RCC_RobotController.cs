@@ -198,10 +198,18 @@ namespace RFRCC_RobotController
             switch (MessageHeader)
             {
                 case "FEATBUFF":
+                    Debug.WriteLine("FeatureBuffer message recieved: " + MessageString);
                     string FeatBuff = MessageString.Split("<Feature>")[1].Split("</>")[0];
                     string Carriage = MessageString.Split("<Carriage>")[1].Split("</>")[0];
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to upload feature: " + FeatBuff));
-                    dataModel.UpdateRobot("manoeuvre", int.Parse(FeatBuff), int.Parse(Carriage));
+                    if (ManoeuvreUpdate(this, new RobotController.ManoeuvreUpdateEventArgs(int.Parse(FeatBuff), int.Parse(Carriage), dataModel.CurrentJob.OperationRobotMoveData)))
+                    {
+                        StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("Successfully transferred Manoeuvre to Robot"));
+                    }
+                    else
+                    {
+                        StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs("ERROR in transfer Manoeuvre to Robot"));
+                    }
                     PCSDK_Work_Complete();
                     return "Updated Robot Manoruvre Buffer with Feature " + FeatBuff;
 
@@ -226,7 +234,7 @@ namespace RFRCC_RobotController
                     StatusMesssageChange(this, new StatusMesssageEventArgs("About to update opt_x for feature: " + FeatAndXOpt[0]));
 
                     //OnUpdateFeatureOptimalX(this, new UpdateFeatureOptimalXEventArgs(Robot_Control.JobID, int.Parse(FeatAndXOpt[0]), decimal.Parse(FeatAndXOpt[1])));
-                    dataModel.CurrentJob.OperationRobotMoveData.Operation[int.Parse(FeatAndXOpt[0]) - 1].FeatureHeader.IdealXDisplacement = double.Parse(FeatAndXOpt[1]);
+                    dataModel.CurrentJob.OperationRobotMoveData.Operation[int.Parse(FeatAndXOpt[0]) - 1].IdealXDisplacement = double.Parse(FeatAndXOpt[1]);
 
                     PCSDK_Work_Complete();
                     return "Updated Feature " + FeatAndXOpt[0] + " X_Optimal to " + FeatAndXOpt[1];
@@ -278,6 +286,8 @@ namespace RFRCC_RobotController
         /// </summary>
         private void PCSDK_Work_Complete()
         {
+            Debug.WriteLine("PCSDK_Complete set to true");
+
             bool complete = false;
             while (!complete)
             {
@@ -286,6 +296,7 @@ namespace RFRCC_RobotController
                     using (Mastership m = Mastership.Request(controller))
                     {
                         dataModel.PCSDK_Complete.Value = Bool.Parse("TRUE");
+                        m.Release();
                     }
                 }
                 catch
@@ -316,6 +327,7 @@ namespace RFRCC_RobotController
                     {
                         tRob1.ResetProgramPointer();
                         startResult = tRob1.Start();
+                        m.Release();
                     }
                 }
                 catch
@@ -356,6 +368,7 @@ namespace RFRCC_RobotController
                     using (Mastership m = Mastership.Request(controller))
                     {
                         tRob1.Stop(StopMode.Immediate);
+                        m.Release();
                     }
                 }
                 catch
@@ -540,17 +553,6 @@ namespace RFRCC_RobotController
             }
         }
         /// <summary>
-        /// Custom Delegate for event where network controller requests updated manoeuvre information
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <returns>If network controller has been successfully updated with requested manoeuvre information</returns>
-        public delegate bool OnManoeuvreUpdateEventHandler(RobotController sender, ManoeuvreUpdateEventArgs e);
-        /// <summary>
-        /// Event triggered when network controller requests manoeuvre information update
-        /// </summary>
-        public event OnManoeuvreUpdateEventHandler OnManoeuvreUpdate;
-        /// <summary>
         /// custom arguements for OnManoeuvreUpdate event
         /// </summary>
         public class ManoeuvreUpdateEventArgs : EventArgs
@@ -576,13 +578,7 @@ namespace RFRCC_RobotController
         internal protected virtual bool ManoeuvreUpdate(RobotController sender, ManoeuvreUpdateEventArgs e)
         {
             dataModel.jobHeader.FeatureQuant = dataModel.CurrentJob.OperationRobotMoveData.Operation.Count;
-            bool ReturnVal = dataModel.CurrentJob.OperationRobotMoveData.UploadData(e.ManoeuvreNum, e.Carriage);
-
-            if (OnManoeuvreUpdate != null)
-            {
-                return OnManoeuvreUpdate(sender, e);
-            }
-            return true;
+            return dataModel.CurrentJob.OperationRobotMoveData.UploadData(e.ManoeuvreNum, e.Carriage);
         }
 
         public class ProgramStartEventArgs : EventArgs

@@ -125,9 +125,10 @@ namespace RFRCC_RobotController.Controller
                 {
                     try
                     {
-                        using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
+                        using (Mastership m = Mastership.Request(_parentController.controller))
                         {
                             _parentController.dataModel.PCConnected.Value = RapidBool.Parse("TRUE");
+                            m.Release();
                         }
                     }
                     catch

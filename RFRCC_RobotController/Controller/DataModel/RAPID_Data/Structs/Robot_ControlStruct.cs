@@ -49,7 +49,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _RobotMessageKeyVARName = "MessagePCKey";
         private string _RobotMessageReleaseModule = "SQL_Comm";
         private string _RobotMessageReleaseVARName = "MessagePCRelease";
-        private string _MessageKey = "";
+        private string _MessageKey = "\"\"";
 
         // -- EVENTS ---
         /// <summary>
@@ -220,11 +220,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _RobotMessageTrigger = RobotTask.GetRapidData(_RobotMessageTriggerModule, _RobotMessageTriggerVARName);
             _RobotMessageKey = RobotTask.GetRapidData(_RobotMessageKeyModule, _RobotMessageKeyVARName);
             _RobotMessageRelease = RobotTask.GetRapidData(_RobotMessageReleaseModule, _RobotMessageReleaseVARName);
-            ToString();
             InitialUpdateStruct();
             Robot_Control_RAPID.Subscribe(Update_Struct, EventPriority.High);
-            _RobotMessageTrigger.Subscribe(_RobotMessageTrigger_ValueChanged,EventPriority.High);
-
+            _RobotMessageTrigger.Subscribe(_RobotMessageTrigger_ValueChanged, EventPriority.High);
         }
         /// <summary>
         /// Download Data from Network Controller
@@ -232,13 +230,13 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         public void GetFromRapidData()
         {
             DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
-
-            if (PC_Message != "\"" + RapidStruct[7].Value + "\"")
+            /* Getting rid of PC message to be hanbled the alternate way
+            if ("\""+ PC_Message + "\"" != RapidStruct[7].Value)
             {
                 _PC_Message = RapidStruct[7].Value[1..^1];
                 OnPC_MessageUpdate();
                 ReleaseMessageRelease(false);
-            }
+            }*/
             if (JobInProgress != bool.Parse(RapidStruct[0].Value)) JobInProgress = bool.Parse(RapidStruct[0].Value);
             if (JobID != "\"" + RapidStruct[1].Value + "\"") JobID = RapidStruct[1].Value[1..^1];
             if (TorchEnable != bool.Parse(RapidStruct[2].Value)) TorchEnable = bool.Parse(RapidStruct[2].Value);
@@ -291,7 +289,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (StockXDisplacement != float.Parse(RapidStruct[4].Value)) _StockXDisplacement = float.Parse(RapidStruct[4].Value);
             if (RobotEnabled != bool.Parse(RapidStruct[5].Value)) _RobotEnabled = bool.Parse(RapidStruct[5].Value);
             if (Park_Req != bool.Parse(RapidStruct[6].Value)) _Park_Req = bool.Parse(RapidStruct[6].Value);
-            if (PC_Message != "\"" + RapidStruct[7].Value + "\"") _PC_Message = RapidStruct[7].Value[1..^1];
+            // knocking out use of PC_Message via this service
+            /*if (PC_Message != "\"" + RapidStruct[7].Value + "\"") _PC_Message = RapidStruct[7].Value[1..^1];*/
         }
         /// <summary>
         /// Update Network controller with object data
@@ -307,6 +306,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                     using (Mastership m = Mastership.Request(ControllerConnection))
                     {
                         Robot_Control_RAPID.StringValue = ToString();
+                        m.Release();
                     }
                 }
                 catch
@@ -346,6 +346,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             if (PC_MessageUpdate != null)
             {
                 PC_MessageUpdate.Invoke(this, new ControlStrucEventArgs(_PC_Message));
+
             }
             else // null
             {
@@ -354,16 +355,24 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         }
         private void _RobotMessageTrigger_ValueChanged(object sender = null, DataValueChangedEventArgs e = null)
         {
+            Debug.WriteLine("Message Trigger fired");
             bool complete = false;
             if (_MessageKey != _RobotMessageKey.StringValue)
             {
                 _MessageKey = _RobotMessageKey.StringValue;
-
+                DataNode[] RapidStruct = Robot_Control_RAPID.Value.ToStructure().Children.ToArray();
+                _PC_Message = RapidStruct[7].Value[1..^1];
+                Debug.WriteLine("Message: " + _PC_Message);
                 complete = ReleaseMessageRelease(complete);
 
-                Update_Struct();
+                OnPC_MessageUpdate();
             }
-            ReleaseMessageRelease(complete);
+            else
+            {
+                Debug.WriteLine("Message Key Already seen");
+                ReleaseMessageRelease(complete);
+            }
+            
         }
         /// <summary>
         /// internal function to set release message variable on robot true, so that the robot knows the computer has responded
@@ -379,11 +388,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                     using (Mastership m = Mastership.Request(ControllerConnection))
                     {
                         _RobotMessageRelease.StringValue = "TRUE";
+                        m.Release();
                     }
                 }
                 finally
                 {
-
+                    Debug.WriteLine("Message Released");
                     complete = true;
                 }
             }

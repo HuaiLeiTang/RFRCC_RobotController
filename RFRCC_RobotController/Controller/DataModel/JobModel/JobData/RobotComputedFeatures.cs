@@ -1,6 +1,7 @@
 ﻿using RFRCC_RobotController.Controller.DataModel.RAPID_Data;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RFRCC_RobotController.Controller.DataModel.OperationData
 {
@@ -25,6 +26,7 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         public event RobotComputedFeatureEventHandler FeatureCompletedChange;
         public event RobotComputedFeatureEventHandler FeatureUploadedChange;
         public event RobotComputedFeatureEventHandler FeaturePathParsedChange;
+        public event RobotComputedFeatureEventHandler FeatureIdealXDisplacementChange;
 
         // --- PUBLIC PROPERTIES ---
         /// <summary>
@@ -71,8 +73,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             get { return _WaitingForStart; }
             internal set
             {
-                _WaitingForStart = value;
-                if (value && _StartWhenReady) AllowRobotToContinue();
+                if (_WaitingForStart != value)
+                {
+                    _WaitingForStart = value;
+                    if (value && _StartWhenReady) AllowRobotToContinue();
+                }
             }
         }
         /// <summary>
@@ -122,8 +127,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             }
             internal set
             {
-                _CompletedByRobot = value;
-                FeatureCompletedChange?.Invoke(this, new EventArgs());
+                if (_CompletedByRobot != value)
+                {
+                    _CompletedByRobot = value;
+                    FeatureCompletedChange?.Invoke(this, new EventArgs());
+                }
             }
         }
         /// <summary>
@@ -137,8 +145,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             }
             internal set
             {
-                _ProcessingInProgress = value;
-                FeatureInProgressChange?.Invoke(this, new EventArgs());
+                if (_ProcessingInProgress != value)
+                {
+                    _ProcessingInProgress = value;
+                    FeatureInProgressChange?.Invoke(this, new EventArgs());
+                }
             }
         }
         /// <summary>
@@ -149,8 +160,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             get { return _StartWhenReady; }
             set
             {
-                _StartWhenReady = value;
-                if (_StartWhenReady && WaitingForStart) AllowRobotToContinue();
+                if (_StartWhenReady != value)
+                {
+                    _StartWhenReady = value;
+                    if (_StartWhenReady && WaitingForStart) AllowRobotToContinue();
+                }
             }
         }
         /// <summary>
@@ -164,7 +178,11 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
             }
             internal set
             {
-                _FeatureHeader.IdealXDisplacement = value;
+                if (_FeatureHeader.IdealXDisplacement != value)
+                {
+                    _FeatureHeader.IdealXDisplacement = value;
+                    FeatureIdealXDisplacementChange?.Invoke(this, new EventArgs());
+                }
             }
         }
 
@@ -200,7 +218,10 @@ namespace RFRCC_RobotController.Controller.DataModel.OperationData
         // --- METHODS ---
         public void AllowRobotToContinue()
         {
-            if (FeatureRequestRobotContinue != null) throw new Exception("no subscriber to Robot start");
+            if (FeatureRequestRobotContinue != null)
+            {
+                Debug.WriteLine("WARNING: no subscriber to Robot start");
+            }
             FeatureRequestRobotContinue?.Invoke(this, new EventArgs());
         }
 

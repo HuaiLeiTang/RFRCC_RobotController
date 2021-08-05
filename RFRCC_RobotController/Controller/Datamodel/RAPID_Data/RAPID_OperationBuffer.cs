@@ -18,12 +18,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private RapidData _ManBufferRD;
         private RapidData _HeadBufferRD;
         private RapidData _RobSystemData;
-        // Operation Starting Routine
+        // Operation Manoeuvre Starting Routine
         private RapidData _OperationWaitingForStart;
         private RapidData _OperationWaitingKey;
         private RapidData _OperationWaitingTrigger;
         private RapidData _OperationStartPermission;
-        // Operation Completed Routine
+        // Operation Manoeuvre Completed Routine
         private RapidData _OperationCompletedTrigger;
         private RapidData _OperationCompletedKey;
         private RapidData _OperationCompletedNum;
@@ -37,7 +37,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _OpHeadVARName;
         private string _RobSysDataModule = "Module1";
         private string _RobSysDataVARName = "Sys_RobData";
-        // Operation Starting Routine
+        // Operation Manoeuvre Starting Routine
         private string _OperationWaitingForStartModule = "PC_Manoeuvre_Register";
         private string _OperationWaitingForStartVARName = "WaitingOnStart";
         private string _OperationWaitingKeyModule = "PC_Manoeuvre_Register";
@@ -46,8 +46,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _OperationWaitingTriggerVARName = "TriggerWaitingOnStart";
         private string _OperationStartPermissionModule = "PC_Manoeuvre_Register";
         private string _OperationStartPermissionVARName = "StartPermission";
-        private string _RobotWaitingKey = "";
-        // Operation Completed Routine
+        private string _RobotWaitingKey = "\"\"";
+        // Operation Manoeuvre Completed Routine
         private string _OperationCompletedTriggerModule = "PC_Manoeuvre_Register";
         private string _OperationCompletedTriggerVARName = "TriggerCompletedManoeuvre";
         private string _OperationCompletedKeyModule = "PC_Manoeuvre_Register";
@@ -56,7 +56,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         private string _OperationCompletedNumVARName = "CompletedManoeuvreNum";
         private string _OperationCompletedReleaseModule = "PC_Manoeuvre_Register";
         private string _OperationCompletedReleaseVARName = "CompletedManoeuvreRelease";
-        private string _RobotOperationCompleteKey = "";
+        private string _RobotOperationCompleteKey = "\"\"";
 
         private bool _connected = false;
         private bool _currentJob = false;
@@ -67,8 +67,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         public event EventHandler NewCurrentOperation;
         public event EventHandler NewUploadedOperation;
         public event EventHandler OperationStarted;
-        public event EventHandler OperationCompleted;
-        public event ActionStartRequestEventHandler OperationWaitingForStart;
+        public event ActionRequestEventHandler OperationCompleted;
+        public event ActionRequestEventHandler OperationWaitingForStart;
 
 
         // --- PROPERTIES ---
@@ -161,6 +161,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                         {
                             _OperationStartPermission.StringValue = value.ToString().ToUpper();
                             _OperationWaitingForStart.StringValue = "FALSE";
+                            m.Release();
                         }
                     }
                     catch
@@ -264,20 +265,20 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             _ManBufferRD = _ParentController.tRob1.GetRapidData(_OpManModule, _OpManVARName);
             _HeadBufferRD = _ParentController.tRob1.GetRapidData(_OpHeadModule, _OpHeadVARName);
             _RobSystemData = _ParentController.tRob1.GetRapidData(_RobSysDataModule, _RobSysDataVARName);
-            // Operation Starting Routine
+            // Operation Manoeuvre Starting Routine
             _OperationWaitingForStart = _ParentController.tRob1.GetRapidData(_OperationWaitingForStartModule, _OperationWaitingForStartVARName);
             _OperationWaitingKey = _ParentController.tRob1.GetRapidData(_OperationWaitingKeyModule, _OperationWaitingKeyVARName);
             _OperationWaitingTrigger = _ParentController.tRob1.GetRapidData(_OperationWaitingTriggerModule, _OperationWaitingTriggerVARName);
             _OperationStartPermission = _ParentController.tRob1.GetRapidData(_OperationStartPermissionModule, _OperationStartPermissionVARName);
-            // Operation Completed Routine
+            // Operation Manoeuvre Completed Routine
             _OperationCompletedTrigger = _ParentController.tRob1.GetRapidData(_OperationCompletedTriggerModule, _OperationCompletedTriggerVARName);
             _OperationCompletedKey = _ParentController.tRob1.GetRapidData(_OperationCompletedKeyModule, _OperationCompletedKeyVARName);
             _OperationCompletedNum = _ParentController.tRob1.GetRapidData(_OperationCompletedNumModule, _OperationCompletedNumVARName);
             _OperationCompletedRelease = _ParentController.tRob1.GetRapidData(_OperationCompletedReleaseModule, _OperationCompletedReleaseVARName);
 
             _RobSystemData.Subscribe(OnRobSystemDataUpdate, EventPriority.High);
-            _OperationWaitingTrigger.Subscribe(OnOperationWaitingForStartChange, EventPriority.High);
-            _OperationCompletedTrigger.Subscribe(OnOperationCompletedChange, EventPriority.High);
+            _OperationWaitingTrigger.Subscribe(OnRobotManoeuvreWaitingForStartChange, EventPriority.High);
+            _OperationCompletedTrigger.Subscribe(OnRobotManoeuvreCompletedChange, EventPriority.High);
             //_OperationWaitingForStart.ValueChanged += OnOperationWaitingForStartChange;
 
             _SizeOfManBuffer = _ManBufferRD.StringValue.Split(',').Count() / new OperationManoeuvre().ToString().Split(',').Count();
@@ -523,11 +524,13 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                     {
                         _HeadBufferRD.StringValue = OpHeaderStringToUpload;
                         _ManBufferRD.StringValue = OpManStringToUpload;
+                        m.Release();
                     }
                 }
                 catch
                 {
                     complete = false;
+                    Debug.WriteLine(string.Format("Wrote Feature:{0} to Buffer", feature));
                 }
                 finally
                 {
@@ -547,7 +550,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// <returns></returns>
         public bool UploadData(int feature, int carriage)
         {
-
+            
             // check if feature exists
             if (_Operations.Count < feature) return false;
             _Operations[feature - 1].UploadedToRobot = true;
@@ -576,12 +579,12 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(_ParentController.controller.Rapid))
+                    using (Mastership m = Mastership.Request(_ParentController.controller))
                     {
                         _HeadBufferRD.StringValue = OpHeaderStringToUpload;
                         _ManBufferRD.StringValue = OpManStringToUpload;
 
-                        //m.Release(); // this may not work...
+                        m.Release();
                     }
                 }
                 catch
@@ -591,7 +594,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 finally
                 {
                     complete = true;
-
+                    Debug.WriteLine(string.Format("Wrote Feature:{0}.{1} to Buffer", feature,carriage));
                 }
             }
 
@@ -623,6 +626,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                         using (Mastership m = Mastership.Request(_ParentController.controller))
                         {
                             _OperationWaitingForStart.StringValue = "FALSE";
+                            m.Release();
                         }
                     }
                     catch
@@ -639,7 +643,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 sender.InProgress = true;
 
                 OperationStarted?.Invoke(sender, new EventArgs());
-                _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("Robot Controller indicated completed feature {0}", _Operations.IndexOf(sender))));
+                _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("Robot Controller indicated started feature {0}", _Operations.IndexOf(sender))));
             }
         }
         
@@ -692,7 +696,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             }
             if (NewuploadedFeature) NewUploadedOperation?.Invoke(this, new EventArgs());
         }
-        protected virtual void OnOperationCompletedChange(object sender = null, EventArgs args = null)
+        protected virtual void OnRobotManoeuvreCompletedChange(object sender = null, EventArgs args = null)
         {
             if(_RobotOperationCompleteKey != _OperationCompletedKey.StringValue)
             {
@@ -706,6 +710,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                         using (Mastership m = Mastership.Request(_ParentController.controller))
                         {
                             _OperationCompletedRelease.StringValue = "TRUE";
+                            m.Release();
                         }
                     }
                     finally
@@ -719,8 +724,17 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                 Operation.Feature(FeatureNum).InProgress = false;
                 Operation.Feature(FeatureNum).CompletedByRobot = true;
 
-                OperationCompleted?.Invoke(Operation.Feature(FeatureNum), new EventArgs());
-                _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("Robot Controller indicated completed feature {0}", FeatureNum)));
+                List<OperationRobotManoeuvre> RobMans = new List<OperationRobotManoeuvre>();
+                foreach (IOperationAction operation in _ParentController.dataModel.CurrentJob.operationActions.Where(op => op is OperationRobotManoeuvre))
+                {
+                    RobMans.Add((OperationRobotManoeuvre)operation);
+                }
+                OperationRobotManoeuvre RobMan = RobMans.Where(op => op.featureData.FeatureHeader.FeatureNum == FeatureNum).FirstOrDefault();
+                
+                // complete process for robot manoeuvre
+                _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("Robot Controller indicated completed feature {0}, Operation: {1}", FeatureNum, _ParentController.dataModel.CurrentJob.operationActions.IndexOf(RobMan))));
+                RobMan.featureData.CompletedByRobot = true;
+                OperationCompleted?.Invoke(RobMan, new EventArgs());
             }
         }
         /// <summary>
@@ -729,8 +743,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected virtual void OnOperationWaitingForStartChange(object sender = null, EventArgs args = null)
+        protected virtual void OnRobotManoeuvreWaitingForStartChange(object sender = null, EventArgs args = null)
         {
+            Debug.WriteLine("Waiting for start trigger recieved");
             if (_RobotWaitingKey != _OperationWaitingKey.StringValue && _OperationWaitingForStart.StringValue.ToLower() == "true")
             {
                 // set key so that no other process will double complete
@@ -738,9 +753,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
 
                 int FeatureNum = int.Parse(_RobSystemData.StringValue.Trim('[', ']').Split(',')[11]);
                 bool startReq = bool.Parse(_OperationWaitingForStart.StringValue);
+                Debug.WriteLine(string.Format("feature: {0} set to start: {1}",FeatureNum, startReq));
 
                 if (startReq)
                 {
+                    _RobotWaiting = true;
                     Operation.Feature(FeatureNum).WaitingForStart = true;
                     List<OperationRobotManoeuvre> RobMans = new List<OperationRobotManoeuvre>();
                     foreach (IOperationAction operation in _ParentController.dataModel.CurrentJob.operationActions.Where(op => op is OperationRobotManoeuvre))
@@ -748,8 +765,9 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
                         RobMans.Add((OperationRobotManoeuvre)operation);
                     }
                     OperationRobotManoeuvre RobMan = RobMans.Where(op => op.featureData.FeatureHeader.FeatureNum == FeatureNum).FirstOrDefault();
-                    OperationWaitingForStart?.Invoke(RobMan, new EventArgs());
                     _ParentController.StatusMesssageChange(this, new RobotController.StatusMesssageEventArgs(string.Format("Robot Controller indicated feature {0} is waiting to be executed", FeatureNum)));
+                    // starts robot and sets featureData status if started or not
+                    RobMan.featureData.InProgress = (bool)OperationWaitingForStart?.Invoke(RobMan, new EventArgs());
                 }
             }
         }

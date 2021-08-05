@@ -125,10 +125,11 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
             {
                 try
                 {
-                    using (Mastership m = Mastership.Request(_Controller.Rapid))
+                    using (Mastership m = Mastership.Request(_Controller))
                     {
 
                         _RAPIDdata.StringValue = sendme;
+                        m.Release();
                     }
                 }
                 catch

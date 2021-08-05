@@ -86,11 +86,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         protected virtual void OnRobotActionStarted(object sender = null, EventArgs args = null)
         {
             featureData.StartWhenReady = true;
-
+            CallForRobotProcess(this, new CallForProcessEventArgs("StartManoeuvre"));
         }
         protected virtual void OnRobotActionPaused(object sender = null, EventArgs args = null)
         {
-            CallForRobotProcess(this, new CallForProcessEventArgs("StartManoeuvre"));
+            
         }
         protected virtual void OnRobotActionCanceled(object sender = null, EventArgs args = null)
         {

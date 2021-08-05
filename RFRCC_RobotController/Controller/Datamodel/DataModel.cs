@@ -207,9 +207,10 @@ namespace RFRCC_RobotController.Controller.DataModel
                 {
                     try
                     {
-                        using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
+                        using (Mastership m = Mastership.Request(_parentController.controller))
                         {
                             PCConnected.Value = RapidBool.Parse("TRUE");
+                            m.Release();
                         }
                     }
                     catch
@@ -262,10 +263,11 @@ namespace RFRCC_RobotController.Controller.DataModel
                     {
                         try
                         {
-                            using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
+                            using (Mastership m = Mastership.Request(_parentController.controller))
                             {
                                 // TODO: REMOVE SQL DEPENDENCIE
                                 RapidJobData.StringValue = Header_JobData_RapidBuffer.ToString();
+                                m.Release();
                             }
                         }
                         catch
@@ -299,9 +301,10 @@ namespace RFRCC_RobotController.Controller.DataModel
                     {
                         try
                         {
-                            using (Mastership m = Mastership.Request(_parentController.controller.Rapid))
+                            using (Mastership m = Mastership.Request(_parentController.controller))
                             {
                                 RapidFeatureData.StringValue = Header_FeatureData_RapidBuffer.ToString();
+                                m.Release();
                             }
                         }
                         catch
@@ -313,22 +316,6 @@ namespace RFRCC_RobotController.Controller.DataModel
                         {
                             complete = true;
                         }
-                    }
-
-                    break;
-
-                case "manoeuvre":
-
-                    _parentController.StatusMesssageChange(_parentController, new RobotController.StatusMesssageEventArgs("Robot requested Manoeuvre " + FeatureNum.ToString() + ". Sending to Robot"));
-
-                    //raise event to write manoeuvre 
-                    if (_parentController.ManoeuvreUpdate(_parentController, new RobotController.ManoeuvreUpdateEventArgs(FeatureNum, Carriage, CurrentJob.OperationRobotMoveData)))
-                    {
-                        _parentController.StatusMesssageChange(_parentController, new RobotController.StatusMesssageEventArgs("Successfully transferred Manoeuvre to Robot"));
-                    }
-                    else
-                    {
-                        _parentController.StatusMesssageChange(_parentController, new RobotController.StatusMesssageEventArgs("ERROR in transfer Manoeuvre to Robot"));
                     }
 
                     break;
