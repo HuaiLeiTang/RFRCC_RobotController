@@ -87,6 +87,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         public ToolData ToolData { get; set; } = new ToolData();
 
         // --- CONSTRUCTORS ---
+        // TODO: Make a disposal method
         /// <summary>
         /// Initialised object with job process to follow
         /// if job process template not provided, default process will be used
@@ -102,6 +103,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             Status = new JobStatus(this);
             ProcessSettings = new JobProcessSettings(this);
             operationActions = new OperationActionList();
+            ProcessSettings.StockDXPrecisionToleranceChanged += operationActions.OnProcessSettingsStockDXPrecisionsToleranceChange;
             operationActions.OperationActionRequestPause += OnOperationActionRequestPause;
             operationActions.OperationsAllComplete += OnJobCompleted;
             operationActions.OperationActionCompleted += OnOperationCompleted;

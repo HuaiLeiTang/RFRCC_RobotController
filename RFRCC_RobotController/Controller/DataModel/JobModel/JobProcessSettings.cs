@@ -14,6 +14,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         internal CS_speeddata _BottomMoveSpeed;
         internal CS_speeddata _FrontMoveSpeed;
         internal CS_speeddata _BackMoveSpeed;
+        internal double _StockDXPrecisionTolerance_Positive;
+        internal double _StockDXPrecisionTolerance_Negative;
 
         internal bool _takeMachineSettings = true;
 
@@ -46,6 +48,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Event when TakeMachineSettings has been changed
         /// </summary>
         public event EventHandler TakeMachineSettingsChanged;
+        /// <summary>
+        /// If the stock required precision is to change, this event will fire
+        /// </summary>
+        public event EventHandler StockDXPrecisionToleranceChanged;
 
         // --- CONSTRUCTORS ---
         /// <summary>
@@ -55,6 +61,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         public JobProcessSettings(JobModel ParentJob)
         {
             _parentJob = ParentJob;
+            _StockDXPrecisionTolerance_Positive = 100;
+            _StockDXPrecisionTolerance_Negative = 100;
         }
 
 
@@ -173,6 +181,42 @@ namespace RFRCC_RobotController.Controller.DataModel
                 _BackMoveSpeed = value;
                 OnBackMoveSpeedChange();
             }
+        }
+        /// <summary>
+        /// Positive tolerance in requested position from Robot for robot manoeuvre
+        /// </summary>
+        public double StockDXPrecisionTolerance_Positive 
+        {
+            get
+            {
+                return _StockDXPrecisionTolerance_Positive;
+            }
+            set
+            {
+                if (_StockDXPrecisionTolerance_Positive != value)
+                {
+                    _StockDXPrecisionTolerance_Positive = value;
+                    StockDXPrecisionToleranceChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+        /// <summary>
+        /// Negative tolerance in requested position from Robot for robot manoeuvre
+        /// </summary>
+        public double StockDXPrecisionTolerance_Negative 
+        {
+            get
+            {
+                return _StockDXPrecisionTolerance_Negative;
+            }
+            set
+            {
+                if (_StockDXPrecisionTolerance_Negative != value)
+                {
+                    _StockDXPrecisionTolerance_Negative = value;
+                    StockDXPrecisionToleranceChanged?.Invoke(this, new EventArgs());
+                }
+            } 
         }
 
         // --- METHODS ---

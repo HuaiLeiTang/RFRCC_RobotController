@@ -17,6 +17,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         private int _index;
         private double _rollingRequiredStockDX = 0;
 
+        internal event EventHandler ProcessSettingsStockDXPrecisionsToleranceChange;
+
         // --- EVENTS ---
 
         public event EventHandler OperationActionRequestPause;
@@ -95,6 +97,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Action.ActionSkipUpdated += OnOperationSkipUpdated;
                 Action.ActionStarted += OnOperationStarted;
                 if (Action is OperationRobotManoeuvre) ((OperationRobotManoeuvre)Action).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
+                if (Action is OperationPLCProcess && Action.Attributes.ContainsKey("StockDXPrecisionTolerance_Positive")) ProcessSettingsStockDXPrecisionsToleranceChange += ((OperationPLCProcess)Action).UpdateStockDXPrecisionsTolerance;
             }
         }
         /// <summary>
@@ -142,6 +145,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             _operationActions.Last().ActionSkipUpdated += OnOperationSkipUpdated;
             _operationActions.Last().ActionStarted += OnOperationStarted;
             if (_operationActions.Last() is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions.Last()).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
+            if (_operationActions.Last() is OperationPLCProcess && _operationActions.Last().Attributes.ContainsKey("StockDXPrecisionTolerance_Positive")) ProcessSettingsStockDXPrecisionsToleranceChange += ((OperationPLCProcess)_operationActions.Last()).UpdateStockDXPrecisionsTolerance;
             OnOperationActionsListChanged(this, new EventArgs());
         }
         /// <summary>
@@ -157,6 +161,7 @@ namespace RFRCC_RobotController.Controller.DataModel
                 _operationActions.Last().ActionSkipUpdated += OnOperationSkipUpdated;
                 _operationActions.Last().ActionStarted += OnOperationStarted;
                 if (_operationActions.Last() is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions.Last()).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
+                if (_operationActions.Last() is OperationPLCProcess && _operationActions.Last().Attributes.ContainsKey("StockDXPrecisionTolerance_Positive")) ProcessSettingsStockDXPrecisionsToleranceChange += ((OperationPLCProcess)_operationActions.Last()).UpdateStockDXPrecisionsTolerance;
             }
             OnOperationActionsListChanged(this, new EventArgs());
         }
@@ -283,7 +288,9 @@ namespace RFRCC_RobotController.Controller.DataModel
             _operationActions[index].ActionCompleted += OnOperationActionCompleted;
             _operationActions[index].ActionSkipUpdated += OnOperationSkipUpdated;
             _operationActions[index].ActionStarted += OnOperationStarted;
-            
+            if (_operationActions[index] is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions[index]).RequiredStockDXUpdate += OnRobotManoeuvreIdealDXUpdate;
+            if (_operationActions[index] is OperationPLCProcess && _operationActions[index].Attributes.ContainsKey("StockDXPrecisionTolerance_Positive")) ProcessSettingsStockDXPrecisionsToleranceChange += ((OperationPLCProcess)_operationActions[index]).UpdateStockDXPrecisionsTolerance;
+
             OnOperationActionsListChanged(this, new EventArgs());
 
         }
@@ -297,6 +304,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             _operationActions[index].ActionSkipUpdated -= OnOperationSkipUpdated;
             _operationActions[index].ActionStarted -= OnOperationStarted;
             if (_operationActions[index] is OperationRobotManoeuvre) ((OperationRobotManoeuvre)_operationActions[index]).RequiredStockDXUpdate -= OnRobotManoeuvreIdealDXUpdate;
+            if (_operationActions[index] is OperationPLCProcess && _operationActions[index].Attributes.ContainsKey("StockDXPrecisionTolerance_Positive")) ProcessSettingsStockDXPrecisionsToleranceChange -= ((OperationPLCProcess)_operationActions[index]).UpdateStockDXPrecisionsTolerance;
             _operationActions.RemoveAt(index);
             OnOperationActionsListChanged(this, new EventArgs());
         }
@@ -381,6 +389,20 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (_operationActions[_operationActions.IndexOf(sender) - 1] is OperationPLCProcess && _operationActions[_operationActions.IndexOf(sender) - 1].Name == "Drive Stock to next position")
             {
                 _operationActions[_operationActions.IndexOf(sender) - 1].Attributes["RequiredStockDX"] = sender.RequiredStockDX.ToString();
+            }
+        }
+        internal virtual void OnProcessSettingsStockDXPrecisionsToleranceChange(object sender, EventArgs args)
+        {
+            if (sender is JobProcessSettings)
+            {
+                // send min and max values to the update task
+                double max = ((JobProcessSettings)sender)._StockDXPrecisionTolerance_Positive;
+                double min = ((JobProcessSettings)sender)._StockDXPrecisionTolerance_Negative;
+                ProcessSettingsStockDXPrecisionsToleranceChange?.Invoke(new Tuple<Double, Double>(min, max), new EventArgs());
+            }
+            else
+            {
+                // TODO: handle is sender isnt process settings
             }
         }
     }

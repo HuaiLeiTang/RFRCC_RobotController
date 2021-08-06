@@ -196,6 +196,8 @@ namespace RFRCC_RobotController.Controller.DataModel
             NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
             NextAttributes.Add("RobotProcess", "VerifyStockDimensions");
             NextAttributes.Add("RequiredStockDX", (-jobData.HeaderInfo.SawLength + 1300).ToString());
+            NextAttributes.Add("StockDXPrecisionTolerance_Positive", jobData.ProcessSettings.StockDXPrecisionTolerance_Positive.ToString());
+            NextAttributes.Add("StockDXPrecisionTolerance_Negative", jobData.ProcessSettings.StockDXPrecisionTolerance_Negative.ToString());
             operationActions.Add(new OperationRobotProcess()
             {
                 Name = "Measure stock dimensions",
@@ -209,6 +211,8 @@ namespace RFRCC_RobotController.Controller.DataModel
                 NextAttributes.Add("Description", "Stock to move to required location");
                 NextAttributes.Add("Note", "Robot will update required position of stock");
                 NextAttributes.Add("RequiredStockDX", (-jobData.HeaderInfo.SawLength + 1300).ToString());
+                NextAttributes.Add("StockDXPrecisionTolerance_Positive", jobData.ProcessSettings.StockDXPrecisionTolerance_Positive.ToString());
+                NextAttributes.Add("StockDXPrecisionTolerance_Negative", jobData.ProcessSettings.StockDXPrecisionTolerance_Negative.ToString());
                 operationActions.Add(new OperationPLCProcess()
                 {
                     Name = "Drive Stock to next position",
