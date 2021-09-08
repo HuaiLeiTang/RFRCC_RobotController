@@ -47,6 +47,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public event EventHandler RobotProcessRequired;
         /// <summary>
+        /// Call to initiate a robot process
+        /// </summary>
+        public event CallForProcessEventHandler CallForRobotProcess;
+        /// <summary>
         /// Final Operation has been completed or is skipped
         /// </summary>
         public event EventHandler OperationsAllComplete;
@@ -170,6 +174,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void Clear()
         {
+            foreach (OperationAction Op in _operationActions)
+            {
+                Op.DisposeEvents();
+            }
             _operationActions.Clear();
             OnOperationActionsListChanged(this, new EventArgs());
         }
@@ -198,30 +206,35 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             if (Current == _operationActions.Last())
             {
+                Current.CurrentAction = false;
                 OnOperationsAllComplete();
                 return false;
             }
-            
+
+            Current.DisposeEvents();
             _index++;
-            while (!Current.PauseOn && Current.Skip)
+            while (Current.Skip)
             {
+                if (Current is OperationRobotManoeuvre)
+                {
+                    CallForRobotProcess?.Invoke((OperationRobotManoeuvre)Current, new CallForProcessEventArgs("SkipManoeuvre", true, ((OperationRobotManoeuvre)Current).featureData.FeatureHeader.FeatureNum));
+                }
                 if (Current == _operationActions.Last())
                 {
                     OnOperationsAllComplete();
                     return false;
                 }
+                Current.DisposeEvents();
                 _index++;
             }
+
+            Current.CurrentAction = true;
 
             if (Current.PauseOn)
             {
                 //machine pause
                 OnOperationActionRequestPause(this, new EventArgs());
-
-                Current.PauseOn = false;
-                return true;
             }
-
             
             if (Current.GetType().GetProperty("RequiredStockDX") != null && _rollingRequiredStockDX != double.Parse((Current.GetType().GetProperty("RequiredStockDX").GetValue(Current, null)).ToString()))
             {
@@ -339,6 +352,21 @@ namespace RFRCC_RobotController.Controller.DataModel
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)_operationActions).GetEnumerator();
+        }
+
+        public void DisposeEvents()
+        {
+            ProcessSettingsStockDXPrecisionsToleranceChange = null;
+            OperationActionRequestPause = null;
+            OperationActionsListChanged = null;
+            OperationActionCompleted = null;
+            OperationSkipUpdated = null;
+            OperationStarted = null;
+            PLCProcessRequired = null;
+            RobotProcessRequired = null;
+            CallForRobotProcess = null;
+            OperationsAllComplete = null;
+            OperationRequiredStockDXChanged = null;
         }
 
         // --- INTERNAL EVENTS AND AUTOMATION ---

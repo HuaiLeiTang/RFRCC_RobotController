@@ -20,6 +20,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         private bool _pauseOn = false;
         private bool _currentAction = false;
 
+        public event EventHandler InternalAbortEvent;
 
         // --- EVENTS ---
         /// <summary>
@@ -109,10 +110,19 @@ namespace RFRCC_RobotController.Controller.DataModel
         { 
             get => _processing; 
         }
+        public bool Paused
+        {
+            get
+            {
+                return _paused;
+            }
+        }
         /// <summary>
         /// Attributes of the Operation sorted by key and string value
         /// </summary>
         public Dictionary<string,string> Attributes { get; set; }
+
+        
 
         // --- CONSTRUCTORS ---
 
@@ -123,12 +133,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void Start()
         {
+            int i = 0;
+
             if (_skip) throw new Exception("Current Action has been skipped, please change status of skip on current action, or move to next action");
-            if (_paused)
-            {
-                OnActionPaused();
-                throw new Exception("Process cannont be restarted with Start(), please use Continue()");
-            }
             if (_pauseOn)
             {
                 Pause();
@@ -146,6 +153,7 @@ namespace RFRCC_RobotController.Controller.DataModel
             if (!_paused)
             {
                 _paused = true;
+                _processing = false;
                 OnActionPaused();
             }
         }
@@ -155,7 +163,9 @@ namespace RFRCC_RobotController.Controller.DataModel
         public void Continue()
         {
             if (!_paused) throw new Exception("Process cannont be started with Continue(), please use Start()");
+            _pauseOn = false;
             _paused = false;
+            _processing = true;
             OnActionContinued();
         }
         /// <summary>
@@ -213,6 +223,17 @@ namespace RFRCC_RobotController.Controller.DataModel
             ActionContinued?.Invoke(this, new EventArgs());
         }
 
-
+        public void DisposeEvents()
+        {
+            InternalAbortEvent?.Invoke(this, new EventArgs());
+            InternalAbortEvent = null;
+            ActionCompleted = null;
+            ActionStarted = null;
+            ActionSkipUpdated = null;
+            ActionPauseOnUpdated = null;
+            ActionPaused = null;
+            ActionContinued = null;
+            ActionCanceled = null;
+        }
     }
 }

@@ -29,13 +29,13 @@ namespace RFRCC_RobotController.Controller.DataModel
                 else return 99999;
             }
         }
-
         // --- CONSTRUCTORS ---
         public OperationRobotProcess()
         {
             this.ActionStarted += OnRobotProcessStarted;
             this.ActionPaused += OnRobotProcessPaused;
             this.ActionCanceled += OnRobotProcessCanceled;
+            this.InternalAbortEvent += OnActionAbort;
         }
 
 
@@ -44,7 +44,15 @@ namespace RFRCC_RobotController.Controller.DataModel
         {
             if (success && response != null)
             {
-                this.Complete(bool.Parse(response.ToString()));
+                switch (process.GetType().Name)
+                {
+                    case "StartManoeuvre":
+                        this.Complete(bool.Parse(response.ToString()));
+                        return;
+                    default:
+                        break;
+                }
+                
             }
             else
             {
@@ -69,6 +77,11 @@ namespace RFRCC_RobotController.Controller.DataModel
         protected virtual void OnRobotProcessCanceled(object sender = null, EventArgs args = null)
         {
 
+        }
+        protected virtual void OnActionAbort(object sender = null, EventArgs args = null)
+        {
+            RequiredStockDXUpdate = null;
+            CallForRobotProcess = null;
         }
 
 

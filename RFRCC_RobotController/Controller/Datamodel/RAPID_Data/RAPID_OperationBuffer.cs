@@ -262,6 +262,8 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         /// <param name="args"></param>
         public void ConnectToController(object Sender, ControllerConnectionEventArgs args)
         {
+            int testingbit = 1;
+            if (!_ParentController.ControllerConnected) return;
             _ManBufferRD = _ParentController.tRob1.GetRapidData(_OpManModule, _OpManVARName);
             _HeadBufferRD = _ParentController.tRob1.GetRapidData(_OpHeadModule, _OpHeadVARName);
             _RobSystemData = _ParentController.tRob1.GetRapidData(_RobSysDataModule, _RobSysDataVARName);

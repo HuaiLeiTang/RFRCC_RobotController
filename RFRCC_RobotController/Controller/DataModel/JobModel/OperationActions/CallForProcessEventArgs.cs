@@ -15,11 +15,13 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Start or stop of process requested
         /// </summary>
         public bool Start;
+        public object ProcessParameters;
 
-        public CallForProcessEventArgs(string processName, bool start = true, object[] processParams = null)
+        public CallForProcessEventArgs(string processName, bool start = true, object processParams = null)
         {
             ProcessName = processName;
             Start = start;
+            if (processParams != null) ProcessParameters = processParams;
         }
     }
 }

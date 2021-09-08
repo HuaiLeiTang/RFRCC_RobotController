@@ -6,8 +6,31 @@ namespace RFRCC_RobotController.Controller.DataModel
     /// <summary>
     /// Default Job process Template without Infeed loading mechanism
     /// </summary>
-    public class DefaultJobTemplate : JobModelTemplate
+    public class DefaultJobTemplate : IJobModelTemplate
     {
+        private string _Name;
+        private OperationActionList _TemplateListofOperations;
+
+        public string Name
+        {
+            get => _Name;
+            set
+            {
+                _Name = value;
+            }
+
+        }
+
+        public OperationActionList TemplateListofOperations
+        {
+            get => _TemplateListofOperations;
+            set
+            {
+                _TemplateListofOperations = value;
+            }
+        }
+            
+
         /// <summary>
         /// Constructor to generate Job Template with no name
         /// </summary>
@@ -22,6 +45,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         public DefaultJobTemplate(string name)
         {
             Dictionary<string, string> NextAttributes = new Dictionary<string, string>();
+            TemplateListofOperations = new OperationActionList();
+
 
             /* 
              * 1. start job - capture time and date
@@ -133,7 +158,7 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// Generates Job actions from JobModel Data
         /// </summary>
         /// <param name="jobData">Job Data</param>
-        public override void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
+        public void GenerateOpActionsFromRobManoeuvres(JobModel jobData)
         {
             OperationActionList operationActions = jobData.operationActions;
             Dictionary<string, string> NextAttributes = new Dictionary<string, string>();
@@ -248,6 +273,47 @@ namespace RFRCC_RobotController.Controller.DataModel
                 Attributes = new Dictionary<string, string>(NextAttributes)
                 //TODO: add robot execution process
             });
+        }
+
+        /// <summary>
+        /// Method to load in the appropriate steps for finalising steps and 
+        /// </summary>
+        /// <param name="jobData"></param>
+        public void AbortJob(JobModel jobData)
+        {
+            OperationActionList operationActions = jobData.operationActions;
+            Dictionary<string, string> NextAttributes = new Dictionary<string, string>();
+
+            // remove all operation actions - maybe skip to end of list with failures
+            for (int i = jobData.operationActions.IndexOf(jobData.CurrentAction) + 1; i < jobData.operationActions.Count; i++)
+            {
+                jobData.operationActions[i].Skip = true;
+            } 
+            
+            // Maybe an opperation to get stock new dimensions and physical appearance for database
+
+            // add in PLC process to remove stock from cell
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "Move unfinished piece onto outfeed for pickup");
+            NextAttributes.Add("Note", "This process should be overridable, or operator contributable");
+            operationActions.Add(new OperationPLCProcess()
+            {
+                Name = "Eject incomplete stock",
+                Attributes = new Dictionary<string, string>(NextAttributes)
+            });
+
+            // add in general process to end job with cancle stat
+            NextAttributes.Clear();
+            NextAttributes.Add("Description", "save time, date and job identification information to log for reference of machine activity");
+            NextAttributes.Add("JobStatus", "Incomplete - Cancelled");
+            operationActions.Add(new OperationAction()
+            {
+                Name = "End of job",
+                Attributes = new Dictionary<string, string>(NextAttributes)
+            });
+
+            // commense skip
+            jobData.CurrentAction.Skip = true; // not sure if this will commense skip as required
         }
     }
 }

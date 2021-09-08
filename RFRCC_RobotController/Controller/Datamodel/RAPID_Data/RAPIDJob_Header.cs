@@ -143,7 +143,7 @@ namespace RFRCC_RobotController.Controller.DataModel.RAPID_Data
         {
             bool complete = false;
             string sendme = ToString();
-            while (!complete)
+            while (!complete) 
             {
                 try
                 {

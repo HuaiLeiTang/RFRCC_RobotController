@@ -197,6 +197,10 @@ namespace RFRCC_RobotController
             string MessageHeader = MessageString.Substring(0, 8); // breaks if less thab 8....
             switch (MessageHeader)
             {
+                case "SKIPPED ":
+                    string Featurenum = MessageString.Split("<Feature>")[1].Split("</>")[0];
+                    ((OperationRobotManoeuvre)dataModel.CurrentJob.operationActions.First(action => action is OperationRobotManoeuvre && ((OperationRobotManoeuvre)action).featureData.FeatureHeader.FeatureNum == int.Parse(Featurenum))).ActionSkippedByRobot();
+                    return "Robot Skipped Feature: " + Featurenum;
                 case "FEATBUFF":
                     Debug.WriteLine("FeatureBuffer message recieved: " + MessageString);
                     string FeatBuff = MessageString.Split("<Feature>")[1].Split("</>")[0];

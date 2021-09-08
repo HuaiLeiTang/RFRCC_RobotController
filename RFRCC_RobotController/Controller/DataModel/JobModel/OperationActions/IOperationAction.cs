@@ -6,6 +6,8 @@ namespace RFRCC_RobotController.Controller.DataModel
     public interface IOperationAction
     {
 
+        public event EventHandler InternalAbortEvent;
+
         // --- EVENTS ---
         /// <summary>
         /// Event when Action is completed
@@ -56,6 +58,10 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public bool Processing { get; }
         /// <summary>
+        /// If Current Action is paused in processing
+        /// </summary>
+        public bool Paused { get; }
+        /// <summary>
         /// Attributes of the Operation sorted by key and string value
         /// </summary>
         public Dictionary<string, string> Attributes { get; set; }
@@ -81,6 +87,8 @@ namespace RFRCC_RobotController.Controller.DataModel
         /// </summary>
         public void Complete(bool success = true);
         public object Clone();
+
+        public void DisposeEvents();
 
     }
 }
